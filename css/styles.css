@@ -1,0 +1,80 @@
+/* ==========================
+CHART CONTAINER
+========================== */
+
+.chart-container {
+  position: relative;
+
+  width: 100%;
+
+  max-width: 900px;
+
+  height: clamp(250px, 40vw, 450px);
+
+  margin: 2rem auto 0;
+
+  padding: 1rem;
+
+  background: rgba(255, 255, 255, 0.02);
+
+  border: 1px solid var(--border);
+
+  border-radius: 24px;
+
+  backdrop-filter: blur(20px);
+
+  overflow: hidden;
+}
+
+.chart-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.dashboard-top {
+  display: grid;
+
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+
+  gap: 1.5rem;
+
+  margin-bottom: 2rem;
+}
+
+.metric-card {
+  background: var(--glass-bg);
+
+  border: 1px solid var(--border);
+
+  border-radius: 20px;
+
+  padding: 1.5rem;
+
+  text-align: center;
+
+  transition: 0.3s;
+}
+
+.metric-card:hover {
+  transform: translateY(-5px);
+
+  border-color: var(--secondary);
+
+  box-shadow: 0 0 20px var(--glow-green);
+}
+
+.metric-card span {
+  display: block;
+
+  color: var(--text-muted);
+
+  margin-bottom: 0.5rem;
+
+  font-size: 0.9rem;
+}
+
+.metric-card h2 {
+  color: var(--profit-green);
+
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+}
