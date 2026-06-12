@@ -3,9 +3,8 @@
 const contactForm = document.getElementById("contactForm");
 const formStatus = document.getElementById("formStatus");
 
-// WhatsApp number (without + or spaces, just the number)
-// Update this with your WhatsApp number
-const WHATSAPP_NUMBER = "233247107781"; // Your WhatsApp number
+// WhatsApp number (without + or spaces)
+const WHATSAPP_NUMBER = "233247107781";
 
 if (contactForm) {
   contactForm.addEventListener("submit", async (e) => {
@@ -34,21 +33,21 @@ if (contactForm) {
         "",
         "━━━━━━━━━━━━━━━━━━━━",
         "",
-        "👤 *Name:* " + data.name,
-        "📧 *Email:* " + data.email,
-        "📞 *Phone:* " + (data.phone || "Not provided"),
-        "🎯 *Service:* " + getServiceLabel(data.service || "other"),
+        "*Name:* " + data.name,
+        "*Email:* " + data.email,
+        "*Phone:* " + (data.phone || "Not provided"),
+        "*Service:* " + getServiceLabel(data.service || "other"),
         "",
         "━━━━━━━━━━━━━━━━━━━━",
         "",
-        "💬 *Message:*",
+        "*Message:*",
         "─────────────────────",
         data.message,
         "",
         "━━━━━━━━━━━━━━━━━━━━",
         "",
         "_Sent from Nana Forex Website_",
-      ].join("%0A"); // %0A is line break for WhatsApp
+      ].join("%0A");
 
       // Create WhatsApp URL
       const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
