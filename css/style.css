@@ -195,20 +195,69 @@ HAMBURGER
 MOBILE MENU
 ==================================== */
 
+/* Mobile Menu Close Button */
+.mobile-menu-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 40px;
+  height: 40px;
+  background: var(--glass-bg);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--white);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-menu-close:hover {
+  background: var(--gradient-primary);
+  color: var(--dark);
+  transform: rotate(90deg);
+  border-color: transparent;
+}
+
+/* Mobile Menu Links Container */
+.mobile-menu-links {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.mobile-menu-links a {
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+  transition: 0.3s;
+}
+
+.mobile-menu-links a:hover {
+  color: var(--gold);
+  padding-left: 0.5rem;
+  border-bottom-color: var(--gold);
+}
+
+/* Update mobile-menu padding to accommodate close button */
 .mobile-menu {
   position: fixed;
   right: -100%;
   top: 0;
   width: min(320px, 85vw);
   height: 100vh;
-  background: rgba(5, 10, 22, 0.95);
+  background: rgba(5, 10, 22, 0.98);
   backdrop-filter: blur(25px);
   z-index: 2000;
   transition: 0.4s ease;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  padding: 7rem 2rem;
+  padding: 1.5rem 1.5rem 2rem;
+  overflow-y: auto;
 }
 
 .mobile-menu.active {

@@ -1,44 +1,41 @@
-const counters = document.querySelectorAll(".counter");
+// Stat Counter Animation
+document.addEventListener("DOMContentLoaded", function () {
+  const counters = document.querySelectorAll(".counter");
 
-const startCounter = (counter) => {
-  const target = Number(counter.dataset.target);
-  const suffix = counter.dataset.suffix || "";
+  const startCounter = (counter) => {
+    const target = Number(counter.dataset.target);
+    const suffix = counter.dataset.suffix || "";
+    let current = 0;
+    const increment = target / 120;
 
-  let current = 0;
+    const updateCounter = () => {
+      current += increment;
+      if (current < target) {
+        counter.textContent = Math.ceil(current) + suffix;
+        requestAnimationFrame(updateCounter);
+      } else {
+        counter.textContent = target + suffix;
+      }
+    };
 
-  const increment = target / 120;
-
-  const updateCounter = () => {
-    current += increment;
-
-    if (current < target) {
-      counter.textContent = Math.ceil(current) + suffix;
-
-      requestAnimationFrame(updateCounter);
-    } else {
-      counter.textContent = target + suffix;
-    }
+    updateCounter();
   };
 
-  updateCounter();
-};
+  const observer = new IntersectionObserver(
+    function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          startCounter(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      threshold: 0.4,
+    },
+  );
 
-const observer = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        startCounter(entry.target);
-
-        observer.unobserve(entry.target);
-      }
-    });
-  },
-
-  {
-    threshold: 0.4,
-  },
-);
-
-counters.forEach((counter) => {
-  observer.observe(counter);
+  counters.forEach(function (counter) {
+    observer.observe(counter);
+  });
 });

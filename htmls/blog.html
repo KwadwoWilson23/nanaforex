@@ -68,12 +68,17 @@ NAVIGATION
     <!-- Mobile Menu -->
     <div class="menu-overlay"></div>
     <div class="mobile-menu">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="services.html">Services</a>
-      <a href="dashboard.html">Performance</a>
-      <a href="blog.html">Blogs</a>
-      <a href="contact.html">Contact</a>
+      <button class="mobile-menu-close" aria-label="Close menu">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="mobile-menu-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+        <a href="dashboard.html">Performance</a>
+        <a href="blog.html">Blogs</a>
+        <a href="contact.html">Contact</a>
+      </div>
     </div>
 
     <!-- =======================
@@ -136,8 +141,16 @@ BLOG ADMIN PANEL
             <h3><i class="fas fa-sign-in-alt"></i> Admin Login</h3>
             <div class="admin-form">
               <div class="admin-form-row">
-                <input type="email" id="adminEmail" placeholder="Email address" />
-                <input type="password" id="adminPassword" placeholder="Password" />
+                <input
+                  type="email"
+                  id="adminEmail"
+                  placeholder="Email address"
+                />
+                <input
+                  type="password"
+                  id="adminPassword"
+                  placeholder="Password"
+                />
                 <button class="btn-primary" id="loginBtn">Sign In</button>
               </div>
               <p id="loginError" class="form-error"></p>
@@ -165,11 +178,23 @@ BLOG ADMIN PANEL
               </div>
 
               <div class="admin-form-row">
-                <input type="text" id="postReadTime" placeholder="Read time (e.g. 5 min read)" />
+                <input
+                  type="text"
+                  id="postReadTime"
+                  placeholder="Read time (e.g. 5 min read)"
+                />
               </div>
 
-              <textarea id="postExcerpt" rows="2" placeholder="Short excerpt / summary (shown on card)"></textarea>
-              <textarea id="postContent" rows="6" placeholder="Full post content (optional — for future detail pages)"></textarea>
+              <textarea
+                id="postExcerpt"
+                rows="2"
+                placeholder="Short excerpt / summary (shown on card)"
+              ></textarea>
+              <textarea
+                id="postContent"
+                rows="6"
+                placeholder="Full post content (optional — for future detail pages)"
+              ></textarea>
 
               <div class="image-upload-area">
                 <label for="postImage" class="upload-label">
