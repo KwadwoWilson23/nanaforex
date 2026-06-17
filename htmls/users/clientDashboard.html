@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Client Dashboard | Nana Forex</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/client-dashboard.css" />
+  </head>
+
+  <body>
+    <!-- =======================
+    DASHBOARD WRAPPER
+    ======================= -->
+    <div class="dashboard-wrapper">
+      <!-- =======================
+      SIDEBAR
+      ======================= -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+          <h2>NanaForex</h2>
+          <button class="sidebar-close" id="sidebarClose">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="/htmls/users/clientDashboard.html" data-page="dashboard">
+            <i class="fas fa-th-large"></i>
+            <span>Dashboard</span>
+          </a>
+          <a href="profile.html" data-page="profile">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+          </a>
+          <a
+            href="/htmls/users/academy.html"
+            class="active"
+            data-page="academy"
+          >
+            <i class="fas fa-graduation-cap"></i>
+            <span>Academy</span>
+          </a>
+          <a href="/htmls/users/signals.html" data-page="signals">
+            <i class="fas fa-signal"></i>
+            <span>Signals</span>
+          </a>
+          <a href="/htmls/users/copy-trading.html" data-page="copy-trading">
+            <i class="fas fa-copy"></i>
+            <span>Copy Trading</span>
+          </a>
+          <a href="/htmls/users/funded-account.html" data-page="funded-account">
+            <i class="fas fa-wallet"></i>
+            <span>Funded Account</span>
+          </a>
+          <a href="/htmls/users/mentorship.html" data-page="mentorship">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <span>Mentorship</span>
+          </a>
+          <a href="/htmls/users/ib-partnership.html" data-page="ib-partnership">
+            <i class="fas fa-handshake"></i>
+            <span>IB Partnership</span>
+          </a>
+          <a href="/htmls/users/trading-tools.html" data-page="trading-tools">
+            <i class="fas fa-tools"></i>
+            <span>Trading Tools</span>
+          </a>
+          <a
+            href="/htmls/users/market-analysis.html"
+            data-page="market-analysis"
+          >
+            <i class="fas fa-chart-line"></i>
+            <span>Market Analysis</span>
+          </a>
+          <a href="/htmls/users/referrals.html" data-page="referrals">
+            <i class="fas fa-users"></i>
+            <span>Referrals</span>
+          </a>
+          <a href="/htmls/users/payments.html" data-page="payments">
+            <i class="fas fa-credit-card"></i>
+            <span>Payments</span>
+          </a>
+          <a href="/htmls/users/settings.html" data-page="settings">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <button class="logout-btn" id="logoutBtn">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- =======================
+      SIDEBAR OVERLAY (Mobile)
+      ======================= -->
+      <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+      <!-- =======================
+      MAIN CONTENT
+      ======================= -->
+      <main class="main-content">
+        <!-- Top Header -->
+        <header class="dashboard-header">
+          <button class="sidebar-toggle" id="sidebarToggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <h1>Dashboard</h1>
+          <div class="header-actions">
+            <button class="notif-btn" id="notifBtn">
+              <i class="fas fa-bell"></i>
+              <span class="notif-badge">3</span>
+            </button>
+            <div class="user-avatar">
+              <span id="userInitials">JD</span>
+            </div>
+          </div>
+        </header>
+
+        <!-- =======================
+        DASHBOARD CONTENT
+        ======================= -->
+        <div class="dashboard-content">
+          <!-- Welcome Banner -->
+          <div class="welcome-banner">
+            <div class="welcome-text">
+              <h2>Welcome back, <span id="userName">John Doe</span> 👋</h2>
+              <p>Here's your trading overview for today.</p>
+            </div>
+            <div class="welcome-date">
+              <i class="fas fa-calendar-alt"></i>
+              <span id="currentDate"></span>
+            </div>
+          </div>
+
+          <!-- Stats Widgets -->
+          <div class="stats-widgets">
+            <div class="stat-widget">
+              <div class="stat-icon green">
+                <i class="fas fa-wallet"></i>
+              </div>
+              <div class="stat-info">
+                <span class="stat-label">Account Balance</span>
+                <h3 class="stat-value">$12,450.00</h3>
+              </div>
+              <div class="stat-change positive">+8.2%</div>
+            </div>
+            <div class="stat-widget">
+              <div class="stat-icon red">
+                <i class="fas fa-chart-line"></i>
+              </div>
+              <div class="stat-info">
+                <span class="stat-label">Profit / Loss</span>
+                <h3 class="stat-value">+$1,245.00</h3>
+              </div>
+              <div class="stat-change positive">+12.5%</div>
+            </div>
+            <div class="stat-widget">
+              <div class="stat-icon gold">
+                <i class="fas fa-exchange-alt"></i>
+              </div>
+              <div class="stat-info">
+                <span class="stat-label">Active Trades</span>
+                <h3 class="stat-value">4</h3>
+              </div>
+              <div class="stat-change">2 pending</div>
+            </div>
+            <div class="stat-widget">
+              <div class="stat-icon blue">
+                <i class="fas fa-bell"></i>
+              </div>
+              <div class="stat-info">
+                <span class="stat-label">Notifications</span>
+                <h3 class="stat-value">3</h3>
+              </div>
+              <div class="stat-change">1 new</div>
+            </div>
+          </div>
+
+          <!-- Charts Row -->
+          <div class="charts-row">
+            <div class="chart-card">
+              <div class="chart-card-header">
+                <h3>Equity Curve</h3>
+                <span>Last 30 days</span>
+              </div>
+              <div class="chart-container">
+                <canvas id="equityCurveChart"></canvas>
+              </div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-card-header">
+                <h3>Performance Graph</h3>
+                <span>Weekly returns</span>
+              </div>
+              <div class="chart-container">
+                <canvas id="performanceChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Row -->
+          <div class="bottom-row">
+            <!-- Recent Activity -->
+            <div class="recent-activity">
+              <div class="section-header">
+                <h3>Recent Activity</h3>
+                <a href="#">View All</a>
+              </div>
+              <div class="activity-list">
+                <div class="activity-item">
+                  <div class="activity-icon green">
+                    <i class="fas fa-check"></i>
+                  </div>
+                  <div class="activity-info">
+                    <p class="activity-title">Trade closed: EUR/USD</p>
+                    <span class="activity-time">2 hours ago</span>
+                  </div>
+                  <span class="activity-amount positive">+$245.00</span>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-icon gold">
+                    <i class="fas fa-plus"></i>
+                  </div>
+                  <div class="activity-info">
+                    <p class="activity-title">New position: GBP/USD</p>
+                    <span class="activity-time">4 hours ago</span>
+                  </div>
+                  <span class="activity-amount">-$0.00</span>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-icon red">
+                    <i class="fas fa-minus"></i>
+                  </div>
+                  <div class="activity-info">
+                    <p class="activity-title">Trade closed: XAU/USD</p>
+                    <span class="activity-time">6 hours ago</span>
+                  </div>
+                  <span class="activity-amount negative">-$85.00</span>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-icon blue">
+                    <i class="fas fa-arrow-up"></i>
+                  </div>
+                  <div class="activity-info">
+                    <p class="activity-title">Deposit processed</p>
+                    <span class="activity-time">1 day ago</span>
+                  </div>
+                  <span class="activity-amount positive">+$500.00</span>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-icon green">
+                    <i class="fas fa-trophy"></i>
+                  </div>
+                  <div class="activity-info">
+                    <p class="activity-title">Challenge entry approved</p>
+                    <span class="activity-time">2 days ago</span>
+                  </div>
+                  <span class="activity-amount positive">+$0.00</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+              <div class="section-header">
+                <h3>Quick Actions</h3>
+              </div>
+              <div class="actions-grid">
+                <button
+                  class="action-btn"
+                  onclick="location.href = 'copy-trading.html'"
+                >
+                  <i class="fas fa-copy"></i>
+                  <span>Copy Trading</span>
+                </button>
+                <button
+                  class="action-btn"
+                  onclick="location.href = 'signals.html'"
+                >
+                  <i class="fas fa-signal"></i>
+                  <span>View Signals</span>
+                </button>
+                <button
+                  class="action-btn"
+                  onclick="location.href = 'funded-account.html'"
+                >
+                  <i class="fas fa-wallet"></i>
+                  <span>Funded Account</span>
+                </button>
+                <button
+                  class="action-btn"
+                  onclick="location.href = 'academy.html'"
+                >
+                  <i class="fas fa-graduation-cap"></i>
+                  <span>Go to Academy</span>
+                </button>
+                <button
+                  class="action-btn"
+                  onclick="location.href = 'payments.html'"
+                >
+                  <i class="fas fa-credit-card"></i>
+                  <span>Make Payment</span>
+                </button>
+                <button
+                  class="action-btn"
+                  onclick="location.href = 'referrals.html'"
+                >
+                  <i class="fas fa-users"></i>
+                  <span>Refer a Friend</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Trading Statistics -->
+          <div class="trading-stats">
+            <div class="section-header">
+              <h3>Trading Statistics</h3>
+            </div>
+            <div class="stats-grid">
+              <div class="stat-item">
+                <span class="stat-label">Total Trades</span>
+                <span class="stat-value">127</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Winning Trades</span>
+                <span class="stat-value green">89</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Losing Trades</span>
+                <span class="stat-value red">38</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Win Rate</span>
+                <span class="stat-value">70.1%</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Average Win</span>
+                <span class="stat-value green">+$124.50</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Average Loss</span>
+                <span class="stat-value red">-$62.30</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Profit Factor</span>
+                <span class="stat-value">2.14</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Best Trade</span>
+                <span class="stat-value green">+$420.00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- =======================
+    SCRIPTS
+    ======================= -->
+    <!-- <script src="/js/client-dashboard.js"></script>-->
+    <script src="/js/main.js"></script>
+  </body>
+</html>

@@ -25,9 +25,10 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/styles.css" />
-    <link rel="stylesheet" href="../css/dashboard.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/dashboard.css" />
+    <link rel="stylesheet" href="/css/performance.css" />
 
     <!-- Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -39,8 +40,9 @@
     <!-- =======================
 NAVIGATION
 ======================= -->
-    <header class="navbar">
+     <header class="navbar">
       <div class="logo" style="font-weight: 900">NanaForex</div>
+
       <nav class="nav-links">
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
@@ -49,6 +51,10 @@ NAVIGATION
         <a href="blog.html">Blogs</a>
         <a href="contact.html">Contact</a>
       </nav>
+
+      <div class="nav-links">
+        <a href="/htmls/users/login.html"><i class="fa fa-user"></i></a>
+      </div>
       <div class="nav-social">
         <a
           href="https://www.instagram.com/tuffourofficial?igsh=MWVieXhibXM1dDc2ZA%3D%3D&utm_source=qr"
@@ -59,6 +65,7 @@ NAVIGATION
         ></a>
         <a href="https://wa.me/233247107781"><i class="fab fa-whatsapp"></i></a>
       </div>
+
       <div class="hamburger">
         <span></span>
         <span></span>
@@ -67,7 +74,9 @@ NAVIGATION
     </header>
 
     <!-- Mobile Menu -->
+
     <div class="menu-overlay"></div>
+
     <div class="mobile-menu">
       <button class="mobile-menu-close" aria-label="Close menu">
         <i class="fas fa-times"></i>
@@ -79,6 +88,7 @@ NAVIGATION
         <a href="dashboard.html">Performance</a>
         <a href="blog.html">Blogs</a>
         <a href="contact.html">Contact</a>
+        <a href="/htmls/users/login.html">Sign Up</a>
       </div>
     </div>
 
@@ -126,22 +136,140 @@ TRADING CHALLENGE LEADERBOARD
           </div>
         </div>
 
-        <div class="leaderboard-table-wrapper">
-          <table class="leaderboard-table">
-            <thead>
-              <tr>
-                <th>Rank</th>
-                <th>Trader</th>
-                <th>Account</th>
-                <th>Return (%)</th>
-                <th>Total Pips</th>
-                <th>Win Rate</th>
-                <th>Trades</th>
-                <th id="actionsHeader" style="display: none">Actions</th>
-              </tr>
-            </thead>
-            <tbody id="leaderboardBody"></tbody>
-          </table>
+        <!-- Challenge Join Button -->
+        <div class="challenge-join-area">
+          <button class="btn-primary" id="joinChallengeBtn">
+            <i class="fas fa-hand-paper"></i> Join This Challenge
+          </button>
+          <p class="challenge-join-info">
+            <i class="fas fa-info-circle"></i>
+            Submit your details to join the challenge. Admin will verify and
+            approve your participation.
+          </p>
+        </div>
+
+        <!-- Challenge Join Modal -->
+        <div class="challenge-modal" id="challengeModal">
+          <div class="challenge-modal-content">
+            <button class="modal-close" id="challengeModalClose">
+              &times;
+            </button>
+            <h3>
+              <i class="fas fa-trophy" style="color: var(--gold)"></i> Join
+              Trading Challenge
+            </h3>
+            <p>
+              Submit your details to participate in the current trading
+              challenge.
+            </p>
+
+            <form id="challengeJoinForm">
+              <div class="form-group">
+                <label>Full Name <span class="required">*</span></label>
+                <input
+                  type="text"
+                  id="joinFullName"
+                  placeholder="Enter your full name"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label>Email Address <span class="required">*</span></label>
+                <input
+                  type="email"
+                  id="joinEmail"
+                  placeholder="you@example.com"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label>Phone Number <span class="required">*</span></label>
+                <input
+                  type="tel"
+                  id="joinPhone"
+                  placeholder="+233 24 123 4567"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label>Trading Experience</label>
+                <select id="joinExperience">
+                  <option value="beginner">Beginner (0-6 months)</option>
+                  <option value="intermediate">
+                    Intermediate (6-18 months)
+                  </option>
+                  <option value="advanced">Advanced (2+ years)</option>
+                  <option value="professional">Professional (5+ years)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Why do you want to join this challenge?</label>
+                <textarea
+                  id="joinReason"
+                  rows="3"
+                  placeholder="Tell us why you'd like to participate..."
+                ></textarea>
+              </div>
+
+              <button type="submit" class="btn-primary" id="submitJoinBtn">
+                <i class="fas fa-paper-plane"></i> Submit Application
+              </button>
+            </form>
+
+            <div id="joinFormStatus" class="form-status"></div>
+          </div>
+        </div>
+
+        <!-- Challenge Participants Table -->
+        <div class="participants-section">
+          <div class="participants-header">
+            <h3><i class="fas fa-users"></i> Challenge Participants</h3>
+            <span id="participantsCount">0 participants</span>
+          </div>
+          <div class="leaderboard-table-wrapper">
+            <table class="leaderboard-table">
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Trader</th>
+                  <th>Account</th>
+                  <th>Return (%)</th>
+                  <th>Total Pips</th>
+                  <th>Win Rate</th>
+                  <th>Trades</th>
+                  <th id="actionsHeader" style="display: none">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="leaderboardBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Pending Applications (Admin Only) -->
+        <div
+          class="pending-applications"
+          id="pendingApplications"
+          style="display: none"
+        >
+          <div class="section-header">
+            <h3><i class="fas fa-clock"></i> Pending Applications</h3>
+            <span id="pendingCount">0 pending</span>
+          </div>
+          <div class="pending-list" id="pendingList">
+            <p
+              style="
+                color: var(--text-muted);
+                text-align: center;
+                padding: 1rem;
+              "
+            >
+              No pending applications.
+            </p>
+          </div>
         </div>
 
         <div class="admin-controls">
@@ -614,7 +742,7 @@ FOOTER
           <a href="index.html">Home</a>
           <a href="about.html">About</a>
           <a href="services.html">Services</a>
-          <a href="dashboard.html">Performance</a>
+          <a href="performance.html">Performance</a>
           <a href="blog.html">Blogs</a>
           <a href="contact.html">Contact</a>
         </div>
@@ -622,8 +750,8 @@ FOOTER
         <div class="footer-links">
           <h4>Services</h4>
           <a href="services.html">Forex Mentorship</a>
-          <a href="dashboard.html">Copy Trading</a>
-          <a href="dashboard.html">Funded Accounts</a>
+          <a href="performance.html">Copy Trading</a>
+          <a href="performance.html">Funded Accounts</a>
           <a href="services.html">Market Analysis</a>
         </div>
 
@@ -644,8 +772,9 @@ FOOTER
       </div>
     </footer>
 
-    <script src="../js/main.js"></script>
-    <script src="../js/dashboard-charts.js"></script>
-    <script src="../js/dashboard-leaderboard.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/dashboard-charts.js"></script>
+    <script src="/js/dashboard-leaderboard.js"></script>
+    <script src="/js/performance.js"></script>
   </body>
 </html>
