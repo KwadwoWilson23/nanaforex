@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Market Analysis | Nana Forex</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/client-dashboard.css" />
+    <link rel="stylesheet" href="/css/market-analysis.css" />
+  </head>
+
+  <body>
+    <!-- =======================
+    DASHBOARD WRAPPER
+    ======================= -->
+    <div class="dashboard-wrapper">
+      <!-- =======================
+      SIDEBAR
+      ======================= -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+          <h2>NanaForex</h2>
+          <button class="sidebar-close" id="sidebarClose">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="client-dashboard.html" data-page="dashboard">
+            <i class="fas fa-th-large"></i>
+            <span>Dashboard</span>
+          </a>
+          <a href="profile.html" data-page="profile">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+          </a>
+          <a href="academy.html" data-page="academy">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Academy</span>
+          </a>
+          <a href="signals.html" data-page="signals">
+            <i class="fas fa-signal"></i>
+            <span>Signals</span>
+          </a>
+          <a href="copy-trading.html" data-page="copy-trading">
+            <i class="fas fa-copy"></i>
+            <span>Copy Trading</span>
+          </a>
+          <a href="funded-account.html" data-page="funded-account">
+            <i class="fas fa-wallet"></i>
+            <span>Funded Account</span>
+          </a>
+          <a href="mentorship.html" data-page="mentorship">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <span>Mentorship</span>
+          </a>
+          <a href="ib-partnership.html" data-page="ib-partnership">
+            <i class="fas fa-handshake"></i>
+            <span>IB Partnership</span>
+          </a>
+          <a href="trading-tools.html" data-page="trading-tools">
+            <i class="fas fa-tools"></i>
+            <span>Trading Tools</span>
+          </a>
+          <a
+            href="market-analysis.html"
+            class="active"
+            data-page="market-analysis"
+          >
+            <i class="fas fa-chart-line"></i>
+            <span>Market Analysis</span>
+          </a>
+          <a href="referrals.html" data-page="referrals">
+            <i class="fas fa-users"></i>
+            <span>Referrals</span>
+          </a>
+          <a href="payments.html" data-page="payments">
+            <i class="fas fa-credit-card"></i>
+            <span>Payments</span>
+          </a>
+          <a href="settings.html" data-page="settings">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <button class="logout-btn" id="logoutBtn">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- =======================
+      SIDEBAR OVERLAY (Mobile)
+      ======================= -->
+      <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+      <!-- =======================
+      MAIN CONTENT
+      ======================= -->
+      <main class="main-content">
+        <!-- Top Header -->
+        <header class="dashboard-header">
+          <button class="sidebar-toggle" id="sidebarToggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <h1>Market Analysis</h1>
+          <div class="header-actions">
+            <button class="notif-btn" id="notifBtn">
+              <i class="fas fa-bell"></i>
+              <span class="notif-badge">3</span>
+            </button>
+            <div class="user-avatar">
+              <span id="userInitials">JD</span>
+            </div>
+          </div>
+        </header>
+
+        <!-- =======================
+        MARKET ANALYSIS CONTENT
+        ======================= -->
+        <div class="market-content">
+          <!-- Market Overview -->
+          <section class="market-overview">
+            <div class="market-header">
+              <h1>Market <span class="gold-text">Analysis</span></h1>
+              <div class="market-controls">
+                <button class="refresh-btn" id="refreshMarketData">
+                  <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+                <span class="last-updated" id="lastUpdated"
+                  >Last updated: Just now</span
+                >
+              </div>
+            </div>
+
+            <!-- Live Prices Ticker -->
+            <div class="live-prices">
+              <div class="price-card" data-symbol="EUR/USD">
+                <div class="price-symbol">EUR/USD</div>
+                <div class="price-value" id="price-EURUSD">--</div>
+                <div class="price-change" id="change-EURUSD">--</div>
+              </div>
+              <div class="price-card" data-symbol="GBP/USD">
+                <div class="price-symbol">GBP/USD</div>
+                <div class="price-value" id="price-GBPUSD">--</div>
+                <div class="price-change" id="change-GBPUSD">--</div>
+              </div>
+              <div class="price-card" data-symbol="USD/JPY">
+                <div class="price-symbol">USD/JPY</div>
+                <div class="price-value" id="price-USDJPY">--</div>
+                <div class="price-change" id="change-USDJPY">--</div>
+              </div>
+              <div class="price-card" data-symbol="XAU/USD">
+                <div class="price-symbol">XAU/USD</div>
+                <div class="price-value" id="price-XAUUSD">--</div>
+                <div class="price-change" id="change-XAUUSD">--</div>
+              </div>
+              <div class="price-card" data-symbol="BTC/USD">
+                <div class="price-symbol">BTC/USD</div>
+                <div class="price-value" id="price-BTCUSD">--</div>
+                <div class="price-change" id="change-BTCUSD">--</div>
+              </div>
+              <div class="price-card" data-symbol="NAS100">
+                <div class="price-symbol">NAS100</div>
+                <div class="price-value" id="price-NAS100">--</div>
+                <div class="price-change" id="change-NAS100">--</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Market Analysis Tabs -->
+          <div class="analysis-tabs">
+            <button class="analysis-tab active" data-tab="technical">
+              <i class="fas fa-chart-line"></i> Technical Analysis
+            </button>
+            <button class="analysis-tab" data-tab="fundamental">
+              <i class="fas fa-globe"></i> Fundamental Analysis
+            </button>
+            <button class="analysis-tab" data-tab="sentiment">
+              <i class="fas fa-smile"></i> Market Sentiment
+            </button>
+            <button class="analysis-tab" data-tab="signals">
+              <i class="fas fa-bullhorn"></i> Trade Signals
+            </button>
+          </div>
+
+          <!-- Tab: Technical Analysis -->
+          <div class="analysis-tab-content active" id="tab-technical">
+            <div class="technical-section">
+              <div class="chart-container">
+                <div class="chart-header">
+                  <h3>Price Chart</h3>
+                  <div class="chart-controls">
+                    <select id="chartSymbol">
+                      <option value="EURUSD">EUR/USD</option>
+                      <option value="GBPUSD">GBP/USD</option>
+                      <option value="USDJPY">USD/JPY</option>
+                      <option value="XAUUSD">XAU/USD</option>
+                      <option value="BTCUSD">BTC/USD</option>
+                    </select>
+                    <select id="chartInterval">
+                      <option value="1day">Daily</option>
+                      <option value="1week">Weekly</option>
+                      <option value="1month">Monthly</option>
+                    </select>
+                    <button
+                      class="btn-secondary"
+                      id="updateChartBtn"
+                      style="
+                        padding: 0.3rem 1rem;
+                        font-size: 0.75rem;
+                        background: transparent;
+                      "
+                    >
+                      <i class="fas fa-sync-alt"></i> Update
+                    </button>
+                  </div>
+                </div>
+                <div class="chart-wrapper">
+                  <canvas id="priceChart"></canvas>
+                </div>
+              </div>
+
+              <div class="technical-indicators">
+                <h3>Key Technical Levels</h3>
+                <div class="indicators-grid" id="technicalLevels">
+                  <div class="indicator-card">
+                    <span class="indicator-label">Support 1</span>
+                    <span class="indicator-value" id="support1">--</span>
+                  </div>
+                  <div class="indicator-card">
+                    <span class="indicator-label">Support 2</span>
+                    <span class="indicator-value" id="support2">--</span>
+                  </div>
+                  <div class="indicator-card">
+                    <span class="indicator-label">Resistance 1</span>
+                    <span class="indicator-value" id="resistance1">--</span>
+                  </div>
+                  <div class="indicator-card">
+                    <span class="indicator-label">Resistance 2</span>
+                    <span class="indicator-value" id="resistance2">--</span>
+                  </div>
+                  <div class="indicator-card">
+                    <span class="indicator-label">RSI (14)</span>
+                    <span class="indicator-value" id="rsiValue">--</span>
+                  </div>
+                  <div class="indicator-card">
+                    <span class="indicator-label">MACD</span>
+                    <span class="indicator-value" id="macdValue">--</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab: Fundamental Analysis -->
+          <div class="analysis-tab-content" id="tab-fundamental">
+            <div class="fundamental-section">
+              <div class="economic-calendar">
+                <h3><i class="fas fa-calendar-alt"></i> Economic Calendar</h3>
+                <div class="calendar-controls">
+                  <select id="calendarFilter">
+                    <option value="all">All Currencies</option>
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
+                    <option value="JPY">JPY</option>
+                    <option value="CAD">CAD</option>
+                    <option value="AUD">AUD</option>
+                    <option value="NZD">NZD</option>
+                    <option value="CHF">CHF</option>
+                  </select>
+                  <button
+                    class="btn-secondary"
+                    id="refreshCalendarBtn"
+                    style="
+                      padding: 0.3rem 1rem;
+                      font-size: 0.75rem;
+                      background: transparent;
+                    "
+                  >
+                    <i class="fas fa-sync-alt"></i> Refresh
+                  </button>
+                </div>
+                <div id="economicEvents">
+                  <p
+                    style="
+                      color: var(--text-muted);
+                      text-align: center;
+                      padding: 2rem;
+                    "
+                  >
+                    <i class="fas fa-spinner fa-spin"></i> Loading economic
+                    events...
+                  </p>
+                </div>
+              </div>
+
+              <div class="news-feed">
+                <h3><i class="fas fa-newspaper"></i> Market News</h3>
+                <div id="marketNews">
+                  <p
+                    style="
+                      color: var(--text-muted);
+                      text-align: center;
+                      padding: 2rem;
+                    "
+                  >
+                    <i class="fas fa-spinner fa-spin"></i> Loading news...
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab: Market Sentiment -->
+          <div class="analysis-tab-content" id="tab-sentiment">
+            <div class="sentiment-section">
+              <div class="sentiment-overview">
+                <h3>Market Sentiment Overview</h3>
+                <div class="sentiment-grid" id="sentimentGrid">
+                  <div class="sentiment-card">
+                    <span class="sentiment-label">EUR/USD</span>
+                    <div class="sentiment-bar">
+                      <div
+                        class="sentiment-fill bullish"
+                        style="width: 65%"
+                      ></div>
+                    </div>
+                    <div class="sentiment-stats">
+                      <span>Bullish: 65%</span>
+                      <span>Bearish: 35%</span>
+                    </div>
+                  </div>
+                  <div class="sentiment-card">
+                    <span class="sentiment-label">GBP/USD</span>
+                    <div class="sentiment-bar">
+                      <div
+                        class="sentiment-fill bearish"
+                        style="width: 45%"
+                      ></div>
+                    </div>
+                    <div class="sentiment-stats">
+                      <span>Bullish: 55%</span>
+                      <span>Bearish: 45%</span>
+                    </div>
+                  </div>
+                  <div class="sentiment-card">
+                    <span class="sentiment-label">XAU/USD</span>
+                    <div class="sentiment-bar">
+                      <div
+                        class="sentiment-fill bullish"
+                        style="width: 72%"
+                      ></div>
+                    </div>
+                    <div class="sentiment-stats">
+                      <span>Bullish: 72%</span>
+                      <span>Bearish: 28%</span>
+                    </div>
+                  </div>
+                  <div class="sentiment-card">
+                    <span class="sentiment-label">BTC/USD</span>
+                    <div class="sentiment-bar">
+                      <div
+                        class="sentiment-fill bullish"
+                        style="width: 58%"
+                      ></div>
+                    </div>
+                    <div class="sentiment-stats">
+                      <span>Bullish: 58%</span>
+                      <span>Bearish: 42%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="fear-greed-index">
+                <h3>Fear & Greed Index</h3>
+                <div class="fgi-display">
+                  <div class="fgi-value" id="fgiValue">52</div>
+                  <div class="fgi-label" id="fgiLabel">Neutral</div>
+                  <div class="fgi-scale">
+                    <span>Extreme Fear</span>
+                    <div class="fgi-bar">
+                      <div
+                        class="fgi-fill"
+                        id="fgiFill"
+                        style="width: 52%"
+                      ></div>
+                    </div>
+                    <span>Extreme Greed</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab: Trade Signals -->
+          <div class="analysis-tab-content" id="tab-signals">
+            <div class="signals-section">
+              <div class="signals-header">
+                <h3><i class="fas fa-bullhorn"></i> Live Trade Signals</h3>
+                <span class="signal-count" id="signalCount">6 signals</span>
+              </div>
+
+              <div class="signals-grid" id="signalsGrid">
+                <div class="signal-card buy">
+                  <div class="signal-type">
+                    <span class="signal-badge buy">BUY</span>
+                    <span class="signal-pair">EUR/USD</span>
+                  </div>
+                  <div class="signal-details">
+                    <div class="signal-price">
+                      <span>Entry: 1.0845</span>
+                      <span>TP: 1.0920</span>
+                      <span>SL: 1.0800</span>
+                    </div>
+                    <div class="signal-risk">
+                      <span>Risk: 1.5%</span>
+                      <span>R/R: 1:2.5</span>
+                    </div>
+                  </div>
+                  <div class="signal-time">
+                    <i class="far fa-clock"></i> 2 hours ago
+                  </div>
+                </div>
+
+                <div class="signal-card sell">
+                  <div class="signal-type">
+                    <span class="signal-badge sell">SELL</span>
+                    <span class="signal-pair">GBP/USD</span>
+                  </div>
+                  <div class="signal-details">
+                    <div class="signal-price">
+                      <span>Entry: 1.2650</span>
+                      <span>TP: 1.2580</span>
+                      <span>SL: 1.2700</span>
+                    </div>
+                    <div class="signal-risk">
+                      <span>Risk: 1.0%</span>
+                      <span>R/R: 1:2.0</span>
+                    </div>
+                  </div>
+                  <div class="signal-time">
+                    <i class="far fa-clock"></i> 4 hours ago
+                  </div>
+                </div>
+
+                <div class="signal-card buy">
+                  <div class="signal-type">
+                    <span class="signal-badge buy">BUY</span>
+                    <span class="signal-pair">XAU/USD</span>
+                  </div>
+                  <div class="signal-details">
+                    <div class="signal-price">
+                      <span>Entry: 2,180.00</span>
+                      <span>TP: 2,200.00</span>
+                      <span>SL: 2,165.00</span>
+                    </div>
+                    <div class="signal-risk">
+                      <span>Risk: 1.2%</span>
+                      <span>R/R: 1:2.0</span>
+                    </div>
+                  </div>
+                  <div class="signal-time">
+                    <i class="far fa-clock"></i> 6 hours ago
+                  </div>
+                </div>
+
+                <div class="signal-card sell">
+                  <div class="signal-type">
+                    <span class="signal-badge sell">SELL</span>
+                    <span class="signal-pair">BTC/USD</span>
+                  </div>
+                  <div class="signal-details">
+                    <div class="signal-price">
+                      <span>Entry: 62,450</span>
+                      <span>TP: 61,200</span>
+                      <span>SL: 63,500</span>
+                    </div>
+                    <div class="signal-risk">
+                      <span>Risk: 1.5%</span>
+                      <span>R/R: 1:2.0</span>
+                    </div>
+                  </div>
+                  <div class="signal-time">
+                    <i class="far fa-clock"></i> 8 hours ago
+                  </div>
+                </div>
+
+                <div class="signal-card buy">
+                  <div class="signal-type">
+                    <span class="signal-badge buy">BUY</span>
+                    <span class="signal-pair">NAS100</span>
+                  </div>
+                  <div class="signal-details">
+                    <div class="signal-price">
+                      <span>Entry: 18,200</span>
+                      <span>TP: 18,500</span>
+                      <span>SL: 18,000</span>
+                    </div>
+                    <div class="signal-risk">
+                      <span>Risk: 1.0%</span>
+                      <span>R/R: 1:2.0</span>
+                    </div>
+                  </div>
+                  <div class="signal-time">
+                    <i class="far fa-clock"></i> 12 hours ago
+                  </div>
+                </div>
+
+                <div class="signal-card sell">
+                  <div class="signal-type">
+                    <span class="signal-badge sell">SELL</span>
+                    <span class="signal-pair">USD/JPY</span>
+                  </div>
+                  <div class="signal-details">
+                    <div class="signal-price">
+                      <span>Entry: 148.50</span>
+                      <span>TP: 147.20</span>
+                      <span>SL: 149.80</span>
+                    </div>
+                    <div class="signal-risk">
+                      <span>Risk: 1.3%</span>
+                      <span>R/R: 1:2.0</span>
+                    </div>
+                  </div>
+                  <div class="signal-time">
+                    <i class="far fa-clock"></i> 1 day ago
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- =======================
+    SCRIPTS
+    ======================= -->
+    <script src="/js/main.js"></script>
+    <!--<script src="/js/client-dashboard.js"></script>-->
+    <script src="/js/market-analysis.js"></script>
+  </body>
+</html>

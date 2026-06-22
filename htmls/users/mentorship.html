@@ -1,0 +1,718 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Mentorship | Nana Forex</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/client-dashboard.css" />
+    <link rel="stylesheet" href="/css/mentorship.css" />
+  </head>
+
+  <body>
+    <!-- =======================
+    DASHBOARD WRAPPER
+    ======================= -->
+    <div class="dashboard-wrapper">
+      <!-- =======================
+      SIDEBAR
+      ======================= -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+          <h2>NanaForex</h2>
+          <button class="sidebar-close" id="sidebarClose">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="client-dashboard.html" data-page="dashboard">
+            <i class="fas fa-th-large"></i>
+            <span>Dashboard</span>
+          </a>
+          <a href="profile.html" data-page="profile">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+          </a>
+          <a href="academy.html" data-page="academy">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Academy</span>
+          </a>
+          <a href="signals.html" data-page="signals">
+            <i class="fas fa-signal"></i>
+            <span>Signals</span>
+          </a>
+          <a href="copy-trading.html" data-page="copy-trading">
+            <i class="fas fa-copy"></i>
+            <span>Copy Trading</span>
+          </a>
+          <a href="funded-account.html" data-page="funded-account">
+            <i class="fas fa-wallet"></i>
+            <span>Funded Account</span>
+          </a>
+          <a href="mentorship.html" class="active" data-page="mentorship">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <span>Mentorship</span>
+          </a>
+          <a href="ib-partnership.html" data-page="ib-partnership">
+            <i class="fas fa-handshake"></i>
+            <span>IB Partnership</span>
+          </a>
+          <a href="trading-tools.html" data-page="trading-tools">
+            <i class="fas fa-tools"></i>
+            <span>Trading Tools</span>
+          </a>
+          <a href="market-analysis.html" data-page="market-analysis">
+            <i class="fas fa-chart-line"></i>
+            <span>Market Analysis</span>
+          </a>
+          <a href="referrals.html" data-page="referrals">
+            <i class="fas fa-users"></i>
+            <span>Referrals</span>
+          </a>
+          <a href="payments.html" data-page="payments">
+            <i class="fas fa-credit-card"></i>
+            <span>Payments</span>
+          </a>
+          <a href="settings.html" data-page="settings">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <button class="logout-btn" id="logoutBtn">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- =======================
+      SIDEBAR OVERLAY (Mobile)
+      ======================= -->
+      <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+      <!-- =======================
+      MAIN CONTENT
+      ======================= -->
+      <main class="main-content">
+        <!-- Top Header -->
+        <header class="dashboard-header">
+          <button class="sidebar-toggle" id="sidebarToggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <h1>Mentorship</h1>
+          <div class="header-actions">
+            <button class="notif-btn" id="notifBtn">
+              <i class="fas fa-bell"></i>
+              <span class="notif-badge">3</span>
+            </button>
+            <div class="user-avatar">
+              <span id="userInitials">JD</span>
+            </div>
+          </div>
+        </header>
+
+        <!-- =======================
+        MENTORSHIP CONTENT
+        ======================= -->
+        <div class="mentorship-content">
+          <!-- Hero Banner -->
+          <div class="mentorship-hero">
+            <div class="mentorship-hero-glow"></div>
+            <div class="mentorship-hero-content">
+              <div class="hero-badge">
+                <i class="fas fa-star"></i> Expert Mentorship
+              </div>
+              <h1>
+                Transform Your <span class="gold-text">Trading Career</span>
+              </h1>
+              <p>
+                Get personalized guidance from professional traders who have
+                been where you are. Accelerate your learning and achieve
+                consistent profitability.
+              </p>
+              <div class="hero-buttons">
+                <button class="btn-primary" id="applyMentorshipBtn">
+                  <i class="fas fa-handshake"></i> Apply Now
+                </button>
+                <button class="btn-secondary" id="learnMoreBtn">
+                  Learn More
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mentorship Stats -->
+          <div class="mentorship-stats">
+            <div class="stat-card">
+              <div class="stat-number">500+</div>
+              <div class="stat-label">Traders Mentored</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number">85%</div>
+              <div class="stat-label">Success Rate</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number">12+</div>
+              <div class="stat-label">Years Experience</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number">4.9</div>
+              <div class="stat-label">Average Rating</div>
+            </div>
+          </div>
+
+          <!-- Mentorship Programs -->
+          <div class="programs-section">
+            <div class="section-title">
+              <h2>Mentorship <span class="gold-text">Programs</span></h2>
+              <p>
+                Choose the program that fits your trading goals and experience
+                level
+              </p>
+            </div>
+
+            <div class="programs-grid">
+              <!-- Program 1: Beginner -->
+              <div class="program-card">
+                <div class="program-badge beginner">Beginner</div>
+                <div class="program-icon">
+                  <i class="fas fa-seedling"></i>
+                </div>
+                <h3>Foundation Program</h3>
+                <p class="program-description">
+                  Perfect for complete beginners. Learn the essentials of forex
+                  trading from the ground up.
+                </p>
+                <div class="program-features">
+                  <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>12 weeks curriculum</span>
+                  </div>
+                  <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Weekly live sessions</span>
+                  </div>
+                  <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Basic technical analysis</span>
+                  </div>
+                  <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Risk management basics</span>
+                  </div>
+                  <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Community access</span>
+                  </div>
+                </div>
+                <div class="program-pricing">
+                  <span class="price">GHS 1,500</span>
+                  <span class="price-period">one-time</span>
+                </div>
+                <button
+                  class="btn-primary program-btn"
+                  data-program="foundation"
+                >
+                  <i class="fas fa-play"></i> Enroll Now
+                </button>
+              </div>
+
+              <!-- Program 2: Intermediate -->
+              <div class="program-card featured">
+                <div class="program-badge intermediate">Most Popular</div>
+                <div class="program-icon">
+                  <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Pro Trader Program</h3>
+                <p class="program-description">
+                  For traders with some experience. Take your skills to the next
+                  level with advanced strategies and personalized coaching.
+                </p>
+                <div class="program-features">
+                  <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>16 weeks curriculum</span>
+                  </div>
+                  <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Weekly 1-on-1 sessions</span>
+                  </div>
+                  <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Advanced technical analysis</span>
+                  </div>
+                  <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Live trading with mentor</span>
+                  </div>
+                  <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Trade journal review</span>
+                  </div>
+                  <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Funded account pathway</span>
+                  </div>
+                </div>
+                <div class="program-pricing">
+                  <span class="price">GHS 3,000</span>
+                  <span class="price-period">one-time</span>
+                </div>
+                <button class="btn-primary program-btn" data-program="pro">
+                  <i class="fas fa-play"></i> Enroll Now
+                </button>
+              </div>
+
+              <!-- Program 3: Advanced -->
+              <div class="program-card">
+                <div class="program-badge advanced">Advanced</div>
+                <div class="program-icon">
+                  <i class="fas fa-rocket"></i>
+                </div>
+                <h3>Elite Trader Program</h3>
+                <p class="program-description">
+                  For serious traders ready to trade professionally. Master
+                  advanced strategies and scale your trading.
+                </p>
+                <div class="program-features">
+                  <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>20 weeks curriculum</span>
+                  </div>
+                  <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Daily 1-on-1 coaching</span>
+                  </div>
+                  <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Algorithmic trading</span>
+                  </div>
+                  <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Prop firm preparation</span>
+                  </div>
+                  <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Lifetime mentorship</span>
+                  </div>
+                  <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Up to $100k funding</span>
+                  </div>
+                </div>
+                <div class="program-pricing">
+                  <span class="price">GHS 5,000</span>
+                  <span class="price-period">one-time</span>
+                </div>
+                <button class="btn-primary program-btn" data-program="elite">
+                  <i class="fas fa-play"></i> Enroll Now
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mentors Section -->
+          <div class="mentors-section">
+            <div class="section-title">
+              <h2>Meet Your <span class="gold-text">Mentors</span></h2>
+              <p>
+                Learn from experienced professionals who are passionate about
+                your success
+              </p>
+            </div>
+
+            <div class="mentors-grid">
+              <div class="mentor-card">
+                <div class="mentor-image">
+                  <div class="mentor-avatar">KN</div>
+                </div>
+                <div class="mentor-info">
+                  <h3>Kwame Nana</h3>
+                  <span class="mentor-role">Head Mentor</span>
+                  <p>
+                    12+ years institutional trading experience. Specializes in
+                    price action and risk management.
+                  </p>
+                  <div class="mentor-social">
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                  </div>
+                  <div class="mentor-stats">
+                    <span><i class="fas fa-users"></i> 320+ students</span>
+                    <span
+                      ><i class="fas fa-star" style="color: var(--gold)"></i>
+                      4.9 rating</span
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="mentor-card">
+                <div class="mentor-image">
+                  <div class="mentor-avatar">AM</div>
+                </div>
+                <div class="mentor-info">
+                  <h3>Adwoa Mensah</h3>
+                  <span class="mentor-role">Lead Analyst</span>
+                  <p>
+                    Expert in market psychology and algorithmic trading
+                    strategies with 8 years experience.
+                  </p>
+                  <div class="mentor-social">
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                  </div>
+                  <div class="mentor-stats">
+                    <span><i class="fas fa-users"></i> 180+ students</span>
+                    <span
+                      ><i class="fas fa-star" style="color: var(--gold)"></i>
+                      4.8 rating</span
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="mentor-card">
+                <div class="mentor-image">
+                  <div class="mentor-avatar">MO</div>
+                </div>
+                <div class="mentor-info">
+                  <h3>Michael Osei</h3>
+                  <span class="mentor-role">Risk Management Director</span>
+                  <p>
+                    Former hedge fund risk analyst focused on capital
+                    preservation and portfolio management.
+                  </p>
+                  <div class="mentor-social">
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                  </div>
+                  <div class="mentor-stats">
+                    <span><i class="fas fa-users"></i> 150+ students</span>
+                    <span
+                      ><i class="fas fa-star" style="color: var(--gold)"></i>
+                      4.7 rating</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonials -->
+          <div class="testimonials-section">
+            <div class="section-title">
+              <h2>Student <span class="gold-text">Success Stories</span></h2>
+              <p>Real results from traders who transformed their skills</p>
+            </div>
+
+            <div class="testimonials-grid">
+              <div class="testimonial-card">
+                <div class="testimonial-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+                <p>
+                  "The mentorship transformed my trading completely. I went from
+                  losing money to consistently profitable in just 4 months. The
+                  1-on-1 coaching made all the difference."
+                </p>
+                <div class="testimonial-author">
+                  <div class="author-avatar">JM</div>
+                  <div>
+                    <h4>John Mensah</h4>
+                    <span>Funded Trader</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="testimonial-card">
+                <div class="testimonial-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+                <p>
+                  "The structured approach and personalized feedback helped me
+                  develop a winning trading system. I'm now consistently
+                  profitable and trading a funded account."
+                </p>
+                <div class="testimonial-author">
+                  <div class="author-avatar">AA</div>
+                  <div>
+                    <h4>Adwoa Asante</h4>
+                    <span>Pro Trader</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="testimonial-card">
+                <div class="testimonial-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+                <p>
+                  "Best investment I've made in my trading career. The mentors
+                  don't just teach - they trade alongside you and provide
+                  real-time feedback that accelerates learning."
+                </p>
+                <div class="testimonial-author">
+                  <div class="author-avatar">MO</div>
+                  <div>
+                    <h4>Michael Osei</h4>
+                    <span>Professional Trader</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ Section -->
+          <div class="faq-section">
+            <div class="section-title">
+              <h2>Frequently Asked <span class="gold-text">Questions</span></h2>
+              <p>Everything you need to know about our mentorship programs</p>
+            </div>
+
+            <div class="faq-grid">
+              <div class="faq-item">
+                <div class="faq-question">
+                  <h3>What level of experience do I need to join?</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                  <p>
+                    We have programs for all levels - from complete beginners to
+                    experienced traders. The Foundation Program is perfect if
+                    you're just starting out, while the Pro and Elite programs
+                    are designed for traders with some experience.
+                  </p>
+                </div>
+              </div>
+
+              <div class="faq-item">
+                <div class="faq-question">
+                  <h3>How are the mentoring sessions conducted?</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                  <p>
+                    All sessions are conducted live via video calls. You'll have
+                    access to weekly group sessions and one-on-one coaching
+                    depending on your program level. All sessions are recorded
+                    so you can review them anytime.
+                  </p>
+                </div>
+              </div>
+
+              <div class="faq-item">
+                <div class="faq-question">
+                  <h3>What makes the mentorship different from the Academy?</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                  <p>
+                    The Academy is self-paced learning with pre-recorded
+                    content. The Mentorship is live, interactive, and
+                    personalized. You get direct access to mentors, real-time
+                    feedback, and customized guidance based on your trading
+                    style and goals.
+                  </p>
+                </div>
+              </div>
+
+              <div class="faq-item">
+                <div class="faq-question">
+                  <h3>Is there a money-back guarantee?</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                  <p>
+                    Yes! We offer a 30-day money-back guarantee on all
+                    mentorship programs. If you're not satisfied within the
+                    first 30 days, we'll refund your investment in full.
+                  </p>
+                </div>
+              </div>
+
+              <div class="faq-item">
+                <div class="faq-question">
+                  <h3>Can I upgrade my program later?</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                  <p>
+                    Absolutely! You can upgrade to a higher program at any time.
+                    You'll only pay the difference in price, and your remaining
+                    mentorship time will be adjusted accordingly.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CTA Section -->
+          <div class="cta-section">
+            <div class="cta-content">
+              <h2>
+                Ready to <span class="gold-text">Elevate Your Trading?</span>
+              </h2>
+              <p>
+                Join our mentorship program and get the guidance you need to
+                become a consistently profitable trader.
+              </p>
+              <div class="cta-buttons">
+                <button class="btn-primary" id="applyNowBtn">
+                  <i class="fas fa-handshake"></i> Apply Now
+                </button>
+                <button class="btn-secondary" id="scheduleCallBtn">
+                  <i class="fas fa-calendar"></i> Schedule a Call
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- =======================
+    APPLICATION MODAL
+    ======================= -->
+    <div class="mentorship-modal" id="applicationModal">
+      <div class="mentorship-modal-content">
+        <button class="modal-close" id="applicationModalClose">&times;</button>
+        <h3>
+          <i class="fas fa-handshake" style="color: var(--gold)"></i> Apply for
+          Mentorship
+        </h3>
+        <p>
+          Fill out the form below and we'll get back to you within 24 hours.
+        </p>
+
+        <form id="mentorshipApplicationForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Full Name <span class="required">*</span></label>
+              <input
+                type="text"
+                id="appFullName"
+                placeholder="Enter your full name"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label>Email Address <span class="required">*</span></label>
+              <input
+                type="email"
+                id="appEmail"
+                placeholder="you@example.com"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Phone Number <span class="required">*</span></label>
+              <input
+                type="tel"
+                id="appPhone"
+                placeholder="+233 24 123 4567"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label
+                >Program Interested In <span class="required">*</span></label
+              >
+              <select id="appProgram" required>
+                <option value="">Select a program</option>
+                <option value="foundation">
+                  Foundation Program (Beginner)
+                </option>
+                <option value="pro">Pro Trader Program (Intermediate)</option>
+                <option value="elite">Elite Trader Program (Advanced)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Trading Experience</label>
+              <select id="appExperience">
+                <option value="beginner">Beginner (0-6 months)</option>
+                <option value="intermediate">Intermediate (6-18 months)</option>
+                <option value="advanced">Advanced (2+ years)</option>
+                <option value="professional">Professional (5+ years)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Preferred Mentor</label>
+              <select id="appMentor">
+                <option value="">No preference</option>
+                <option value="kwame">Kwame Nana</option>
+                <option value="adwoa">Adwoa Mensah</option>
+                <option value="michael">Michael Osei</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Why do you want to join our mentorship program?</label>
+            <textarea
+              id="appReason"
+              rows="3"
+              placeholder="Tell us about your trading goals and why you're interested in mentorship..."
+            ></textarea>
+          </div>
+
+          <button type="submit" class="btn-primary" id="submitApplicationBtn">
+            <i class="fas fa-paper-plane"></i> Submit Application
+          </button>
+          <div id="applicationStatus" class="form-status"></div>
+        </form>
+      </div>
+    </div>
+
+    <!-- =======================
+    SCRIPTS
+    ======================= -->
+    <script src="/js/main.js"></script>
+    <!--<script src="/js/client-dashboard.js"></script>-->
+    <script src="/js/mentorship.js"></script>
+  </body>
+</html>

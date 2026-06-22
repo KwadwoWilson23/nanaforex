@@ -1,0 +1,760 @@
+/* ====================================
+MARKET ANALYSIS PAGE STYLES
+==================================== */
+
+/* ====================================
+MARKET OVERVIEW
+==================================== */
+.market-content {
+  padding: 0 0 2rem;
+}
+
+.market-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.market-header h1 {
+  font-size: 1.5rem;
+}
+
+.market-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.refresh-btn {
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--glass-bg);
+  color: var(--white);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: 0.3s;
+  font-family: "Inter", sans-serif;
+}
+
+.refresh-btn:hover {
+  border-color: var(--secondary);
+  color: var(--secondary);
+}
+
+.refresh-btn i {
+  margin-right: 0.4rem;
+}
+
+.last-updated {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* ====================================
+LIVE PRICES
+==================================== */
+.live-prices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.price-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1rem 1.25rem;
+  text-align: center;
+  transition: 0.3s;
+}
+
+.price-card:hover {
+  border-color: var(--secondary);
+  transform: translateY(-2px);
+}
+
+.price-symbol {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.price-value {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0.25rem 0;
+  font-family: "Space Grotesk", sans-serif;
+}
+
+.price-change {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.price-change.positive {
+  color: var(--profit-green);
+}
+
+.price-change.negative {
+  color: var(--danger);
+}
+
+/* ====================================
+ANALYSIS TABS
+==================================== */
+.analysis-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 0.5rem;
+  overflow-x: auto;
+}
+
+.analysis-tab {
+  padding: 0.6rem 1.5rem;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s;
+  font-family: "Inter", sans-serif;
+  white-space: nowrap;
+}
+
+.analysis-tab i {
+  margin-right: 0.5rem;
+}
+
+.analysis-tab:hover {
+  color: var(--white);
+}
+
+.analysis-tab.active {
+  background: var(--gradient-primary);
+  color: var(--bg-dark);
+}
+
+/* ====================================
+TAB CONTENT
+==================================== */
+.analysis-tab-content {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.analysis-tab-content.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ====================================
+TECHNICAL SECTION
+==================================== */
+.technical-section {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+}
+
+.chart-container {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 1.5rem;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chart-header h3 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.chart-controls {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.chart-controls select {
+  padding: 0.3rem 0.8rem;
+  background: var(--glass-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--white);
+  font-size: 0.8rem;
+  font-family: "Inter", sans-serif;
+  outline: none;
+}
+
+.chart-wrapper {
+  position: relative;
+  height: 350px;
+}
+
+/* ====================================
+TECHNICAL INDICATORS
+==================================== */
+.technical-indicators {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 1.5rem;
+}
+
+.technical-indicators h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.indicators-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.indicator-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.75rem;
+  text-align: center;
+}
+
+.indicator-label {
+  display: block;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.indicator-value {
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: "Space Grotesk", sans-serif;
+}
+
+.indicator-value.bullish {
+  color: var(--profit-green);
+}
+
+.indicator-value.bearish {
+  color: var(--danger);
+}
+
+.indicator-value.neutral {
+  color: var(--gold);
+}
+
+/* ====================================
+FUNDAMENTAL SECTION
+==================================== */
+.fundamental-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.economic-calendar,
+.news-feed {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 1.5rem;
+}
+
+.economic-calendar h3,
+.news-feed h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.economic-calendar h3 i,
+.news-feed h3 i {
+  color: var(--gold);
+  margin-right: 0.5rem;
+}
+
+.calendar-controls {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.calendar-controls select {
+  padding: 0.3rem 0.8rem;
+  background: var(--glass-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--white);
+  font-size: 0.8rem;
+  font-family: "Inter", sans-serif;
+  outline: none;
+  flex: 1;
+}
+
+#economicEvents {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.event-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.event-time {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.event-currency {
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.event-impact {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+}
+
+.event-impact.high {
+  color: var(--danger);
+  background: rgba(255, 77, 77, 0.1);
+}
+
+.event-impact.medium {
+  color: var(--gold);
+  background: rgba(245, 183, 0, 0.1);
+}
+
+.event-impact.low {
+  color: var(--text-muted);
+  background: var(--glass-bg);
+}
+
+.event-name {
+  font-size: 0.85rem;
+  flex: 1;
+}
+
+/* News Items */
+.news-item {
+  padding: 0.75rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.news-item:last-child {
+  border-bottom: none;
+}
+
+.news-title {
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.2rem;
+}
+
+.news-title a {
+  color: var(--white);
+  transition: 0.3s;
+}
+
+.news-title a:hover {
+  color: var(--gold);
+}
+
+.news-meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.news-source {
+  font-weight: 600;
+}
+
+/* ====================================
+SENTIMENT SECTION
+==================================== */
+.sentiment-section {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+}
+
+.sentiment-overview,
+.fear-greed-index {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 1.5rem;
+}
+
+.sentiment-overview h3,
+.fear-greed-index h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.sentiment-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.sentiment-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+}
+
+.sentiment-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.sentiment-bar {
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  margin: 0.4rem 0;
+  overflow: hidden;
+}
+
+.sentiment-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.sentiment-fill.bullish {
+  background: var(--profit-green);
+}
+
+.sentiment-fill.bearish {
+  background: var(--danger);
+}
+
+.sentiment-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+/* ====================================
+FEAR & GREED INDEX
+==================================== */
+.fgi-display {
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.fgi-value {
+  font-size: 3.5rem;
+  font-weight: 800;
+  font-family: "Space Grotesk", sans-serif;
+  color: var(--gold);
+}
+
+.fgi-label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: -0.25rem;
+}
+
+.fgi-label.fear {
+  color: var(--danger);
+}
+
+.fgi-label.greed {
+  color: var(--profit-green);
+}
+
+.fgi-label.neutral {
+  color: var(--gold);
+}
+
+.fgi-scale {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.fgi-scale span {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.fgi-bar {
+  flex: 1;
+  height: 8px;
+  background: linear-gradient(
+    to right,
+    var(--danger),
+    var(--gold),
+    var(--profit-green)
+  );
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.fgi-fill {
+  height: 100%;
+  background: var(--white);
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+/* ====================================
+SIGNALS SECTION
+==================================== */
+.signals-section {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 1.5rem;
+}
+
+.signals-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.signals-header h3 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.signals-header h3 i {
+  color: var(--gold);
+  margin-right: 0.5rem;
+}
+
+.signal-count {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.signals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.signal-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.25rem;
+  transition: 0.3s;
+  border-left: 4px solid var(--border);
+}
+
+.signal-card:hover {
+  border-color: var(--secondary);
+  transform: translateY(-2px);
+}
+
+.signal-card.buy {
+  border-left-color: var(--profit-green);
+}
+
+.signal-card.sell {
+  border-left-color: var(--danger);
+}
+
+.signal-type {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.signal-badge {
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.signal-badge.buy {
+  background: rgba(0, 255, 136, 0.15);
+  color: var(--profit-green);
+}
+
+.signal-badge.sell {
+  background: rgba(255, 77, 77, 0.15);
+  color: var(--danger);
+}
+
+.signal-pair {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.signal-details {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.signal-price {
+  display: flex;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+}
+
+.signal-price span {
+  color: var(--text-muted);
+}
+
+.signal-risk {
+  display: flex;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.signal-time {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* ====================================
+RESPONSIVE
+==================================== */
+@media (max-width: 1024px) {
+  .technical-section {
+    grid-template-columns: 1fr;
+  }
+
+  .fundamental-section {
+    grid-template-columns: 1fr;
+  }
+
+  .sentiment-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .live-prices {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .indicators-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .signals-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .market-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .chart-wrapper {
+    height: 250px;
+  }
+
+  .analysis-tab {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .analysis-tab i {
+    margin-right: 0.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .live-prices {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .indicators-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-controls {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .chart-controls select,
+  .chart-controls button {
+    width: 100%;
+  }
+
+  .sentiment-section {
+    grid-template-columns: 1fr;
+  }
+
+  .signal-details {
+    flex-direction: column;
+  }
+
+  .signal-price {
+    flex-wrap: wrap;
+  }
+}

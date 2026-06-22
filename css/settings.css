@@ -1,0 +1,674 @@
+/* ====================================
+SETTINGS PAGE STYLES
+==================================== */
+
+/* ====================================
+SETTINGS CONTENT LAYOUT
+==================================== */
+.settings-content {
+  display: flex;
+  gap: 2rem;
+  padding: 0 0 2rem;
+}
+
+/* ====================================
+SETTINGS NAVIGATION
+==================================== */
+.settings-nav {
+  width: 240px;
+  flex-shrink: 0;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  position: sticky;
+  top: 2rem;
+  height: fit-content;
+}
+
+.settings-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 1rem;
+  border-radius: 12px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: "Inter", sans-serif;
+  width: 100%;
+  text-align: left;
+}
+
+.settings-nav-item i {
+  width: 20px;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.settings-nav-item:hover {
+  background: var(--glass-bg);
+  color: var(--white);
+}
+
+.settings-nav-item.active {
+  background: var(--gradient-primary);
+  color: var(--bg-dark);
+}
+
+/* ====================================
+SETTINGS PANELS
+==================================== */
+.settings-panels {
+  flex: 1;
+  min-width: 0;
+}
+
+.settings-panel {
+  display: none;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2rem;
+  animation: fadeIn 0.3s ease;
+}
+
+.settings-panel.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.settings-panel h2 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.settings-panel .panel-description {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+}
+
+/* ====================================
+SETTINGS GROUP & ITEMS
+==================================== */
+.settings-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  background: var(--glass-bg);
+  border-radius: 16px;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  transition: 0.3s;
+}
+
+.setting-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.setting-info {
+  flex: 1;
+  min-width: 180px;
+}
+
+.setting-info h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.15rem;
+}
+
+.setting-info p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.setting-control {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.setting-control select,
+.setting-control input[type="number"],
+.setting-control input[type="url"] {
+  padding: 0.5rem 1rem;
+  background: var(--bg-dark);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--white);
+  font-size: 0.85rem;
+  font-family: "Inter", sans-serif;
+  outline: none;
+  min-width: 150px;
+  transition: 0.3s;
+}
+
+.setting-control select:focus,
+.setting-control input:focus {
+  border-color: var(--secondary);
+}
+
+.setting-control .btn-secondary {
+  padding: 0.5rem 1.25rem;
+  font-size: 0.8rem;
+  background: transparent;
+}
+
+/* ====================================
+TOGGLE SWITCH
+==================================== */
+.setting-item.toggle-item {
+  align-items: center;
+}
+
+.toggle-switch {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.toggle-switch input {
+  display: none;
+}
+
+.toggle-slider {
+  width: 44px;
+  height: 24px;
+  background: var(--border);
+  border-radius: 12px;
+  position: relative;
+  transition: 0.3s;
+}
+
+.toggle-slider::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background: var(--white);
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background: var(--gradient-primary);
+}
+
+.toggle-switch input:checked + .toggle-slider::after {
+  transform: translateX(20px);
+}
+
+/* ====================================
+THEME OPTIONS
+==================================== */
+.theme-options {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.theme-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--glass-bg);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: 0.3s;
+  font-family: "Inter", sans-serif;
+  font-size: 0.8rem;
+}
+
+.theme-btn:hover {
+  border-color: var(--secondary);
+  color: var(--white);
+}
+
+.theme-btn.active {
+  background: var(--gradient-primary);
+  color: var(--bg-dark);
+  border-color: transparent;
+}
+
+/* ====================================
+COLOR OPTIONS
+==================================== */
+.color-options {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.color-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: 0.3s;
+  position: relative;
+}
+
+.color-btn:hover {
+  transform: scale(1.1);
+}
+
+.color-btn.active {
+  border-color: var(--white);
+  box-shadow:
+    0 0 0 2px var(--bg-dark),
+    0 0 0 4px var(--white);
+}
+
+/* ====================================
+API KEYS LIST
+==================================== */
+.api-keys-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.api-key-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: var(--glass-bg);
+  border-radius: 12px;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.api-key-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.api-key-name {
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.api-key-status {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+}
+
+.api-key-status.active {
+  background: rgba(0, 255, 136, 0.15);
+  color: var(--profit-green);
+}
+
+.api-key-status.inactive {
+  background: rgba(255, 77, 77, 0.15);
+  color: var(--danger);
+}
+
+.api-key-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* ====================================
+ACCOUNT TIER
+==================================== */
+.account-tier {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.account-tier-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  background: rgba(0, 255, 136, 0.1);
+  color: var(--profit-green);
+}
+
+/* ====================================
+SETTINGS ACTIONS
+==================================== */
+.settings-actions {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.settings-status {
+  font-size: 0.85rem;
+  color: var(--profit-green);
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.settings-status.visible {
+  opacity: 1;
+}
+
+.settings-status.error {
+  color: var(--danger);
+}
+
+/* ====================================
+SETTINGS MODAL
+==================================== */
+.settings-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  z-index: 10000;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.settings-modal.active {
+  display: flex;
+}
+
+.settings-modal-content {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 2rem;
+  max-width: 480px;
+  width: 100%;
+  position: relative;
+  animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.settings-modal .modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.settings-modal .modal-close:hover {
+  color: var(--white);
+  transform: rotate(90deg);
+}
+
+.settings-modal-content h3 {
+  font-family: "Space Grotesk", sans-serif;
+  margin-bottom: 0.5rem;
+}
+
+.settings-modal-content h3 i {
+  color: var(--gold);
+  margin-right: 0.5rem;
+}
+
+.settings-modal-content p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.settings-modal .form-group {
+  margin-bottom: 1rem;
+}
+
+.settings-modal .form-group label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+  color: var(--white);
+}
+
+.settings-modal .form-group label .required {
+  color: var(--danger);
+  margin-left: 2px;
+}
+
+.settings-modal .password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.settings-modal .password-wrapper input {
+  width: 100%;
+  padding: 0.7rem 3rem 0.7rem 1rem;
+  background: var(--glass-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--white);
+  font-size: 0.9rem;
+  font-family: "Inter", sans-serif;
+  outline: none;
+  transition: 0.3s;
+}
+
+.settings-modal .password-wrapper input:focus {
+  border-color: var(--secondary);
+}
+
+.settings-modal .password-wrapper .toggle-password {
+  position: absolute;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.settings-modal .form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  border-top: none;
+  padding-top: 0;
+}
+
+.settings-modal .form-actions .btn-secondary {
+  padding: 0.6rem 1.5rem;
+  font-size: 0.85rem;
+  background: transparent;
+}
+
+.settings-modal .form-actions .btn-primary {
+  padding: 0.6rem 1.5rem;
+  font-size: 0.85rem;
+}
+
+.settings-modal .form-status {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  display: none;
+}
+
+.settings-modal .form-status.error {
+  display: block;
+  background: rgba(255, 77, 77, 0.1);
+  border: 1px solid var(--danger);
+  color: var(--danger);
+}
+
+.settings-modal .form-status.success {
+  display: block;
+  background: rgba(0, 255, 136, 0.1);
+  border: 1px solid var(--profit-green);
+  color: var(--profit-green);
+}
+
+/* ====================================
+RESPONSIVE
+==================================== */
+@media (max-width: 992px) {
+  .settings-content {
+    flex-direction: column;
+  }
+
+  .settings-nav {
+    width: 100%;
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 0.5rem;
+    gap: 0.25rem;
+    position: static;
+  }
+
+  .settings-nav-item {
+    white-space: nowrap;
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+
+  .settings-nav-item i {
+    margin-right: 0.25rem;
+  }
+
+  .setting-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .setting-control {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .setting-control select,
+  .setting-control input {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .settings-panel {
+    padding: 1.25rem;
+  }
+
+  .settings-panel h2 {
+    font-size: 1.25rem;
+  }
+
+  .theme-options {
+    flex-wrap: wrap;
+  }
+
+  .color-options {
+    flex-wrap: wrap;
+  }
+
+  .api-key-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  .api-key-info {
+    flex-wrap: wrap;
+  }
+
+  .settings-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .settings-actions .btn-primary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .settings-modal-content {
+    padding: 1.5rem;
+    margin: 0.5rem;
+  }
+
+  .settings-modal .form-actions {
+    flex-direction: column;
+  }
+
+  .settings-modal .form-actions button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .settings-panel {
+    padding: 1rem;
+  }
+
+  .settings-nav-item {
+    font-size: 0.7rem;
+    padding: 0.4rem 0.7rem;
+  }
+
+  .setting-info h4 {
+    font-size: 0.85rem;
+  }
+
+  .setting-info p {
+    font-size: 0.75rem;
+  }
+}

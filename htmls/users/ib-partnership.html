@@ -1,0 +1,709 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>IB Partnership | Nana Forex</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/client-dashboard.css" />
+    <link rel="stylesheet" href="/css/ib-partnership.css" />
+  </head>
+
+  <body>
+    <!-- =======================
+    DASHBOARD WRAPPER
+    ======================= -->
+    <div class="dashboard-wrapper">
+      <!-- =======================
+      SIDEBAR
+      ======================= -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+          <h2>NanaForex</h2>
+          <button class="sidebar-close" id="sidebarClose">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="client-dashboard.html" data-page="dashboard">
+            <i class="fas fa-th-large"></i>
+            <span>Dashboard</span>
+          </a>
+          <a href="profile.html" data-page="profile">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+          </a>
+          <a href="academy.html" data-page="academy">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Academy</span>
+          </a>
+          <a href="signals.html" data-page="signals">
+            <i class="fas fa-signal"></i>
+            <span>Signals</span>
+          </a>
+          <a href="copy-trading.html" data-page="copy-trading">
+            <i class="fas fa-copy"></i>
+            <span>Copy Trading</span>
+          </a>
+          <a href="funded-account.html" data-page="funded-account">
+            <i class="fas fa-wallet"></i>
+            <span>Funded Account</span>
+          </a>
+          <a href="mentorship.html" data-page="mentorship">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <span>Mentorship</span>
+          </a>
+          <a
+            href="ib-partnership.html"
+            class="active"
+            data-page="ib-partnership"
+          >
+            <i class="fas fa-handshake"></i>
+            <span>IB Partnership</span>
+          </a>
+          <a href="trading-tools.html" data-page="trading-tools">
+            <i class="fas fa-tools"></i>
+            <span>Trading Tools</span>
+          </a>
+          <a href="market-analysis.html" data-page="market-analysis">
+            <i class="fas fa-chart-line"></i>
+            <span>Market Analysis</span>
+          </a>
+          <a href="referrals.html" data-page="referrals">
+            <i class="fas fa-users"></i>
+            <span>Referrals</span>
+          </a>
+          <a href="payments.html" data-page="payments">
+            <i class="fas fa-credit-card"></i>
+            <span>Payments</span>
+          </a>
+          <a href="settings.html" data-page="settings">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <button class="logout-btn" id="logoutBtn">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- =======================
+      SIDEBAR OVERLAY (Mobile)
+      ======================= -->
+      <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+      <!-- =======================
+      MAIN CONTENT
+      ======================= -->
+      <main class="main-content">
+        <!-- Top Header -->
+        <header class="dashboard-header">
+          <button class="sidebar-toggle" id="sidebarToggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <h1>IB Partnership</h1>
+          <div class="header-actions">
+            <button class="notif-btn" id="notifBtn">
+              <i class="fas fa-bell"></i>
+              <span class="notif-badge">3</span>
+            </button>
+            <div class="user-avatar">
+              <span id="userInitials">JD</span>
+            </div>
+          </div>
+        </header>
+
+        <!-- =======================
+        IB PARTNERSHIP CONTENT
+        ======================= -->
+        <div class="ib-content">
+          <!-- Hero Banner -->
+          <section class="ib-hero">
+            <div class="ib-hero-glow"></div>
+            <div class="ib-hero-content">
+              <div class="hero-badge">
+                <i class="fas fa-star"></i> Exclusive Partnership
+              </div>
+              <h1>Become an <span class="gold-text">IB Partner</span></h1>
+              <p>
+                Partner with Nana Forex and earn generous commissions by
+                introducing traders to our platform. Join a network of
+                successful Introducing Brokers.
+              </p>
+              <div class="hero-stats">
+                <div>
+                  <span class="stat-number">$5M+</span>
+                  <span class="stat-label">Commission Paid</span>
+                </div>
+                <div>
+                  <span class="stat-number">500+</span>
+                  <span class="stat-label">Active Partners</span>
+                </div>
+                <div>
+                  <span class="stat-number">40%</span>
+                  <span class="stat-label">Revenue Share</span>
+                </div>
+              </div>
+              <div class="hero-buttons">
+                <button class="btn-primary" id="applyIBBtn">
+                  <i class="fas fa-handshake"></i> Apply Now
+                </button>
+                <button class="btn-secondary" id="learnMoreIBBtn">
+                  Learn More
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Benefits Section -->
+          <section class="benefits-section">
+            <div class="section-title">
+              <h2>Why Partner With <span class="gold-text">Us?</span></h2>
+              <p>
+                Exclusive benefits designed to help you succeed as an IB Partner
+              </p>
+            </div>
+
+            <div class="benefits-grid">
+              <div class="benefit-card">
+                <div class="benefit-icon gold">
+                  <i class="fas fa-percent"></i>
+                </div>
+                <h3>Competitive Commissions</h3>
+                <p>
+                  Earn up to 40% revenue share on trading volumes from your
+                  referrals.
+                </p>
+              </div>
+              <div class="benefit-card">
+                <div class="benefit-icon green">
+                  <i class="fas fa-clock"></i>
+                </div>
+                <h3>Daily Payouts</h3>
+                <p>
+                  Get paid daily with no minimum withdrawal limits on your
+                  commissions.
+                </p>
+              </div>
+              <div class="benefit-card">
+                <div class="benefit-icon blue">
+                  <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Real-time Analytics</h3>
+                <p>
+                  Track your referrals, trading volumes, and commissions in
+                  real-time.
+                </p>
+              </div>
+              <div class="benefit-card">
+                <div class="benefit-icon purple">
+                  <i class="fas fa-headset"></i>
+                </div>
+                <h3>Dedicated Support</h3>
+                <p>
+                  Get personalized support from your dedicated IB account
+                  manager.
+                </p>
+              </div>
+              <div class="benefit-card">
+                <div class="benefit-icon red">
+                  <i class="fas fa-gift"></i>
+                </div>
+                <h3>Bonuses & Incentives</h3>
+                <p>
+                  Earn additional bonuses for reaching partnership milestones.
+                </p>
+              </div>
+              <div class="benefit-card">
+                <div class="benefit-icon orange">
+                  <i class="fas fa-users"></i>
+                </div>
+                <h3>Sub-IB Program</h3>
+                <p>
+                  Build your own network and earn from sub-partners under you.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Commission Structure -->
+          <section class="commission-section">
+            <div class="section-title">
+              <h2>Commission <span class="gold-text">Structure</span></h2>
+              <p>Choose the plan that works best for your business model</p>
+            </div>
+
+            <div class="commission-grid">
+              <div class="commission-card">
+                <div class="commission-tier">Starter</div>
+                <div class="commission-rate">20%</div>
+                <div class="commission-details">
+                  <ul>
+                    <li>
+                      <i class="fas fa-check-circle"></i> Monthly volume: $0 -
+                      $500K
+                    </li>
+                    <li><i class="fas fa-check-circle"></i> Basic reporting</li>
+                    <li><i class="fas fa-check-circle"></i> Email support</li>
+                    <li>
+                      <i class="fas fa-check-circle"></i> Marketing materials
+                    </li>
+                  </ul>
+                </div>
+                <button
+                  class="btn-secondary"
+                  style="background: transparent; width: 100%"
+                >
+                  Get Started
+                </button>
+              </div>
+
+              <div class="commission-card featured">
+                <div class="commission-tier">Professional</div>
+                <div class="commission-rate">30%</div>
+                <div class="commission-details">
+                  <ul>
+                    <li>
+                      <i class="fas fa-check-circle"></i> Monthly volume: $500K
+                      - $2M
+                    </li>
+                    <li>
+                      <i class="fas fa-check-circle"></i> Advanced analytics
+                    </li>
+                    <li>
+                      <i class="fas fa-check-circle"></i> Priority support
+                    </li>
+                    <li>
+                      <i class="fas fa-check-circle"></i> Custom marketing
+                    </li>
+                    <li>
+                      <i class="fas fa-check-circle"></i> Dedicated manager
+                    </li>
+                  </ul>
+                </div>
+                <button class="btn-primary" style="width: 100%">
+                  Apply Now
+                </button>
+              </div>
+
+              <div class="commission-card">
+                <div class="commission-tier">Elite</div>
+                <div class="commission-rate">40%</div>
+                <div class="commission-details">
+                  <ul>
+                    <li>
+                      <i class="fas fa-check-circle"></i> Monthly volume: $2M+
+                    </li>
+                    <li>
+                      <i class="fas fa-check-circle"></i> Real-time dashboard
+                    </li>
+                    <li>
+                      <i class="fas fa-check-circle"></i> 24/7 VIP support
+                    </li>
+                    <li>
+                      <i class="fas fa-check-circle"></i> Co-branded materials
+                    </li>
+                    <li>
+                      <i class="fas fa-check-circle"></i> Exclusive events
+                    </li>
+                    <li><i class="fas fa-check-circle"></i> Higher bonuses</li>
+                  </ul>
+                </div>
+                <button
+                  class="btn-secondary"
+                  style="background: transparent; width: 100%"
+                >
+                  Contact Sales
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Dashboard Stats -->
+          <section class="ib-dashboard">
+            <div class="section-title">
+              <h2>Your <span class="gold-text">Performance</span></h2>
+              <p>Track your IB partnership performance in real-time</p>
+            </div>
+
+            <div class="ib-stats-grid">
+              <div class="ib-stat-card">
+                <div class="ib-stat-icon gold">
+                  <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div class="ib-stat-info">
+                  <span class="ib-stat-label">Total Commissions</span>
+                  <span class="ib-stat-value">$12,450.00</span>
+                  <span class="ib-stat-change positive">+12.5% this month</span>
+                </div>
+              </div>
+              <div class="ib-stat-card">
+                <div class="ib-stat-icon green">
+                  <i class="fas fa-users"></i>
+                </div>
+                <div class="ib-stat-info">
+                  <span class="ib-stat-label">Active Referrals</span>
+                  <span class="ib-stat-value">47</span>
+                  <span class="ib-stat-change positive">+5 new this month</span>
+                </div>
+              </div>
+              <div class="ib-stat-card">
+                <div class="ib-stat-icon blue">
+                  <i class="fas fa-chart-bar"></i>
+                </div>
+                <div class="ib-stat-info">
+                  <span class="ib-stat-label">Monthly Volume</span>
+                  <span class="ib-stat-value">$1.2M</span>
+                  <span class="ib-stat-change positive"
+                    >+8.3% from last month</span
+                  >
+                </div>
+              </div>
+              <div class="ib-stat-card">
+                <div class="ib-stat-icon purple">
+                  <i class="fas fa-trophy"></i>
+                </div>
+                <div class="ib-stat-info">
+                  <span class="ib-stat-label">IB Rank</span>
+                  <span class="ib-stat-value">#12</span>
+                  <span class="ib-stat-change">Top 5% of partners</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Testimonials -->
+          <section class="testimonials-section">
+            <div class="section-title">
+              <h2>Partner <span class="gold-text">Success Stories</span></h2>
+              <p>Hear from our top-performing IB Partners</p>
+            </div>
+
+            <div class="testimonials-grid">
+              <div class="testimonial-card">
+                <div class="testimonial-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+                <p>
+                  "Partnering with Nana Forex has been transformative for my
+                  business. The commission structure is competitive and the
+                  support team is always available."
+                </p>
+                <div class="testimonial-author">
+                  <div class="author-avatar">KM</div>
+                  <div>
+                    <h4>Kwame Mensah</h4>
+                    <span>IB Partner since 2024</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="testimonial-card">
+                <div class="testimonial-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+                <p>
+                  "The real-time analytics and daily payouts make this the best
+                  IB program I've ever been part of. My earnings have grown
+                  steadily month over month."
+                </p>
+                <div class="testimonial-author">
+                  <div class="author-avatar">AA</div>
+                  <div>
+                    <h4>Adwoa Asante</h4>
+                    <span>IB Partner since 2023</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="testimonial-card">
+                <div class="testimonial-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+                <p>
+                  "The sub-IB program allowed me to build a team of partners and
+                  multiply my earnings. Highly recommended for anyone looking to
+                  scale."
+                </p>
+                <div class="testimonial-author">
+                  <div class="author-avatar">MO</div>
+                  <div>
+                    <h4>Michael Osei</h4>
+                    <span>IB Partner since 2022</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- FAQ Section -->
+          <section class="faq-section">
+            <div class="section-title">
+              <h2>Frequently Asked <span class="gold-text">Questions</span></h2>
+              <p>
+                Everything you need to know about the IB Partnership Program
+              </p>
+            </div>
+
+            <div class="faq-grid">
+              <div class="faq-item">
+                <div class="faq-question">
+                  <h3>What is an Introducing Broker (IB)?</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                  <p>
+                    An Introducing Broker is a partner who refers traders to our
+                    platform and earns commissions on their trading activity.
+                    You don't need to handle client funds or provide trading
+                    services directly.
+                  </p>
+                </div>
+              </div>
+
+              <div class="faq-item">
+                <div class="faq-question">
+                  <h3>How much can I earn as an IB Partner?</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                  <p>
+                    Earnings depend on your referral volume. You can earn up to
+                    40% revenue share on trading volumes from your referrals.
+                    The more active traders you bring, the higher your earnings.
+                  </p>
+                </div>
+              </div>
+
+              <div class="faq-item">
+                <div class="faq-question">
+                  <h3>When do I get paid?</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                  <p>
+                    We offer daily payouts with no minimum withdrawal limits.
+                    Your commissions are calculated and paid directly to your
+                    account every day.
+                  </p>
+                </div>
+              </div>
+
+              <div class="faq-item">
+                <div class="faq-question">
+                  <h3>Do I need a license to become an IB?</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                  <p>
+                    In most cases, you don't need a specific license to become
+                    an IB Partner. However, you must comply with local
+                    regulations and our partnership agreement.
+                  </p>
+                </div>
+              </div>
+
+              <div class="faq-item">
+                <div class="faq-question">
+                  <h3>Can I have sub-IBs under me?</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                  <p>
+                    Yes! Our sub-IB program allows you to build a network of
+                    partners under you and earn commissions from their referrals
+                    as well.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- CTA Section -->
+          <section class="cta-section">
+            <div class="cta-content">
+              <h2>Ready to <span class="gold-text">Partner With Us?</span></h2>
+              <p>
+                Join our IB Partnership program and start earning commissions
+                today.
+              </p>
+              <div class="cta-buttons">
+                <button class="btn-primary" id="ctaApplyBtn">
+                  <i class="fas fa-handshake"></i> Apply Now
+                </button>
+                <button class="btn-secondary" id="ctaContactBtn">
+                  <i class="fas fa-phone"></i> Contact Sales
+                </button>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <!-- =======================
+    APPLICATION MODAL
+    ======================= -->
+    <div class="ib-modal" id="applicationModal">
+      <div class="ib-modal-content">
+        <button class="modal-close" id="applicationModalClose">&times;</button>
+        <h3>
+          <i class="fas fa-handshake" style="color: var(--gold)"></i> IB
+          Partnership Application
+        </h3>
+        <p>Fill out the form below to apply for our IB Partnership Program.</p>
+
+        <form id="ibApplicationForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Full Name <span class="required">*</span></label>
+              <input
+                type="text"
+                id="ibFullName"
+                placeholder="Enter your full name"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label>Email Address <span class="required">*</span></label>
+              <input
+                type="email"
+                id="ibEmail"
+                placeholder="you@example.com"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Phone Number <span class="required">*</span></label>
+              <input
+                type="tel"
+                id="ibPhone"
+                placeholder="+233 24 123 4567"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label>Country <span class="required">*</span></label>
+              <input type="text" id="ibCountry" placeholder="Ghana" required />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Company Name (Optional)</label>
+              <input
+                type="text"
+                id="ibCompany"
+                placeholder="Your company name"
+              />
+            </div>
+            <div class="form-group">
+              <label>Website (Optional)</label>
+              <input
+                type="url"
+                id="ibWebsite"
+                placeholder="https://yourwebsite.com"
+              />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>How did you hear about us?</label>
+              <select id="ibSource">
+                <option value="">Select an option</option>
+                <option value="social">Social Media</option>
+                <option value="referral">Referral from a friend</option>
+                <option value="search">Search Engine</option>
+                <option value="ad">Online Ad</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Estimated Monthly Volume</label>
+              <select id="ibVolume">
+                <option value="0-50k">$0 - $50,000</option>
+                <option value="50k-200k">$50,000 - $200,000</option>
+                <option value="200k-500k">$200,000 - $500,000</option>
+                <option value="500k-1m">$500,000 - $1,000,000</option>
+                <option value="1m+">$1,000,000+</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Why do you want to become an IB Partner?</label>
+            <textarea
+              id="ibReason"
+              rows="3"
+              placeholder="Tell us why you're interested in partnering with us..."
+            ></textarea>
+          </div>
+
+          <div class="form-group checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="ibAgree" required />
+              <span
+                >I agree to the
+                <a href="#" style="color: var(--gold)">Terms and Conditions</a>
+                of the IB Partnership Program.</span
+              >
+            </label>
+          </div>
+
+          <button type="submit" class="btn-primary" id="submitIBBtn">
+            <i class="fas fa-paper-plane"></i> Submit Application
+          </button>
+          <div id="ibApplicationStatus" class="form-status"></div>
+        </form>
+      </div>
+    </div>
+
+    <!-- =======================
+    SCRIPTS
+    ======================= -->
+    <script src="/js/main.js"></script>
+    <!--<script src="/js/client-dashboard.js"></script>-->
+    <script src="/js/ib-partnership.js"></script>
+  </body>
+</html>

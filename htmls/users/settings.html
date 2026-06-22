@@ -1,0 +1,905 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Settings | Nana Forex</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/client-dashboard.css" />
+    <link rel="stylesheet" href="/css/settings.css" />
+  </head>
+
+  <body>
+    <!-- =======================
+    DASHBOARD WRAPPER
+    ======================= -->
+    <div class="dashboard-wrapper">
+      <!-- =======================
+      SIDEBAR
+      ======================= -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+          <h2>NanaForex</h2>
+          <button class="sidebar-close" id="sidebarClose">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="client-dashboard.html" data-page="dashboard">
+            <i class="fas fa-th-large"></i>
+            <span>Dashboard</span>
+          </a>
+          <a href="profile.html" data-page="profile">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+          </a>
+          <a href="academy.html" data-page="academy">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Academy</span>
+          </a>
+          <a href="signals.html" data-page="signals">
+            <i class="fas fa-signal"></i>
+            <span>Signals</span>
+          </a>
+          <a href="copy-trading.html" data-page="copy-trading">
+            <i class="fas fa-copy"></i>
+            <span>Copy Trading</span>
+          </a>
+          <a href="funded-account.html" data-page="funded-account">
+            <i class="fas fa-wallet"></i>
+            <span>Funded Account</span>
+          </a>
+          <a href="mentorship.html" data-page="mentorship">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <span>Mentorship</span>
+          </a>
+          <a href="ib-partnership.html" data-page="ib-partnership">
+            <i class="fas fa-handshake"></i>
+            <span>IB Partnership</span>
+          </a>
+          <a href="trading-tools.html" data-page="trading-tools">
+            <i class="fas fa-tools"></i>
+            <span>Trading Tools</span>
+          </a>
+          <a href="market-analysis.html" data-page="market-analysis">
+            <i class="fas fa-chart-line"></i>
+            <span>Market Analysis</span>
+          </a>
+          <a href="referrals.html" data-page="referrals">
+            <i class="fas fa-users"></i>
+            <span>Referrals</span>
+          </a>
+          <a href="payments.html" data-page="payments">
+            <i class="fas fa-credit-card"></i>
+            <span>Payments</span>
+          </a>
+          <a href="settings.html" class="active" data-page="settings">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <button class="logout-btn" id="logoutBtn">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- =======================
+      SIDEBAR OVERLAY (Mobile)
+      ======================= -->
+      <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+      <!-- =======================
+      MAIN CONTENT
+      ======================= -->
+      <main class="main-content">
+        <!-- Top Header -->
+        <header class="dashboard-header">
+          <button class="sidebar-toggle" id="sidebarToggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <h1>Settings</h1>
+          <div class="header-actions">
+            <button class="notif-btn" id="notifBtn">
+              <i class="fas fa-bell"></i>
+              <span class="notif-badge">3</span>
+            </button>
+            <div class="user-avatar">
+              <span id="userInitials">JD</span>
+            </div>
+          </div>
+        </header>
+
+        <!-- =======================
+        SETTINGS CONTENT
+        ======================= -->
+        <div class="settings-content">
+          <!-- Settings Navigation -->
+          <div class="settings-nav">
+            <button class="settings-nav-item active" data-section="general">
+              <i class="fas fa-sliders-h"></i>
+              <span>General</span>
+            </button>
+            <button class="settings-nav-item" data-section="notifications">
+              <i class="fas fa-bell"></i>
+              <span>Notifications</span>
+            </button>
+            <button class="settings-nav-item" data-section="security">
+              <i class="fas fa-shield-alt"></i>
+              <span>Security</span>
+            </button>
+            <button class="settings-nav-item" data-section="trading">
+              <i class="fas fa-chart-line"></i>
+              <span>Trading</span>
+            </button>
+            <button class="settings-nav-item" data-section="appearance">
+              <i class="fas fa-palette"></i>
+              <span>Appearance</span>
+            </button>
+            <button class="settings-nav-item" data-section="api">
+              <i class="fas fa-code"></i>
+              <span>API & Integrations</span>
+            </button>
+            <button class="settings-nav-item" data-section="account">
+              <i class="fas fa-user-cog"></i>
+              <span>Account</span>
+            </button>
+          </div>
+
+          <!-- Settings Panels -->
+          <div class="settings-panels">
+            <!-- General Settings -->
+            <div class="settings-panel active" id="panel-general">
+              <h2>General Settings</h2>
+              <p class="panel-description">
+                Manage your general account preferences.
+              </p>
+
+              <div class="settings-group">
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <h4>Language</h4>
+                    <p>Select your preferred language for the platform.</p>
+                  </div>
+                  <div class="setting-control">
+                    <select id="languageSelect">
+                      <option value="en">English</option>
+                      <option value="fr">Français</option>
+                      <option value="es">Español</option>
+                      <option value="pt">Português</option>
+                      <option value="zh">中文</option>
+                      <option value="ar">العربية</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <h4>Timezone</h4>
+                    <p>Set your timezone for accurate trade timestamps.</p>
+                  </div>
+                  <div class="setting-control">
+                    <select id="timezoneSelect">
+                      <option value="GMT">GMT (UTC+0)</option>
+                      <option value="GMT+1">GMT+1 (West Africa)</option>
+                      <option value="GMT+2">GMT+2 (Central Africa)</option>
+                      <option value="GMT+3">GMT+3 (East Africa)</option>
+                      <option value="EST">EST (UTC-5)</option>
+                      <option value="CST">CST (UTC-6)</option>
+                      <option value="PST">PST (UTC-8)</option>
+                      <option value="AEST">AEST (UTC+10)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <h4>Currency Display</h4>
+                    <p>
+                      Choose the currency for displaying prices and balances.
+                    </p>
+                  </div>
+                  <div class="setting-control">
+                    <select id="currencySelect">
+                      <option value="USD">USD ($)</option>
+                      <option value="EUR">EUR (€)</option>
+                      <option value="GBP">GBP (£)</option>
+                      <option value="GHS">GHS (₵)</option>
+                      <option value="NGN">NGN (₦)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="settings-actions">
+                <button class="btn-primary" id="saveGeneralSettings">
+                  <i class="fas fa-save"></i> Save Changes
+                </button>
+                <span id="generalStatus" class="settings-status"></span>
+              </div>
+            </div>
+
+            <!-- Notifications Settings -->
+            <div class="settings-panel" id="panel-notifications">
+              <h2>Notification Preferences</h2>
+              <p class="panel-description">
+                Control how and when you receive notifications.
+              </p>
+
+              <div class="settings-group">
+                <div class="setting-item toggle-item">
+                  <div class="setting-info">
+                    <h4>Trade Alerts</h4>
+                    <p>Get notified when your trades are executed or closed.</p>
+                  </div>
+                  <div class="setting-control">
+                    <label class="toggle-switch">
+                      <input type="checkbox" id="tradeAlerts" checked />
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="setting-item toggle-item">
+                  <div class="setting-info">
+                    <h4>Market News</h4>
+                    <p>Receive important market news and economic updates.</p>
+                  </div>
+                  <div class="setting-control">
+                    <label class="toggle-switch">
+                      <input type="checkbox" id="marketNews" checked />
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="setting-item toggle-item">
+                  <div class="setting-info">
+                    <h4>Signal Updates</h4>
+                    <p>Get notified when new trading signals are available.</p>
+                  </div>
+                  <div class="setting-control">
+                    <label class="toggle-switch">
+                      <input type="checkbox" id="signalUpdates" />
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="setting-item toggle-item">
+                  <div class="setting-info">
+                    <h4>Course Progress</h4>
+                    <p>Receive updates on your Academy course progress.</p>
+                  </div>
+                  <div class="setting-control">
+                    <label class="toggle-switch">
+                      <input type="checkbox" id="courseProgress" checked />
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="setting-item toggle-item">
+                  <div class="setting-info">
+                    <h4>Challenge Updates</h4>
+                    <p>Get notified about challenge approvals and results.</p>
+                  </div>
+                  <div class="setting-control">
+                    <label class="toggle-switch">
+                      <input type="checkbox" id="challengeUpdates" checked />
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <h4>Email Notification Frequency</h4>
+                    <p>How often you'd like to receive email updates.</p>
+                  </div>
+                  <div class="setting-control">
+                    <select id="emailFrequency">
+                      <option value="realtime">Real-time</option>
+                      <option value="daily">Daily Digest</option>
+                      <option value="weekly">Weekly Digest</option>
+                      <option value="never">Never</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="settings-actions">
+                <button class="btn-primary" id="saveNotificationSettings">
+                  <i class="fas fa-save"></i> Save Preferences
+                </button>
+                <span id="notificationStatus" class="settings-status"></span>
+              </div>
+            </div>
+
+            <!-- Security Settings -->
+            <div class="settings-panel" id="panel-security">
+              <h2>Security Settings</h2>
+              <p class="panel-description">
+                Protect your account with advanced security features.
+              </p>
+
+              <div class="settings-group">
+                <div class="setting-item toggle-item">
+                  <div class="setting-info">
+                    <h4>Two-Factor Authentication (2FA)</h4>
+                    <p>Add an extra layer of security to your account.</p>
+                  </div>
+                  <div class="setting-control">
+                    <label class="toggle-switch">
+                      <input type="checkbox" id="twoFactorAuth" />
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="setting-item toggle-item">
+                  <div class="setting-info">
+                    <h4>Session Timeout</h4>
+                    <p>Automatically log out after a period of inactivity.</p>
+                  </div>
+                  <div class="setting-control">
+                    <label class="toggle-switch">
+                      <input type="checkbox" id="sessionTimeout" checked />
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <h4>Session Duration</h4>
+                    <p>Set how long before automatic logout.</p>
+                  </div>
+                  <div class="setting-control">
+                    <select id="sessionDuration">
+                      <option value="15">15 minutes</option>
+                      <option value="30" selected>30 minutes</option>
+                      <option value="60">1 hour</option>
+                      <option value="120">2 hours</option>
+                      <option value="240">4 hours</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <h4>Trusted Devices</h4>
+                    <p>
+                      Manage devices that can access your account without
+                      verification.
+                    </p>
+                  </div>
+                  <div class="setting-control">
+                    <button class="btn-secondary" id="manageDevicesBtn">
+                      <i class="fas fa-laptop"></i> Manage Devices
+                    </button>
+                  </div>
+                </div>
+
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <h4>Change Password</h4>
+                    <p>
+                      Update your account password regularly for better
+                      security.
+                    </p>
+                  </div>
+                  <div class="setting-control">
+                    <button class="btn-secondary" id="changePasswordBtn">
+                      <i class="fas fa-key"></i> Change Password
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="settings-actions">
+                <button class="btn-primary" id="saveSecuritySettings">
+                  <i class="fas fa-save"></i> Save Changes
+                </button>
+                <span id="securityStatus" class="settings-status"></span>
+              </div>
+            </div>
+
+            <!-- Trading Settings -->
+            <div class="settings-panel" id="panel-trading">
+              <h2>Trading Settings</h2>
+              <p class="panel-description">
+                Configure your trading preferences and defaults.
+              </p>
+
+              <div class="settings-group">
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <h4>Default Order Type</h4>
+                    <p>Set your preferred order type for new trades.</p>
+                  </div>
+                  <div class="setting-control">
+                    <select id="defaultOrderType">
+                      <option value="market">Market Order</option>
+                      <option value="limit">Limit Order</option>
+                      <option value="stop">Stop Order</option>
+                      <option value="stop-limit">Stop-Limit Order</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <h4>Default Position Size</h4>
+                    <p>Set your default position size for new trades.</p>
+                  </div>
+                  <div class="setting-control">
+                    <select id="defaultPositionSize">
+                      <option value="0.01">0.01 (Micro)</option>
+                      <option value="0.10">0.10 (Mini)</option>
+                      <option value="1.00" selected>1.00 (Standard)</option>
+                      <option value="5.00">5.00</option>
+                      <option value="10.00">10.00</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <h4>Default Take Profit (TP)</h4>
+                    <p>Set your default take profit level in pips.</p>
+                  </div>
+                  <div class="setting-control">
+                    <input
+                      type="number"
+                      id="defaultTP"
+                      value="50"
+                      min="0"
+                      step="5"
+                    />
+                    <span
+                      style="
+                        color: var(--text-muted);
+                        font-size: 0.8rem;
+                        margin-left: 0.5rem;
+                      "
+                      >pips</span
+                    >
+                  </div>
+                </div>
+
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <h4>Default Stop Loss (SL)</h4>
+                    <p>Set your default stop loss level in pips.</p>
+                  </div>
+                  <div class="setting-control">
+                    <input
+                      type="number"
+                      id="defaultSL"
+                      value="30"
+                      min="0"
+                      step="5"
+                    />
+                    <span
+                      style="
+                        color: var(--text-muted);
+                        font-size: 0.8rem;
+                        margin-left: 0.5rem;
+                      "
+                      >pips</span
+                    >
+                  </div>
+                </div>
+
+                <div class="setting-item toggle-item">
+                  <div class="setting-info">
+                    <h4>Risk Warning</h4>
+                    <p>Show risk warning before executing trades.</p>
+                  </div>
+                  <div class="setting-control">
+                    <label class="toggle-switch">
+                      <input type="checkbox" id="riskWarning" checked />
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="settings-actions">
+                <button class="btn-primary" id="saveTradingSettings">
+                  <i class="fas fa-save"></i> Save Trading Settings
+                </button>
+                <span id="tradingStatus" class="settings-status"></span>
+              </div>
+            </div>
+
+            <!-- Appearance Settings -->
+            <div class="settings-panel" id="panel-appearance">
+              <h2>Appearance</h2>
+              <p class="panel-description">
+                Customize the look and feel of your dashboard.
+              </p>
+
+              <div class="settings-group">
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <h4>Theme Mode</h4>
+                    <p>Choose between light and dark theme.</p>
+                  </div>
+                  <div class="setting-control">
+                    <div class="theme-options">
+                      <button class="theme-btn active" data-theme="dark">
+                        <i class="fas fa-moon"></i>
+                        <span>Dark</span>
+                      </button>
+                      <button class="theme-btn" data-theme="light">
+                        <i class="fas fa-sun"></i>
+                        <span>Light</span>
+                      </button>
+                      <button class="theme-btn" data-theme="system">
+                        <i class="fas fa-desktop"></i>
+                        <span>System</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <h4>Accent Color</h4>
+                    <p>Choose your preferred accent color for the interface.</p>
+                  </div>
+                  <div class="setting-control">
+                    <div class="color-options">
+                      <button
+                        class="color-btn active"
+                        data-color="#00c896"
+                        style="background: #00c896"
+                      ></button>
+                      <button
+                        class="color-btn"
+                        data-color="#f5b700"
+                        style="background: #f5b700"
+                      ></button>
+                      <button
+                        class="color-btn"
+                        data-color="#ff6b6b"
+                        style="background: #ff6b6b"
+                      ></button>
+                      <button
+                        class="color-btn"
+                        data-color="#4ecdc4"
+                        style="background: #4ecdc4"
+                      ></button>
+                      <button
+                        class="color-btn"
+                        data-color="#a29bfe"
+                        style="background: #a29bfe"
+                      ></button>
+                      <button
+                        class="color-btn"
+                        data-color="#fd79a8"
+                        style="background: #fd79a8"
+                      ></button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="setting-item toggle-item">
+                  <div class="setting-info">
+                    <h4>Compact Layout</h4>
+                    <p>Enable compact layout for more content on screen.</p>
+                  </div>
+                  <div class="setting-control">
+                    <label class="toggle-switch">
+                      <input type="checkbox" id="compactLayout" />
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="setting-item toggle-item">
+                  <div class="setting-info">
+                    <h4>Show Animations</h4>
+                    <p>Enable or disable UI animations.</p>
+                  </div>
+                  <div class="setting-control">
+                    <label class="toggle-switch">
+                      <input type="checkbox" id="showAnimations" checked />
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="settings-actions">
+                <button class="btn-primary" id="saveAppearanceSettings">
+                  <i class="fas fa-save"></i> Save Appearance
+                </button>
+                <span id="appearanceStatus" class="settings-status"></span>
+              </div>
+            </div>
+
+            <!-- API & Integrations -->
+            <div class="settings-panel" id="panel-api">
+              <h2>API & Integrations</h2>
+              <p class="panel-description">
+                Connect third-party apps and manage API keys.
+              </p>
+
+              <div class="settings-group">
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <h4>API Keys</h4>
+                    <p>Manage your API keys for external integrations.</p>
+                  </div>
+                  <div class="setting-control">
+                    <button class="btn-secondary" id="generateApiKeyBtn">
+                      <i class="fas fa-plus"></i> Generate New Key
+                    </button>
+                  </div>
+                </div>
+
+                <div class="api-keys-list">
+                  <div class="api-key-item">
+                    <div class="api-key-info">
+                      <span class="api-key-name">TradingView Integration</span>
+                      <span class="api-key-status active">Active</span>
+                    </div>
+                    <div class="api-key-actions">
+                      <button
+                        class="btn-secondary"
+                        style="padding: 0.3rem 0.8rem; font-size: 0.75rem"
+                      >
+                        <i class="fas fa-copy"></i>
+                      </button>
+                      <button
+                        class="btn-secondary"
+                        style="
+                          padding: 0.3rem 0.8rem;
+                          font-size: 0.75rem;
+                          border-color: var(--danger);
+                          color: var(--danger);
+                        "
+                      >
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="api-key-item">
+                    <div class="api-key-info">
+                      <span class="api-key-name">MT4 Connection</span>
+                      <span class="api-key-status inactive">Inactive</span>
+                    </div>
+                    <div class="api-key-actions">
+                      <button
+                        class="btn-secondary"
+                        style="padding: 0.3rem 0.8rem; font-size: 0.75rem"
+                      >
+                        <i class="fas fa-copy"></i>
+                      </button>
+                      <button
+                        class="btn-secondary"
+                        style="
+                          padding: 0.3rem 0.8rem;
+                          font-size: 0.75rem;
+                          border-color: var(--danger);
+                          color: var(--danger);
+                        "
+                      >
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="setting-item toggle-item">
+                  <div class="setting-info">
+                    <h4>MetaTrader Integration</h4>
+                    <p>Sync your MetaTrader account with the platform.</p>
+                  </div>
+                  <div class="setting-control">
+                    <label class="toggle-switch">
+                      <input type="checkbox" id="mt4Integration" />
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <h4>Webhook URL</h4>
+                    <p>Configure webhook endpoints for real-time data.</p>
+                  </div>
+                  <div class="setting-control" style="flex: 2">
+                    <input
+                      type="url"
+                      id="webhookUrl"
+                      placeholder="https://your-webhook-url.com/endpoint"
+                      style="width: 100%"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="settings-actions">
+                <button class="btn-primary" id="saveApiSettings">
+                  <i class="fas fa-save"></i> Save Integrations
+                </button>
+                <span id="apiStatus" class="settings-status"></span>
+              </div>
+            </div>
+
+            <!-- Account Settings -->
+            <div class="settings-panel" id="panel-account">
+              <h2>Account Management</h2>
+              <p class="panel-description">
+                Manage your account and subscription.
+              </p>
+
+              <div class="settings-group">
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <h4>Account Type</h4>
+                    <p>Your current account tier and features.</p>
+                  </div>
+                  <div class="setting-control">
+                    <span class="account-tier">Pro Trader</span>
+                    <span class="account-tier-badge">
+                      <i class="fas fa-star" style="color: var(--gold)"></i>
+                      Active
+                    </span>
+                  </div>
+                </div>
+
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <h4>Subscription Plan</h4>
+                    <p>Manage your subscription and billing.</p>
+                  </div>
+                  <div class="setting-control">
+                    <button class="btn-secondary" id="manageSubscriptionBtn">
+                      <i class="fas fa-credit-card"></i> Manage Plan
+                    </button>
+                  </div>
+                </div>
+
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <h4>Data Export</h4>
+                    <p>Download your trading data and activity history.</p>
+                  </div>
+                  <div class="setting-control">
+                    <button class="btn-secondary" id="exportDataBtn">
+                      <i class="fas fa-download"></i> Export Data
+                    </button>
+                  </div>
+                </div>
+
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <h4>Account Deletion</h4>
+                    <p>
+                      Permanently delete your account and all associated data.
+                    </p>
+                  </div>
+                  <div class="setting-control">
+                    <button
+                      class="btn-secondary"
+                      id="deleteAccountBtn"
+                      style="border-color: var(--danger); color: var(--danger)"
+                    >
+                      <i class="fas fa-exclamation-triangle"></i> Delete Account
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="settings-actions">
+                <button class="btn-primary" id="saveAccountSettings">
+                  <i class="fas fa-save"></i> Save Changes
+                </button>
+                <span id="accountStatus" class="settings-status"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- =======================
+    CHANGE PASSWORD MODAL
+    ======================= -->
+    <div class="settings-modal" id="passwordModal">
+      <div class="settings-modal-content">
+        <button class="modal-close" id="passwordModalClose">&times;</button>
+        <h3><i class="fas fa-key"></i> Change Password</h3>
+        <p>Enter your current password and choose a new one.</p>
+
+        <form id="passwordChangeForm">
+          <div class="form-group">
+            <label>Current Password <span class="required">*</span></label>
+            <div class="password-wrapper">
+              <input
+                type="password"
+                id="modalCurrentPassword"
+                placeholder="Enter current password"
+                required
+              />
+              <button type="button" class="toggle-password">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>New Password <span class="required">*</span></label>
+            <div class="password-wrapper">
+              <input
+                type="password"
+                id="modalNewPassword"
+                placeholder="Min 8 characters"
+                required
+              />
+              <button type="button" class="toggle-password">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Confirm Password <span class="required">*</span></label>
+            <div class="password-wrapper">
+              <input
+                type="password"
+                id="modalConfirmPassword"
+                placeholder="Confirm new password"
+                required
+              />
+              <button type="button" class="toggle-password">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" id="modalCancelBtn">
+              Cancel
+            </button>
+            <button type="submit" class="btn-primary">Update Password</button>
+          </div>
+          <div id="modalPasswordStatus" class="form-status"></div>
+        </form>
+      </div>
+    </div>
+
+    <!-- =======================
+    SCRIPTS
+    ======================= -->
+    <script src="/js/main.js"></script>
+    <!--<script src="/js/client-dashboard.js"></script>-->
+    <script src="/js/settings.js"></script>
+  </body>
+</html>
