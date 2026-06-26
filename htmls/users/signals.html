@@ -1,0 +1,648 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Signal Service | Nana Forex</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/client-dashboard.css" />
+    <link rel="stylesheet" href="/css/signals.css" />
+  </head>
+
+  <body>
+    <!-- =======================
+    DASHBOARD WRAPPER
+    ======================= -->
+    <div class="dashboard-wrapper">
+      <!-- =======================
+      SIDEBAR
+      ======================= -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+          <h2>NanaForex</h2>
+          <button class="sidebar-close" id="sidebarClose">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="client-dashboard.html" data-page="dashboard">
+            <i class="fas fa-th-large"></i>
+            <span>Dashboard</span>
+          </a>
+          <a href="profile.html" data-page="profile">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+          </a>
+          <a href="academy.html" data-page="academy">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Academy</span>
+          </a>
+          <a href="signals.html" class="active" data-page="signals">
+            <i class="fas fa-signal"></i>
+            <span>Signals</span>
+          </a>
+          <a href="copy-trading.html" data-page="copy-trading">
+            <i class="fas fa-copy"></i>
+            <span>Copy Trading</span>
+          </a>
+          <a href="funded-account.html" data-page="funded-account">
+            <i class="fas fa-wallet"></i>
+            <span>Funded Account</span>
+          </a>
+          <a href="mentorship.html" data-page="mentorship">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <span>Mentorship</span>
+          </a>
+          <a href="ib-partnership.html" data-page="ib-partnership">
+            <i class="fas fa-handshake"></i>
+            <span>IB Partnership</span>
+          </a>
+          <a href="trading-tools.html" data-page="trading-tools">
+            <i class="fas fa-tools"></i>
+            <span>Trading Tools</span>
+          </a>
+          <a href="market-analysis.html" data-page="market-analysis">
+            <i class="fas fa-chart-line"></i>
+            <span>Market Analysis</span>
+          </a>
+          <a href="referrals.html" data-page="referrals">
+            <i class="fas fa-users"></i>
+            <span>Referrals</span>
+          </a>
+          <a href="payments.html" data-page="payments">
+            <i class="fas fa-credit-card"></i>
+            <span>Payments</span>
+          </a>
+          <a href="settings.html" data-page="settings">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <button class="logout-btn" id="logoutBtn">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- =======================
+      SIDEBAR OVERLAY (Mobile)
+      ======================= -->
+      <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+      <!-- =======================
+      MAIN CONTENT
+      ======================= -->
+      <main class="main-content">
+        <!-- Top Header -->
+        <header class="dashboard-header">
+          <button class="sidebar-toggle" id="sidebarToggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <h1>Signal Service</h1>
+          <div class="header-actions">
+            <button class="notif-btn" id="notifBtn">
+              <i class="fas fa-bell"></i>
+              <span class="notif-badge">3</span>
+            </button>
+            <div class="user-avatar">
+              <span id="userInitials">JD</span>
+            </div>
+          </div>
+        </header>
+
+        <!-- =======================
+        SIGNALS CONTENT
+        ======================= -->
+        <div class="signals-content">
+          <!-- Hero Section -->
+          <section class="signals-hero">
+            <div class="signals-hero-glow"></div>
+            <div class="signals-hero-content">
+              <div class="hero-badge">
+                <i class="fas fa-bullhorn"></i> Live Trading Signals
+              </div>
+              <h1>Trade With <span class="gold-text">Confidence</span></h1>
+              <p>
+                Get real-time trading signals from professional analysts. Each
+                signal comes with clear entry, stop loss, and take profit
+                levels.
+              </p>
+              <div class="hero-buttons">
+                <button class="btn-primary" id="subscribeBtn">
+                  <i class="fas fa-rocket"></i> Subscribe Now
+                </button>
+                <button class="btn-secondary" id="previewBtn">
+                  Preview Signals
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Live Signal Preview -->
+          <section class="signals-preview" id="signalPreview">
+            <div class="section-title">
+              <h2>Live <span class="gold-text">Signal Preview</span></h2>
+              <p>Real-time trading signals from our expert analysts</p>
+            </div>
+
+            <div class="signal-controls">
+              <div class="signal-filter">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="buy">Buy</button>
+                <button class="filter-btn" data-filter="sell">Sell</button>
+                <button class="filter-btn" data-filter="active">Active</button>
+                <button class="filter-btn" data-filter="closed">Closed</button>
+              </div>
+              <button class="refresh-signals-btn" id="refreshSignals">
+                <i class="fas fa-sync-alt"></i> Refresh
+              </button>
+            </div>
+
+            <div class="signals-table-wrapper">
+              <table class="signals-table">
+                <thead>
+                  <tr>
+                    <th>Pair</th>
+                    <th>Entry</th>
+                    <th>Stop Loss</th>
+                    <th>Take Profit</th>
+                    <th>Risk/Reward</th>
+                    <th>Status</th>
+                    <th>Time</th>
+                  </tr>
+                </thead>
+                <tbody id="signalsBody">
+                  <!-- Signals will be rendered by JavaScript -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="signal-stats">
+              <div class="signal-stat">
+                <span class="stat-label">Win Rate</span>
+                <span class="stat-value" id="winRate">85%</span>
+              </div>
+              <div class="signal-stat">
+                <span class="stat-label">Signals Sent</span>
+                <span class="stat-value" id="signalsSent">1,247</span>
+              </div>
+              <div class="signal-stat">
+                <span class="stat-label">Avg Monthly Return</span>
+                <span class="stat-value" id="avgReturn">+12.4%</span>
+              </div>
+              <div class="signal-stat">
+                <span class="stat-label">Active Signals</span>
+                <span class="stat-value" id="activeSignals">3</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- Subscription Plans -->
+          <section class="subscription-plans" id="subscribe">
+            <div class="section-title">
+              <h2>Choose Your <span class="gold-text">Plan</span></h2>
+              <p style="margin-bottom: 50px">
+                Select the plan that fits your trading needs
+              </p>
+            </div>
+
+            <div class="plans-grid">
+              <!-- Monthly Plan -->
+              <div class="plan-card">
+                <div class="plan-badge">Popular</div>
+                <div class="plan-header">
+                  <h3>Monthly</h3>
+                  <div class="plan-price">
+                    <span class="price">$99</span>
+                    <span class="period">/month</span>
+                  </div>
+                  <p>Perfect for traders who want flexibility</p>
+                </div>
+                <div class="plan-features">
+                  <ul>
+                    <li>
+                      <i class="fas fa-check-circle"></i> Real-time signals
+                    </li>
+                    <li>
+                      <i class="fas fa-check-circle"></i> Entry, TP & SL levels
+                    </li>
+                    <li>
+                      <i class="fas fa-check-circle"></i> Daily market analysis
+                    </li>
+                    <li>
+                      <i class="fas fa-check-circle"></i> Telegram notifications
+                    </li>
+                    <li><i class="fas fa-check-circle"></i> 24/7 support</li>
+                    <li><i class="fas fa-check-circle"></i> Cancel anytime</li>
+                  </ul>
+                </div>
+                <button class="btn-primary plan-btn" data-plan="monthly">
+                  <i class="fas fa-rocket"></i> Start Monthly
+                </button>
+              </div>
+
+              <!-- Quarterly Plan -->
+              <div class="plan-card featured">
+                <div class="plan-badge">Best Value</div>
+                <div class="plan-header">
+                  <h3>Quarterly</h3>
+                  <div class="plan-price">
+                    <span class="price">$249</span>
+                    <span class="period">/quarter</span>
+                  </div>
+                  <p>Save 16% with quarterly billing</p>
+                </div>
+                <div class="plan-features">
+                  <ul>
+                    <li>
+                      <i class="fas fa-check-circle"></i> Everything in Monthly
+                    </li>
+                    <li>
+                      <i class="fas fa-check-circle"></i> Priority signal
+                      delivery
+                    </li>
+                    <li>
+                      <i class="fas fa-check-circle"></i> Exclusive trade setups
+                    </li>
+                    <li><i class="fas fa-check-circle"></i> Weekly webinars</li>
+                    <li>
+                      <i class="fas fa-check-circle"></i> VIP Telegram channel
+                    </li>
+                    <li>
+                      <i class="fas fa-check-circle"></i> Dedicated account
+                      manager
+                    </li>
+                  </ul>
+                </div>
+                <button class="btn-primary plan-btn" data-plan="quarterly">
+                  <i class="fas fa-rocket"></i> Start Quarterly
+                </button>
+              </div>
+
+              <!-- Annual Plan -->
+              <div class="plan-card">
+                <div class="plan-badge">Best Deal</div>
+                <div class="plan-header">
+                  <h3>Annual</h3>
+                  <div class="plan-price">
+                    <span class="price">$899</span>
+                    <span class="period">/year</span>
+                  </div>
+                  <p>Save 25% with annual billing</p>
+                </div>
+                <div class="plan-features">
+                  <ul>
+                    <li>
+                      <i class="fas fa-check-circle"></i> Everything in
+                      Quarterly
+                    </li>
+                    <li>
+                      <i class="fas fa-check-circle"></i> Early access to
+                      signals
+                    </li>
+                    <li>
+                      <i class="fas fa-check-circle"></i> 1-on-1 coaching
+                      session
+                    </li>
+                    <li>
+                      <i class="fas fa-check-circle"></i> Custom signal
+                      preferences
+                    </li>
+                    <li>
+                      <i class="fas fa-check-circle"></i> Priority support
+                    </li>
+                    <li>
+                      <i class="fas fa-check-circle"></i> 30-day money-back
+                      guarantee
+                    </li>
+                  </ul>
+                </div>
+                <button class="btn-primary plan-btn" data-plan="annual">
+                  <i class="fas fa-rocket"></i> Start Annual
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Performance Statistics -->
+          <section class="performance-stats">
+            <div class="section-title">
+              <h2>Performance <span class="gold-text">Statistics</span></h2>
+              <p>Track our signal performance over time</p>
+            </div>
+
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-icon green">
+                  <i class="fas fa-percent"></i>
+                </div>
+                <div class="stat-info">
+                  <span class="stat-number" id="statWinRate">85%</span>
+                  <span class="stat-label">Win Rate</span>
+                  <span class="stat-change positive">+2.3% this month</span>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon blue">
+                  <i class="fas fa-envelope"></i>
+                </div>
+                <div class="stat-info">
+                  <span class="stat-number" id="statSignalsSent">1,247</span>
+                  <span class="stat-label">Signals Sent</span>
+                  <span class="stat-change positive">+87 this month</span>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon gold">
+                  <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="stat-info">
+                  <span class="stat-number" id="statAvgReturn">+12.4%</span>
+                  <span class="stat-label">Average Monthly Return</span>
+                  <span class="stat-change positive">+1.8% vs last month</span>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon purple">
+                  <i class="fas fa-trophy"></i>
+                </div>
+                <div class="stat-info">
+                  <span class="stat-number" id="statBestMonth">+18.7%</span>
+                  <span class="stat-label">Best Month</span>
+                  <span class="stat-change">March 2026</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Performance Chart -->
+            <div class="performance-chart">
+              <div class="chart-header">
+                <h3>Monthly Performance</h3>
+                <span>Last 12 months</span>
+              </div>
+              <div class="chart-container">
+                <canvas id="performanceChart"></canvas>
+              </div>
+            </div>
+          </section>
+
+          <!-- Telegram Integration -->
+          <section class="telegram-section">
+            <div class="section-title">
+              <h2>Telegram <span class="gold-text">Integration</span></h2>
+              <p>Get signals delivered directly to your Telegram</p>
+            </div>
+
+            <div class="telegram-content">
+              <div class="telegram-icon">
+                <i class="fab fa-telegram"></i>
+              </div>
+              <div class="telegram-info">
+                <h3>Coming Soon!</h3>
+                <p>
+                  We're building a seamless Telegram integration that will
+                  deliver signals directly to your phone. Join the waitlist to
+                  get early access.
+                </p>
+                <div class="telegram-features">
+                  <span
+                    ><i class="fas fa-check-circle"></i> Instant
+                    notifications</span
+                  >
+                  <span
+                    ><i class="fas fa-check-circle"></i> Real-time updates</span
+                  >
+                  <span
+                    ><i class="fas fa-check-circle"></i> Interactive
+                    signals</span
+                  >
+                  <span
+                    ><i class="fas fa-check-circle"></i> Community chat</span
+                  >
+                </div>
+                <div class="telegram-waitlist">
+                  <input
+                    type="email"
+                    id="telegramEmail"
+                    placeholder="Enter your email"
+                  />
+                  <button class="btn-primary" id="telegramWaitlistBtn">
+                    <i class="fab fa-telegram"></i> Join Waitlist
+                  </button>
+                </div>
+                <div id="telegramStatus" class="form-status"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- FAQ Section -->
+          <section class="faq-section">
+            <div class="section-title">
+              <h2>Frequently Asked <span class="gold-text">Questions</span></h2>
+              <p>Everything you need to know about our Signal Service</p>
+            </div>
+
+            <div class="faq-grid">
+              <div class="faq-item">
+                <div class="faq-question">
+                  <h3>How are signals generated?</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                  <p>
+                    Our signals are generated by professional analysts using a
+                    combination of technical analysis, fundamental analysis, and
+                    proprietary algorithms.
+                  </p>
+                </div>
+              </div>
+
+              <div class="faq-item">
+                <div class="faq-question">
+                  <h3>How quickly are signals sent?</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                  <p>
+                    Signals are sent in real-time as soon as they are generated.
+                    You'll receive notifications instantly via Telegram and the
+                    dashboard.
+                  </p>
+                </div>
+              </div>
+
+              <div class="faq-item">
+                <div class="faq-question">
+                  <h3>What is the success rate?</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                  <p>
+                    Our signals have a historical win rate of 85% with an
+                    average monthly return of 12.4%. Past performance doesn't
+                    guarantee future results.
+                  </p>
+                </div>
+              </div>
+
+              <div class="faq-item">
+                <div class="faq-question">
+                  <h3>Can I cancel my subscription?</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                  <p>
+                    Yes, you can cancel your subscription at any time. Monthly
+                    plans can be canceled with 24 hours notice.
+                  </p>
+                </div>
+              </div>
+
+              <div class="faq-item">
+                <div class="faq-question">
+                  <h3>Do you offer a free trial?</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                  <p>
+                    Yes! We offer a 7-day free trial for new subscribers. You
+                    can test the signals risk-free before committing.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- CTA Section -->
+          <section class="cta-section">
+            <div class="cta-content">
+              <h2>
+                Ready to Start
+                <span class="gold-text">Trading with Signals?</span>
+              </h2>
+              <p>
+                Join thousands of traders who trust our signals for consistent
+                profits.
+              </p>
+              <div class="cta-buttons">
+                <button class="btn-primary" id="ctaSubscribeBtn">
+                  <i class="fas fa-rocket"></i> Subscribe Now
+                </button>
+                <button class="btn-secondary" id="ctaPreviewBtn">
+                  <i class="fas fa-eye"></i> View Sample Signals
+                </button>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <!-- =======================
+    SUBSCRIPTION MODAL
+    ======================= -->
+    <div class="signals-modal" id="subscriptionModal">
+      <div class="signals-modal-content">
+        <button class="modal-close" id="subscriptionModalClose">&times;</button>
+        <h3>
+          <i class="fas fa-rocket" style="color: var(--gold)"></i> Subscribe to
+          Signals
+        </h3>
+        <p>
+          Choose your plan and start receiving professional trading signals.
+        </p>
+
+        <div class="modal-plan-selector">
+          <button class="modal-plan-btn active" data-plan="monthly">
+            Monthly
+          </button>
+          <button class="modal-plan-btn" data-plan="quarterly">
+            Quarterly
+          </button>
+          <button class="modal-plan-btn" data-plan="annual">Annual</button>
+        </div>
+
+        <div class="modal-plan-details" id="modalPlanDetails">
+          <div class="modal-price">
+            <span class="modal-price-amount">$99</span>
+            <span class="modal-price-period">/month</span>
+          </div>
+          <div class="modal-plan-features">
+            <ul>
+              <li><i class="fas fa-check-circle"></i> Real-time signals</li>
+              <li><i class="fas fa-check-circle"></i> Entry, TP & SL levels</li>
+              <li><i class="fas fa-check-circle"></i> Daily market analysis</li>
+              <li>
+                <i class="fas fa-check-circle"></i> Telegram notifications
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <form id="subscriptionForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Full Name <span class="required">*</span></label>
+              <input
+                type="text"
+                id="subName"
+                placeholder="Enter your full name"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label>Email Address <span class="required">*</span></label>
+              <input
+                type="email"
+                id="subEmail"
+                placeholder="you@example.com"
+                required
+              />
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary" id="subscribeSubmitBtn">
+            <i class="fas fa-lock"></i> Subscribe Now
+          </button>
+          <div id="subscriptionStatus" class="form-status"></div>
+          <p class="modal-security-note">
+            <i class="fas fa-shield-alt"></i> Secure payment processing. No
+            hidden fees.
+          </p>
+        </form>
+      </div>
+    </div>
+
+    <!-- =======================
+    SCRIPTS
+    ======================= -->
+    <script src="/js/main.js"></script>
+    <!--<script src="/js/client-dashboard.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/js/signals.js"></script>
+  </body>
+</html>
