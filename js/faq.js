@@ -37,3 +37,10 @@ document.addEventListener("DOMContentLoaded", function () {
     faqItems[0].classList.add("active");
   }
 });
+
+// copy-trading
+window.ENV = {
+  API_BASE_URL: "https://api.your-trading-platform.com/v1",
+  API_KEY: "your-secret-api-key",
+  ACCOUNT_ID: "master-account-id",
+};

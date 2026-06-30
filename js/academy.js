@@ -4,7 +4,97 @@
 
 document.addEventListener("DOMContentLoaded", function () {
   // ====================================
-  // COURSE DATA
+  // HAMBURGER MENU TOGGLE
+  // ====================================
+  const hamburgerBtn = document.getElementById("hamburgerBtn");
+  const sidebar = document.getElementById("sidebar");
+  const sidebarOverlay = document.getElementById("sidebarOverlay");
+
+  function openSidebar() {
+    sidebar.classList.add("open");
+    sidebarOverlay.classList.add("active");
+    hamburgerBtn?.classList.add("active");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeSidebar() {
+    sidebar.classList.remove("open");
+    sidebarOverlay.classList.remove("active");
+    hamburgerBtn?.classList.remove("active");
+    document.body.style.overflow = "";
+  }
+
+  hamburgerBtn?.addEventListener("click", function (e) {
+    e.stopPropagation();
+    if (sidebar.classList.contains("open")) {
+      closeSidebar();
+    } else {
+      openSidebar();
+    }
+  });
+
+  const sidebarClose = document.getElementById("sidebarClose");
+  sidebarClose?.addEventListener("click", closeSidebar);
+
+  sidebarOverlay?.addEventListener("click", closeSidebar);
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && sidebar.classList.contains("open")) {
+      closeSidebar();
+    }
+  });
+
+  window.addEventListener("resize", function () {
+    if (window.innerWidth > 768 && sidebar.classList.contains("open")) {
+      closeSidebar();
+    }
+  });
+
+  // ====================================
+  // NAVIGATION LINKS
+  // ====================================
+  const navLinks = document.querySelectorAll(".sidebar-nav a");
+
+  navLinks.forEach(function (link) {
+    link.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      navLinks.forEach(function (l) {
+        l.classList.remove("active");
+      });
+
+      this.classList.add("active");
+
+      const pageName = this.dataset.page;
+      const headerTitle = document.querySelector(".dashboard-header h1");
+      const pageTitles = {
+        dashboard: "Dashboard",
+        profile: "Profile",
+        academy: "Academy",
+        signals: "Signals",
+        "copy-trading": "Copy Trading",
+        "funded-account": "Funded Account",
+        mentorship: "Mentorship",
+        "ib-partnership": "IB Partnership",
+        "trading-tools": "Trading Tools",
+        "market-analysis": "Market Analysis",
+        referrals: "Referrals",
+        payments: "Payments",
+        settings: "Settings",
+      };
+
+      if (headerTitle && pageTitles[pageName]) {
+        headerTitle.textContent = pageTitles[pageName];
+      }
+
+      if (window.innerWidth <= 768) {
+        closeSidebar();
+      }
+    });
+  });
+
+  // ====================================
+  // COURSE DATA WITH VIDEO LINKS
   // ====================================
   const courses = [
     {
@@ -16,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
       level: "Beginner",
       duration: "4 weeks",
       price: "free",
-      image: "forex-basics.jpg",
+      videoUrl: "https://www.youtube.com/embed/3tF34NvY4gY",
       icon: "fa-book",
     },
     {
@@ -28,7 +118,7 @@ document.addEventListener("DOMContentLoaded", function () {
       level: "Intermediate",
       duration: "6 weeks",
       price: "free",
-      image: "technical-analysis.jpg",
+      videoUrl: "https://www.youtube.com/embed/eEYrUjg4Px4",
       icon: "fa-chart-line",
     },
     {
@@ -41,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
       duration: "8 weeks",
       price: "paid",
       amount: "$299",
-      image: "price-action.jpg",
+      videoUrl: "https://www.youtube.com/embed/VhD64qNQxEM",
       icon: "fa-arrows-alt-h",
     },
     {
@@ -53,7 +143,7 @@ document.addEventListener("DOMContentLoaded", function () {
       level: "Intermediate",
       duration: "5 weeks",
       price: "free",
-      image: "psychology.jpg",
+      videoUrl: "https://www.youtube.com/embed/4bHrSsH0I5I",
       icon: "fa-brain",
     },
     {
@@ -66,7 +156,7 @@ document.addEventListener("DOMContentLoaded", function () {
       duration: "4 weeks",
       price: "paid",
       amount: "$199",
-      image: "risk-management.jpg",
+      videoUrl: "https://www.youtube.com/embed/yf8nFYBs_rQ",
       icon: "fa-shield-alt",
     },
     {
@@ -78,7 +168,7 @@ document.addEventListener("DOMContentLoaded", function () {
       level: "Intermediate",
       duration: "6 weeks",
       price: "free",
-      image: "fundamental.jpg",
+      videoUrl: "https://www.youtube.com/embed/7PJZg_1eDFU",
       icon: "fa-globe",
     },
     {
@@ -91,7 +181,7 @@ document.addEventListener("DOMContentLoaded", function () {
       duration: "8 weeks",
       price: "paid",
       amount: "$399",
-      image: "scalping.jpg",
+      videoUrl: "https://www.youtube.com/embed/FlHznUUEQMc",
       icon: "fa-rocket",
     },
     {
@@ -104,7 +194,7 @@ document.addEventListener("DOMContentLoaded", function () {
       duration: "6 weeks",
       price: "paid",
       amount: "$349",
-      image: "swing-trading.jpg",
+      videoUrl: "https://www.youtube.com/embed/awx9G5dFpcc",
       icon: "fa-chart-pie",
     },
   ];
@@ -121,7 +211,9 @@ document.addEventListener("DOMContentLoaded", function () {
         (course) => `
       <div class="course-card" data-id="${course.id}">
         <div class="course-image">
-          <img src="../images/${course.image}" alt="${course.title}" onerror="this.style.display='none'">
+          <div class="course-thumbnail" style="background: linear-gradient(135deg, #0a2540, #1a3a5c); display: flex; align-items: center; justify-content: center;">
+            <i class="fas ${course.icon}" style="font-size: 3rem; color: var(--gold); opacity: 0.8;"></i>
+          </div>
           <span class="course-badge ${course.price}">${course.price === "free" ? "Free" : "Premium"}</span>
         </div>
         <div class="course-content">
@@ -135,7 +227,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <div class="course-actions">
             <span class="course-price ${course.price}">${course.price === "free" ? "Free" : course.amount}</span>
             <button class="btn-access ${course.price}-btn" onclick="accessCourse(${course.id})">
-              ${course.price === "free" ? '<i class="fas fa-play"></i> Access Now' : '<i class="fas fa-lock"></i> Get Access'}
+              ${course.price === "free" ? '<i class="fas fa-play"></i> Watch Now' : '<i class="fas fa-lock"></i> Get Access'}
             </button>
           </div>
         </div>
@@ -156,18 +248,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const body = document.getElementById("courseModalBody");
 
     if (course.price === "free") {
-      // Free course - open directly
+      // Free course - show video player option
       body.innerHTML = `
         <div class="modal-icon"><i class="fas fa-graduation-cap"></i></div>
         <h3>${course.title}</h3>
-        <p>You're about to access this free course. Click below to start learning!</p>
+        <p>This is a free course. Click below to start watching!</p>
         <div class="modal-price free">Free</div>
-        <button class="btn-primary" onclick="closeModal(); startCourse(${course.id});">
-          <i class="fas fa-play"></i> Start Learning
+        <button class="btn-primary" onclick="closeModal(); playVideo(${course.id});">
+          <i class="fas fa-play"></i> Watch Video
         </button>
       `;
     } else {
-      // Paid course - show payment/approval flow
+      // Paid course - show payment flow
       body.innerHTML = `
         <div class="modal-icon"><i class="fas fa-lock"></i></div>
         <h3>${course.title}</h3>
@@ -187,23 +279,84 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   // ====================================
-  // START COURSE (Free)
+  // PLAY VIDEO (Free Courses)
   // ====================================
-  window.startCourse = function (courseId) {
+  window.playVideo = function (courseId) {
     const course = courses.find((c) => c.id === courseId);
-    if (!course) return;
+    if (!course || !course.videoUrl) {
+      showToast("Video not available yet. Coming soon!", "warning");
+      return;
+    }
 
-    showToast(`🎓 Starting "${course.title}". Happy learning!`, "success");
+    const videoModal = document.getElementById("videoModal");
+    const videoWrapper = document.getElementById("videoWrapper");
 
-    // Save progress to localStorage
+    videoWrapper.innerHTML = `
+      <iframe 
+        src="${course.videoUrl}" 
+        title="${course.title}"
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen
+        style="width: 100%; height: 100%; border-radius: 12px;"
+      ></iframe>
+    `;
+
+    videoModal.classList.add("active");
+    document.body.style.overflow = "hidden";
+
+    // Save progress
     const progress = JSON.parse(localStorage.getItem("courseProgress") || "{}");
     progress[courseId] = {
       started: true,
       startedAt: new Date().toISOString(),
       completed: false,
+      lastWatched: new Date().toISOString(),
     };
     localStorage.setItem("courseProgress", JSON.stringify(progress));
+
+    showToast(`🎬 Playing: ${course.title}`, "success");
   };
+
+  // ====================================
+  // VIDEO MODAL CONTROLS
+  // ====================================
+  document
+    .getElementById("videoModalClose")
+    ?.addEventListener("click", function () {
+      const videoModal = document.getElementById("videoModal");
+      const videoWrapper = document.getElementById("videoWrapper");
+      videoModal.classList.remove("active");
+      videoWrapper.innerHTML = "";
+      document.body.style.overflow = "";
+    });
+
+  document
+    .getElementById("videoModal")
+    ?.addEventListener("click", function (e) {
+      if (e.target === this) {
+        const videoWrapper = document.getElementById("videoWrapper");
+        this.classList.remove("active");
+        videoWrapper.innerHTML = "";
+        document.body.style.overflow = "";
+      }
+    });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
+      const videoModal = document.getElementById("videoModal");
+      if (videoModal.classList.contains("active")) {
+        const videoWrapper = document.getElementById("videoWrapper");
+        videoModal.classList.remove("active");
+        videoWrapper.innerHTML = "";
+        document.body.style.overflow = "";
+      }
+      const courseModal = document.getElementById("courseModal");
+      if (courseModal.classList.contains("active")) {
+        closeModal();
+      }
+    }
+  });
 
   // ====================================
   // REQUEST PAYMENT (Paid)
@@ -212,7 +365,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const course = courses.find((c) => c.id === courseId);
     if (!course) return;
 
-    // Check if user is logged in
     const user =
       localStorage.getItem("nanaForexUser") ||
       sessionStorage.getItem("nanaForexUser");
@@ -224,7 +376,6 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // Create payment request
     const paymentRequest = {
       id: Date.now(),
       courseId: course.id,
@@ -236,7 +387,6 @@ document.addEventListener("DOMContentLoaded", function () {
       createdAt: new Date().toISOString(),
     };
 
-    // Save payment request
     const requests = JSON.parse(
       localStorage.getItem("paymentRequests") || "[]",
     );
@@ -248,7 +398,6 @@ document.addEventListener("DOMContentLoaded", function () {
       "info",
     );
 
-    // Send notification to admin (in a real app, this would be an email)
     console.log("Payment request:", paymentRequest);
 
     closeModal();
@@ -274,15 +423,6 @@ document.addEventListener("DOMContentLoaded", function () {
         closeModal();
       }
     });
-
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") {
-      const modal = document.getElementById("courseModal");
-      if (modal.classList.contains("active")) {
-        closeModal();
-      }
-    }
-  });
 
   // ====================================
   // FAQ ACCORDION
@@ -397,6 +537,63 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     return "Trader";
   }
+
+  // ====================================
+  // USER SESSION CHECK
+  // ====================================
+  function checkUserSession() {
+    const user =
+      localStorage.getItem("nanaForexUser") ||
+      sessionStorage.getItem("nanaForexUser");
+
+    if (!user) {
+      window.location.href = "login.html";
+      return;
+    }
+
+    try {
+      const userData = JSON.parse(user);
+      if (!userData.loggedIn) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      const userName = document.getElementById("userName");
+      const userInitials = document.getElementById("userInitials");
+
+      if (userName) {
+        userName.textContent = userData.name || "Trader";
+      }
+
+      if (userInitials) {
+        const name = userData.name || "Trader";
+        const initials = name
+          .split(" ")
+          .map((n) => n[0])
+          .join("")
+          .toUpperCase()
+          .slice(0, 2);
+        userInitials.textContent = initials;
+      }
+    } catch (e) {
+      window.location.href = "login.html";
+    }
+  }
+
+  checkUserSession();
+
+  // ====================================
+  // LOGOUT
+  // ====================================
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  logoutBtn?.addEventListener("click", function () {
+    if (confirm("Are you sure you want to logout?")) {
+      localStorage.removeItem("nanaForexUser");
+      sessionStorage.removeItem("nanaForexUser");
+      window.location.href = "login.html";
+    }
+  });
 
   // ====================================
   // INITIALIZE

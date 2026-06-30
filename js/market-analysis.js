@@ -4,21 +4,155 @@
 
 document.addEventListener("DOMContentLoaded", function () {
   // ====================================
+  // HAMBURGER MENU TOGGLE
+  // ====================================
+  const hamburgerBtn = document.getElementById("hamburgerBtn");
+  const sidebar = document.getElementById("sidebar");
+  const sidebarOverlay = document.getElementById("sidebarOverlay");
+
+  function openSidebar() {
+    sidebar.classList.add("open");
+    sidebarOverlay.classList.add("active");
+    hamburgerBtn?.classList.add("active");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeSidebar() {
+    sidebar.classList.remove("open");
+    sidebarOverlay.classList.remove("active");
+    hamburgerBtn?.classList.remove("active");
+    document.body.style.overflow = "";
+  }
+
+  hamburgerBtn?.addEventListener("click", function (e) {
+    e.stopPropagation();
+    if (sidebar.classList.contains("open")) {
+      closeSidebar();
+    } else {
+      openSidebar();
+    }
+  });
+
+  const sidebarClose = document.getElementById("sidebarClose");
+  sidebarClose?.addEventListener("click", closeSidebar);
+
+  sidebarOverlay?.addEventListener("click", closeSidebar);
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && sidebar.classList.contains("open")) {
+      closeSidebar();
+    }
+  });
+
+  window.addEventListener("resize", function () {
+    if (window.innerWidth > 768 && sidebar.classList.contains("open")) {
+      closeSidebar();
+    }
+  });
+
+  // ====================================
+  // NAVIGATION LINKS
+  // ====================================
+  const navLinks = document.querySelectorAll(".sidebar-nav a");
+
+  navLinks.forEach(function (link) {
+    link.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      navLinks.forEach(function (l) {
+        l.classList.remove("active");
+      });
+
+      this.classList.add("active");
+
+      const pageName = this.dataset.page;
+      const headerTitle = document.querySelector(".dashboard-header h1");
+      const pageTitles = {
+        dashboard: "Dashboard",
+        profile: "Profile",
+        academy: "Academy",
+        signals: "Signals",
+        "copy-trading": "Copy Trading",
+        "funded-account": "Funded Account",
+        mentorship: "Mentorship",
+        "ib-partnership": "IB Partnership",
+        "trading-tools": "Trading Tools",
+        "market-analysis": "Market Analysis",
+        referrals: "Referrals",
+        payments: "Payments",
+        settings: "Settings",
+      };
+
+      if (headerTitle && pageTitles[pageName]) {
+        headerTitle.textContent = pageTitles[pageName];
+      }
+
+      if (window.innerWidth <= 768) {
+        closeSidebar();
+      }
+    });
+  });
+
+  // ====================================
+  // USER SESSION CHECK
+  // ====================================
+  function checkUserSession() {
+    const user =
+      localStorage.getItem("nanaForexUser") ||
+      sessionStorage.getItem("nanaForexUser");
+
+    if (!user) {
+      window.location.href = "login.html";
+      return;
+    }
+
+    try {
+      const userData = JSON.parse(user);
+      if (!userData.loggedIn) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      const userInitials = document.getElementById("userInitials");
+      if (userInitials) {
+        const name = userData.name || "Trader";
+        const initials = name
+          .split(" ")
+          .map((n) => n[0])
+          .join("")
+          .toUpperCase()
+          .slice(0, 2);
+        userInitials.textContent = initials;
+      }
+    } catch (e) {
+      window.location.href = "login.html";
+    }
+  }
+
+  checkUserSession();
+
+  // ====================================
+  // LOGOUT
+  // ====================================
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  logoutBtn?.addEventListener("click", function () {
+    if (confirm("Are you sure you want to logout?")) {
+      localStorage.removeItem("nanaForexUser");
+      sessionStorage.removeItem("nanaForexUser");
+      window.location.href = "login.html";
+    }
+  });
+
+  // ====================================
   // API CONFIGURATION
   // ====================================
   const API_CONFIG = {
-    // Alpha Vantage API (Free - 5 requests/min, 500/day)
     ALPHA_VANTAGE: "https://www.alphavantage.co/query",
-    ALPHA_VANTAGE_KEY: "YOUR_API_KEY", // Get from https://www.alphavantage.co/support/#api-key
-
-    // ExchangeRate-API (Free - 1500 requests/month)
+    ALPHA_VANTAGE_KEY: "YOUR_API_KEY",
     EXCHANGE_RATE_API: "https://api.exchangerate-api.com/v4/latest/",
-
-    // Free market news API
     NEWS_API: "https://api.marketaux.com/v1/news/all",
-    NEWS_API_KEY: "YOUR_NEWS_API_KEY", // Get from https://marketaux.com/
-
-    // Economic calendar fallback
+    NEWS_API_KEY: "YOUR_NEWS_API_KEY",
     ECONOMIC_CALENDAR:
       "https://nfs.faireconomy.media/ff_calendar_thisweek.json",
   };
@@ -67,8 +201,13 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       } catch (error) {
         console.error(`Error fetching ${symbol}:`, error);
-        // Use fallback data
-        updatePriceDisplay(symbol, getFallbackPrice(symbol));
+        const fallback = getFallbackPrice(symbol);
+        updatePriceDisplay(
+          symbol,
+          fallback.price,
+          fallback.change,
+          fallback.changePercent,
+        );
       }
     }
 
@@ -136,7 +275,6 @@ document.addEventListener("DOMContentLoaded", function () {
           return d.toLocaleDateString();
         });
 
-        // Limit data based on interval
         let limit = 30;
         if (interval === "1week") limit = 90;
         if (interval === "1month") limit = 180;
@@ -195,12 +333,10 @@ document.addEventListener("DOMContentLoaded", function () {
           },
         });
 
-        // Update technical levels
         updateTechnicalLevels(slicedPrices);
       }
     } catch (error) {
       console.error("Chart error:", error);
-      // Use fallback data
       const fallbackPrices = generateFallbackPrices();
       const labels = fallbackPrices.map((_, i) => `Day ${i + 1}`);
 
@@ -269,16 +405,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const low = sorted[0];
     const range = high - low;
 
-    // Calculate support and resistance
     const support1 = low + range * 0.236;
     const support2 = low + range * 0.382;
     const resistance1 = high - range * 0.236;
     const resistance2 = high - range * 0.382;
 
-    // Calculate RSI
     const rsi = calculateRSI(prices);
-
-    // Calculate MACD (simplified)
     const macd = calculateMACD(prices);
 
     document.getElementById("support1").textContent = support1.toFixed(4);
@@ -288,7 +420,6 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("rsiValue").textContent = rsi.toFixed(2);
     document.getElementById("macdValue").textContent = macd.toFixed(4);
 
-    // Color code values
     document.getElementById("rsiValue").className = `indicator-value ${
       rsi > 70 ? "bearish" : rsi < 30 ? "bullish" : "neutral"
     }`;
@@ -570,7 +701,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
-    // Update Fear & Greed Index
     const fgiValue = document.getElementById("fgiValue");
     const fgiLabel = document.getElementById("fgiLabel");
     const fgiFill = document.getElementById("fgiFill");
@@ -735,14 +865,12 @@ document.addEventListener("DOMContentLoaded", function () {
   // ====================================
   // INITIALIZE
   // ====================================
-  // Load data on page load
   fetchLivePrices();
   updateChart();
   loadEconomicCalendar();
   loadMarketNews();
   updateSentiment();
 
-  // Auto-refresh every 60 seconds
   setInterval(fetchLivePrices, 60000);
   setInterval(updateSentiment, 30000);
 

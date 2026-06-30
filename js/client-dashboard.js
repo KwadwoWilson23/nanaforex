@@ -4,32 +4,53 @@
 
 document.addEventListener("DOMContentLoaded", function () {
   // ====================================
-  // SIDEBAR TOGGLE
+  // HAMBURGER MENU TOGGLE
   // ====================================
+  const hamburgerBtn = document.getElementById("hamburgerBtn");
   const sidebar = document.getElementById("sidebar");
   const sidebarOverlay = document.getElementById("sidebarOverlay");
-  const sidebarToggle = document.getElementById("sidebarToggle");
-  const sidebarClose = document.getElementById("sidebarClose");
 
   function openSidebar() {
     sidebar.classList.add("open");
     sidebarOverlay.classList.add("active");
+    hamburgerBtn?.classList.add("active");
     document.body.style.overflow = "hidden";
   }
 
   function closeSidebar() {
     sidebar.classList.remove("open");
     sidebarOverlay.classList.remove("active");
+    hamburgerBtn?.classList.remove("active");
     document.body.style.overflow = "";
   }
 
-  sidebarToggle?.addEventListener("click", openSidebar);
+  // Hamburger button toggle
+  hamburgerBtn?.addEventListener("click", function (e) {
+    e.stopPropagation();
+    if (sidebar.classList.contains("open")) {
+      closeSidebar();
+    } else {
+      openSidebar();
+    }
+  });
+
+  // Sidebar close button (X)
+  const sidebarClose = document.getElementById("sidebarClose");
   sidebarClose?.addEventListener("click", closeSidebar);
+
+  // Overlay click to close
   sidebarOverlay?.addEventListener("click", closeSidebar);
 
   // Close sidebar on Escape key
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape" && sidebar.classList.contains("open")) {
+      closeSidebar();
+    }
+  });
+
+  // Close sidebar when window resizes to desktop
+  window.addEventListener("resize", function () {
+    if (window.innerWidth > 768 && sidebar.classList.contains("open")) {
       closeSidebar();
     }
   });

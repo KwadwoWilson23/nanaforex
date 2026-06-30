@@ -4,6 +4,147 @@
 
 document.addEventListener("DOMContentLoaded", function () {
   // ====================================
+  // HAMBURGER MENU TOGGLE
+  // ====================================
+  const hamburgerBtn = document.getElementById("hamburgerBtn");
+  const sidebar = document.getElementById("sidebar");
+  const sidebarOverlay = document.getElementById("sidebarOverlay");
+
+  function openSidebar() {
+    sidebar.classList.add("open");
+    sidebarOverlay.classList.add("active");
+    hamburgerBtn?.classList.add("active");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeSidebar() {
+    sidebar.classList.remove("open");
+    sidebarOverlay.classList.remove("active");
+    hamburgerBtn?.classList.remove("active");
+    document.body.style.overflow = "";
+  }
+
+  hamburgerBtn?.addEventListener("click", function (e) {
+    e.stopPropagation();
+    if (sidebar.classList.contains("open")) {
+      closeSidebar();
+    } else {
+      openSidebar();
+    }
+  });
+
+  const sidebarClose = document.getElementById("sidebarClose");
+  sidebarClose?.addEventListener("click", closeSidebar);
+
+  sidebarOverlay?.addEventListener("click", closeSidebar);
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && sidebar.classList.contains("open")) {
+      closeSidebar();
+    }
+  });
+
+  window.addEventListener("resize", function () {
+    if (window.innerWidth > 768 && sidebar.classList.contains("open")) {
+      closeSidebar();
+    }
+  });
+
+  // ====================================
+  // NAVIGATION LINKS
+  // ====================================
+  const navLinks = document.querySelectorAll(".sidebar-nav a");
+
+  navLinks.forEach(function (link) {
+    link.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      navLinks.forEach(function (l) {
+        l.classList.remove("active");
+      });
+
+      this.classList.add("active");
+
+      const pageName = this.dataset.page;
+      const headerTitle = document.querySelector(".dashboard-header h1");
+      const pageTitles = {
+        dashboard: "Dashboard",
+        profile: "Profile",
+        academy: "Academy",
+        signals: "Signals",
+        "copy-trading": "Copy Trading",
+        "funded-account": "Funded Account",
+        mentorship: "Mentorship",
+        "ib-partnership": "IB Partnership",
+        "trading-tools": "Trading Tools",
+        "market-analysis": "Market Analysis",
+        referrals: "Referrals",
+        payments: "Payments",
+        settings: "Settings",
+      };
+
+      if (headerTitle && pageTitles[pageName]) {
+        headerTitle.textContent = pageTitles[pageName];
+      }
+
+      if (window.innerWidth <= 768) {
+        closeSidebar();
+      }
+    });
+  });
+
+  // ====================================
+  // USER SESSION CHECK
+  // ====================================
+  function checkUserSession() {
+    const user =
+      localStorage.getItem("nanaForexUser") ||
+      sessionStorage.getItem("nanaForexUser");
+
+    if (!user) {
+      window.location.href = "login.html";
+      return;
+    }
+
+    try {
+      const userData = JSON.parse(user);
+      if (!userData.loggedIn) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      const userInitials = document.getElementById("userInitials");
+      if (userInitials) {
+        const name = userData.name || "Trader";
+        const initials = name
+          .split(" ")
+          .map((n) => n[0])
+          .join("")
+          .toUpperCase()
+          .slice(0, 2);
+        userInitials.textContent = initials;
+      }
+    } catch (e) {
+      window.location.href = "login.html";
+    }
+  }
+
+  checkUserSession();
+
+  // ====================================
+  // LOGOUT
+  // ====================================
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  logoutBtn?.addEventListener("click", function () {
+    if (confirm("Are you sure you want to logout?")) {
+      localStorage.removeItem("nanaForexUser");
+      sessionStorage.removeItem("nanaForexUser");
+      window.location.href = "login.html";
+    }
+  });
+
+  // ====================================
   // PROGRAM ENROLLMENT BUTTONS
   // ====================================
   const programButtons = document.querySelectorAll(".program-btn");
@@ -14,7 +155,6 @@ document.addEventListener("DOMContentLoaded", function () {
       const programName =
         this.closest(".program-card").querySelector("h3").textContent;
 
-      // Open application modal with program pre-selected
       openApplicationModal(program, programName);
     });
   });
@@ -31,12 +171,10 @@ document.addEventListener("DOMContentLoaded", function () {
     modal.classList.add("active");
     document.body.style.overflow = "hidden";
 
-    // Pre-select program if provided
     if (program && document.getElementById("appProgram")) {
       document.getElementById("appProgram").value = program;
     }
 
-    // Pre-fill user data if available
     const user =
       localStorage.getItem("nanaForexUser") ||
       sessionStorage.getItem("nanaForexUser");
@@ -57,7 +195,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
 
-    // Clear previous status
     const status = document.getElementById("applicationStatus");
     status.className = "form-status";
     status.textContent = "";
@@ -100,7 +237,6 @@ document.addEventListener("DOMContentLoaded", function () {
       const mentor = document.getElementById("appMentor").value;
       const reason = document.getElementById("appReason").value.trim();
 
-      // Validation
       if (!name || !email || !phone || !program) {
         showStatus(
           applicationStatus,
@@ -119,7 +255,6 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      // Create application data
       const application = {
         id: Date.now(),
         name: name,
@@ -133,7 +268,6 @@ document.addEventListener("DOMContentLoaded", function () {
         submittedAt: new Date().toISOString(),
       };
 
-      // Save to localStorage
       const applications = JSON.parse(
         localStorage.getItem("mentorshipApplications") || "[]",
       );
@@ -143,14 +277,12 @@ document.addEventListener("DOMContentLoaded", function () {
         JSON.stringify(applications),
       );
 
-      // Show success
       showStatus(
         applicationStatus,
         "✅ Application submitted successfully! We'll get back to you within 24 hours.",
         "success",
       );
 
-      // Disable submit button
       const submitBtn = document.getElementById("submitApplicationBtn");
       submitBtn.disabled = true;
       submitBtn.innerHTML =
@@ -162,13 +294,11 @@ document.addEventListener("DOMContentLoaded", function () {
           '<i class="fas fa-paper-plane"></i> Submit Application';
         closeApplicationModal();
 
-        // Show success toast
         showToast(
           "🎉 Your mentorship application has been submitted!",
           "success",
         );
 
-        // Clear form
         applicationForm.reset();
       }, 2000);
     });
@@ -180,7 +310,6 @@ document.addEventListener("DOMContentLoaded", function () {
   document
     .getElementById("scheduleCallBtn")
     ?.addEventListener("click", function () {
-      // Open Calendly or scheduling modal
       showToast(
         "📅 Schedule a call feature coming soon! Please check back.",
         "info",

@@ -1,9 +1,37 @@
 /* ====================================
-PROFILE PAGE STYLES
+PROFILE - MODERN RESPONSIVE STYLES
 ==================================== */
 
 /* ====================================
-PROFILE HEADER
+GLOBAL RESET & BASE
+==================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img,
+canvas,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.main-content {
+  min-width: 0;
+}
+
+.dashboard-wrapper {
+  overflow-x: hidden;
+}
+
+/* ====================================
+PROFILE HEADER - Auto wrap
 ==================================== */
 .profile-content {
   padding: 0 0 2rem;
@@ -12,13 +40,14 @@ PROFILE HEADER
 .profile-header {
   display: flex;
   align-items: center;
-  gap: 2rem;
-  padding: 2rem;
+  gap: clamp(1rem, 3vw, 2rem);
+  padding: clamp(1.5rem, 3vw, 2rem);
   background: var(--card-bg);
   border: 1px solid var(--border);
-  border-radius: 24px;
+  border-radius: clamp(16px, 2vw, 24px);
   margin-bottom: 2rem;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .profile-avatar-container {
@@ -27,14 +56,14 @@ PROFILE HEADER
 }
 
 .profile-avatar {
-  width: 100px;
-  height: 100px;
+  width: clamp(80px, 12vw, 100px);
+  height: clamp(80px, 12vw, 100px);
   border-radius: 50%;
   background: var(--gradient-primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2.5rem;
+  font-size: clamp(2rem, 3vw, 2.5rem);
   font-weight: 700;
   color: var(--bg-dark);
 }
@@ -64,17 +93,19 @@ PROFILE HEADER
 
 .profile-info {
   flex: 1;
+  min-width: 200px;
+  text-align: left;
 }
 
 .profile-info h2 {
-  font-size: 1.8rem;
+  font-size: clamp(1.3rem, 2.5vw, 1.8rem);
   margin-bottom: 0.25rem;
 }
 
 .profile-email {
   color: var(--text-muted);
   margin-bottom: 0.75rem;
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 0.95vw, 0.95rem);
 }
 
 .profile-badges {
@@ -89,7 +120,7 @@ PROFILE HEADER
   gap: 0.4rem;
   padding: 0.3rem 0.75rem;
   border-radius: 999px;
-  font-size: 0.75rem;
+  font-size: clamp(0.65rem, 0.75vw, 0.75rem);
   font-weight: 500;
 }
 
@@ -114,17 +145,17 @@ PROFILE HEADER
 
 .profile-actions .btn-secondary {
   padding: 0.6rem 1.5rem;
-  font-size: 0.9rem;
+  font-size: clamp(0.8rem, 0.9vw, 0.9rem);
   background: transparent;
 }
 
 /* ====================================
-PROFILE STATS
+PROFILE STATS - Auto-fit grid
 ==================================== */
 .profile-stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
   margin-bottom: 2rem;
 }
 
@@ -132,10 +163,10 @@ PROFILE STATS
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 1.25rem 1.5rem;
+  padding: clamp(1rem, 1.5vw, 1.5rem);
   background: var(--card-bg);
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: clamp(12px, 1.5vw, 16px);
   transition: 0.3s;
 }
 
@@ -145,13 +176,13 @@ PROFILE STATS
 }
 
 .stat-icon-wrapper {
-  width: 48px;
-  height: 48px;
+  width: clamp(40px, 5vw, 48px);
+  height: clamp(40px, 5vw, 48px);
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 1.2vw, 1.2rem);
   flex-shrink: 0;
 }
 
@@ -177,18 +208,18 @@ PROFILE STATS
 
 .stat-content .stat-number {
   display: block;
-  font-size: 1.5rem;
+  font-size: clamp(1.2rem, 1.8vw, 1.5rem);
   font-weight: 700;
   font-family: "Space Grotesk", sans-serif;
 }
 
 .stat-content .stat-label {
-  font-size: 0.85rem;
+  font-size: clamp(0.7rem, 0.85vw, 0.85rem);
   color: var(--text-muted);
 }
 
 /* ====================================
-PROFILE TABS
+PROFILE TABS - Horizontal scroll on mobile
 ==================================== */
 .profile-tabs {
   display: flex;
@@ -196,10 +227,14 @@ PROFILE TABS
   margin-bottom: 2rem;
   background: var(--card-bg);
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: clamp(12px, 1.5vw, 16px);
   padding: 0.5rem;
   overflow-x: auto;
-  flex-wrap: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+
+.profile-tabs::-webkit-scrollbar {
+  display: none;
 }
 
 .profile-tab {
@@ -208,12 +243,13 @@ PROFILE TABS
   border: none;
   background: transparent;
   color: var(--text-muted);
-  font-size: 0.85rem;
+  font-size: clamp(0.7rem, 0.85vw, 0.85rem);
   font-weight: 500;
   cursor: pointer;
   transition: 0.3s;
   font-family: "Inter", sans-serif;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .profile-tab i {
@@ -236,8 +272,8 @@ TAB CONTENT
   display: none;
   background: var(--card-bg);
   border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 2rem;
+  border-radius: clamp(16px, 2vw, 20px);
+  padding: clamp(1rem, 2vw, 2rem);
   animation: fadeIn 0.3s ease;
 }
 
@@ -272,7 +308,7 @@ FORM STYLES
 
 .form-group label {
   display: block;
-  font-size: 0.85rem;
+  font-size: clamp(0.8rem, 0.85vw, 0.85rem);
   font-weight: 500;
   margin-bottom: 0.4rem;
   color: var(--white);
@@ -287,12 +323,12 @@ FORM STYLES
 .form-group select,
 .form-group textarea {
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: clamp(0.6rem, 0.8vw, 0.75rem) clamp(0.75rem, 1vw, 1rem);
   background: var(--glass-bg);
   border: 1px solid var(--border);
   border-radius: 12px;
   color: var(--white);
-  font-size: 0.9rem;
+  font-size: clamp(0.8rem, 0.9vw, 0.9rem);
   font-family: "Inter", sans-serif;
   outline: none;
   transition: 0.3s;
@@ -394,7 +430,7 @@ FORM STYLES
   align-items: center;
   gap: 0.75rem;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: clamp(0.8rem, 0.9vw, 0.9rem);
   color: var(--white);
 }
 
@@ -433,7 +469,7 @@ FORM STYLES
 }
 
 .helper-text {
-  font-size: 0.8rem;
+  font-size: clamp(0.7rem, 0.8vw, 0.8rem);
   color: var(--text-muted);
   margin-top: 0.25rem;
 }
@@ -443,18 +479,19 @@ FORM STYLES
   margin-top: 1.5rem;
   display: flex;
   gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .form-actions .btn-primary {
   padding: 0.75rem 2rem;
-  font-size: 0.9rem;
+  font-size: clamp(0.8rem, 0.9vw, 0.9rem);
 }
 
 .form-status {
   margin-top: 1rem;
-  padding: 0.75rem 1rem;
+  padding: clamp(0.5rem, 0.8vw, 0.75rem) clamp(0.75rem, 1vw, 1rem);
   border-radius: 10px;
-  font-size: 0.875rem;
+  font-size: clamp(0.8rem, 0.9vw, 0.875rem);
   display: none;
 }
 
@@ -478,14 +515,14 @@ ACTIVITY LOG
 .activity-log {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .activity-log-item {
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 1rem 1.25rem;
+  padding: clamp(0.75rem, 1.5vw, 1.25rem);
   background: var(--glass-bg);
   border-radius: 12px;
   transition: 0.3s;
@@ -496,13 +533,13 @@ ACTIVITY LOG
 }
 
 .log-icon {
-  width: 40px;
-  height: 40px;
+  width: clamp(36px, 4vw, 40px);
+  height: clamp(36px, 4vw, 40px);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.9rem;
+  font-size: clamp(0.8rem, 0.9vw, 0.9rem);
   flex-shrink: 0;
 }
 
@@ -528,27 +565,39 @@ ACTIVITY LOG
 
 .log-content {
   flex: 1;
+  min-width: 0;
 }
 
 .log-content .log-title {
-  font-size: 0.9rem;
+  font-size: clamp(0.8rem, 0.9vw, 0.9rem);
   font-weight: 500;
   margin: 0;
 }
 
 .log-content .log-time {
-  font-size: 0.75rem;
+  font-size: clamp(0.65rem, 0.75vw, 0.75rem);
   color: var(--text-muted);
 }
 
 /* ====================================
-RESPONSIVE
+RESPONSIVE OVERRIDES (Minimal)
 ==================================== */
-@media (max-width: 992px) {
+
+/* Only what cannot be solved with auto-fit + clamp */
+
+/* Tablets and below */
+@media (max-width: 768px) {
   .profile-header {
     flex-direction: column;
     text-align: center;
-    padding: 1.5rem;
+  }
+
+  .profile-info {
+    text-align: center;
+  }
+
+  .profile-badges {
+    justify-content: center;
   }
 
   .profile-actions {
@@ -560,42 +609,9 @@ RESPONSIVE
     justify-content: center;
   }
 
-  .profile-badges {
-    justify-content: center;
-  }
-}
-
-@media (max-width: 768px) {
   .form-row {
     grid-template-columns: 1fr;
     gap: 1rem;
-  }
-
-  .profile-tabs {
-    gap: 0.25rem;
-    padding: 0.25rem;
-  }
-
-  .profile-tab {
-    font-size: 0.75rem;
-    padding: 0.4rem 0.8rem;
-  }
-
-  .profile-tab i {
-    margin-right: 0.25rem;
-  }
-
-  .profile-stats-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
-
-  .profile-stat-card {
-    padding: 1rem;
-  }
-
-  .profile-tab-content {
-    padding: 1.25rem;
   }
 
   .checkbox-group {
@@ -613,25 +629,21 @@ RESPONSIVE
   }
 }
 
+/* Small phones */
 @media (max-width: 480px) {
   .profile-stats-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
   }
 
-  .profile-avatar {
-    width: 80px;
-    height: 80px;
-    font-size: 2rem;
+  .profile-stat-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 0.75rem;
   }
 
-  .profile-info h2 {
-    font-size: 1.3rem;
-  }
-
-  .profile-tabs {
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    -webkit-overflow-scrolling: touch;
+  .stat-icon-wrapper {
+    margin-bottom: 0.25rem;
   }
 
   .profile-tab {
@@ -646,4 +658,163 @@ RESPONSIVE
   .activity-log-item {
     padding: 0.75rem 1rem;
   }
+}
+
+/* Very small phones */
+@media (max-width: 360px) {
+  .profile-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-avatar {
+    width: 65px;
+    height: 65px;
+    font-size: 1.5rem;
+  }
+
+  .profile-info h2 {
+    font-size: 1.1rem;
+  }
+
+  .badge {
+    font-size: 0.6rem;
+    padding: 0.2rem 0.5rem;
+  }
+}
+
+/* ====================================
+MOBILE MENU STYLES
+==================================== */
+
+/* Hamburger Button */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 0.25rem;
+  background: none;
+  border: none;
+}
+
+.hamburger span {
+  width: 28px;
+  height: 3px;
+  background: var(--white);
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 6px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -6px);
+}
+
+/* Show hamburger on mobile */
+@media (max-width: 992px) {
+  .hamburger {
+    display: flex;
+  }
+}
+
+/* Sidebar mobile styles */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+    width: 280px;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .sidebar-close {
+    display: block !important;
+  }
+
+  .sidebar-overlay.active {
+    display: block !important;
+  }
+
+  .main-content {
+    margin-left: 0 !important;
+    padding: 1rem !important;
+  }
+}
+
+/* Sidebar overlay */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 99;
+  backdrop-filter: blur(4px);
+}
+
+.sidebar-overlay.active {
+  display: block;
+}
+
+/* Sidebar close button */
+.sidebar-close {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.25rem;
+}
+
+/* ====================================
+HEADER FIXES
+==================================== */
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.dashboard-header h1 {
+  flex: 1;
+  min-width: 0;
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+}
+
+/* ====================================
+SECTION PADDING UNIFORMITY
+==================================== */
+section {
+  padding-inline: clamp(0, 1vw, 0);
+}
+
+/* ====================================
+SCROLLBAR STYLING
+==================================== */
+.profile-tabs::-webkit-scrollbar {
+  height: 4px;
+}
+
+.profile-tabs::-webkit-scrollbar-track {
+  background: var(--glass-bg);
+  border-radius: 4px;
+}
+
+.profile-tabs::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+.profile-tabs::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary);
 }

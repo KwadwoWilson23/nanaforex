@@ -1,0 +1,717 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Copy Trading | Nana Forex</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/client-dashboard.css" />
+    <link rel="stylesheet" href="/css/copy-trading.css" />
+  </head>
+
+  <body>
+    <!-- =======================
+    DASHBOARD WRAPPER
+    ======================= -->
+    <div class="dashboard-wrapper">
+      <!-- =======================
+      SIDEBAR
+      ======================= -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+          <h2>NanaForex</h2>
+          <button class="sidebar-close" id="sidebarClose">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="client-dashboard.html" data-page="dashboard">
+            <i class="fas fa-th-large"></i>
+            <span>Dashboard</span>
+          </a>
+          <a href="profile.html" data-page="profile">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+          </a>
+          <a href="academy.html" data-page="academy">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Academy</span>
+          </a>
+          <a href="signals.html" data-page="signals">
+            <i class="fas fa-signal"></i>
+            <span>Signals</span>
+          </a>
+          <a href="copy-trading.html" class="active" data-page="copy-trading">
+            <i class="fas fa-copy"></i>
+            <span>Copy Trading</span>
+          </a>
+
+          <a href="mentorship.html" data-page="mentorship">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <span>Mentorship</span>
+          </a>
+          <a href="ib-partnership.html" data-page="ib-partnership">
+            <i class="fas fa-handshake"></i>
+            <span>IB Partnership</span>
+          </a>
+          <a href="trading-tools.html" data-page="trading-tools">
+            <i class="fas fa-tools"></i>
+            <span>Trading Tools</span>
+          </a>
+          <a href="market-analysis.html" data-page="market-analysis">
+            <i class="fas fa-chart-line"></i>
+            <span>Market Analysis</span>
+          </a>
+          <a href="payments.html" data-page="payments">
+            <i class="fas fa-credit-card"></i>
+            <span>Payments</span>
+          </a>
+          <a href="settings.html" data-page="settings">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <button class="logout-btn" id="logoutBtn">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- =======================
+      SIDEBAR OVERLAY (Mobile)
+      ======================= -->
+      <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+      <!-- =======================
+      MAIN CONTENT
+      ======================= -->
+      <main class="main-content">
+        <!-- Top Header -->
+        <header class="dashboard-header">
+          <!-- SINGLE HAMBURGER BUTTON -->
+          <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+          <h1>Copy Trading</h1>
+          <div class="header-actions">
+            <button class="notif-btn" id="notifBtn">
+              <i class="fas fa-bell"></i>
+              <span class="notif-badge">3</span>
+            </button>
+            <div class="user-avatar">
+              <span id="userInitials">JD</span>
+            </div>
+          </div>
+        </header>
+
+        <!-- =======================
+        COPY TRADING CONTENT
+        ======================= -->
+        <div class="copy-trading-content">
+          <!-- Hero Section -->
+          <section class="copy-hero">
+            <div class="copy-hero-glow"></div>
+            <div class="copy-hero-content">
+              <div class="hero-badge">
+                <i class="fas fa-star"></i> Professional Copy Trading
+              </div>
+              <h1>
+                Copy Every Trade From Our
+                <span class="gold-text">Professional Trader</span>
+              </h1>
+              <p>
+                Mirror the trades of our expert trader automatically. No
+                experience needed — just connect your account and start copying.
+              </p>
+              <div class="hero-stats-mini">
+                <div>
+                  <span class="stat-number">$2.4M</span>
+                  <span class="stat-label">Total Copied Volume</span>
+                </div>
+                <div>
+                  <span class="stat-number">247</span>
+                  <span class="stat-label">Active Copiers</span>
+                </div>
+                <div>
+                  <span class="stat-number">85%</span>
+                  <span class="stat-label">Win Rate</span>
+                </div>
+              </div>
+              <div class="hero-buttons">
+                <button class="btn-primary" id="startCopyBtn">
+                  <i class="fas fa-copy"></i> Start Copy Trading
+                </button>
+                <button class="btn-secondary" id="viewPerformanceBtn">
+                  View Live Performance
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Meet Your Trader -->
+          <section class="trader-section">
+            <div class="section-title">
+              <h2>Meet Your <span class="gold-text">Trader</span></h2>
+              <p>Get to know the professional behind the performance</p>
+            </div>
+
+            <div class="trader-profile">
+              <div class="trader-image">
+                <div class="trader-avatar">
+                  <span style="font-size: 2.5rem; color: var(--gold)">KN</span>
+                </div>
+                <div class="trader-status">
+                  <i class="fas fa-circle"></i> Trading Live
+                </div>
+              </div>
+              <div class="trader-info">
+                <div class="trader-header">
+                  <h2>Kwame Nana</h2>
+                  <span class="trader-badge verified">
+                    <i class="fas fa-check-circle"></i> Verified
+                  </span>
+                </div>
+                <p class="trader-bio">
+                  Professional forex trader with over 12 years of experience in
+                  institutional trading. Specializes in price action and risk
+                  management. Kwame has been consistently profitable for over 8
+                  years, managing a personal account of $5M+ and a community of
+                  200+ copiers.
+                </p>
+                <div class="trader-details">
+                  <div class="detail-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span><strong>Experience:</strong> 12+ Years</span>
+                  </div>
+                  <div class="detail-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span><strong>Trading Style:</strong> Swing & Scalp</span>
+                  </div>
+                  <div class="detail-item">
+                    <i class="fas fa-globe"></i>
+                    <span><strong>Markets:</strong> Forex, Gold, Indices</span>
+                  </div>
+                  <div class="detail-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <span><strong>Risk Profile:</strong> Moderate</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Live Statistics -->
+          <section class="stats-section">
+            <div class="section-title">
+              <h2>Live Trading <span class="gold-text">Statistics</span></h2>
+              <p>Real-time performance metrics from the master account</p>
+            </div>
+
+            <div class="stats-grid" id="tradingStats">
+              <div class="stat-card">
+                <div class="stat-icon gold">
+                  <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="stat-info">
+                  <span class="stat-label">Total Return</span>
+                  <span class="stat-value" id="statTotalReturn">+68.4%</span>
+                  <span class="stat-change positive">+12.3% this month</span>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon green">
+                  <i class="fas fa-percent"></i>
+                </div>
+                <div class="stat-info">
+                  <span class="stat-label">Win Rate</span>
+                  <span class="stat-value" id="statWinRate">85.7%</span>
+                  <span class="stat-change positive">+2.1% vs last month</span>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon blue">
+                  <i class="fas fa-exchange-alt"></i>
+                </div>
+                <div class="stat-info">
+                  <span class="stat-label">Total Trades</span>
+                  <span class="stat-value" id="statTotalTrades">2,458</span>
+                  <span class="stat-change positive">+127 this month</span>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon purple">
+                  <i class="fas fa-balance-scale"></i>
+                </div>
+                <div class="stat-info">
+                  <span class="stat-label">Profit Factor</span>
+                  <span class="stat-value" id="statProfitFactor">2.87</span>
+                  <span class="stat-change positive">Excellent</span>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon green">
+                  <i class="fas fa-wallet"></i>
+                </div>
+                <div class="stat-info">
+                  <span class="stat-label">Current Balance</span>
+                  <span class="stat-value" id="statBalance">$124,500</span>
+                  <span class="stat-change positive">+$8,200 this month</span>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon blue">
+                  <i class="fas fa-coins"></i>
+                </div>
+                <div class="stat-info">
+                  <span class="stat-label">Equity</span>
+                  <span class="stat-value" id="statEquity">$126,800</span>
+                  <span class="stat-change positive">+$2,300 today</span>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon red">
+                  <i class="fas fa-arrow-down"></i>
+                </div>
+                <div class="stat-info">
+                  <span class="stat-label">Max Drawdown</span>
+                  <span class="stat-value" id="statDrawdown">-8.2%</span>
+                  <span class="stat-change neutral">Within limits</span>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon gold">
+                  <i class="fas fa-rocket"></i>
+                </div>
+                <div class="stat-info">
+                  <span class="stat-label">Avg Monthly Return</span>
+                  <span class="stat-value" id="statAvgReturn">+12.4%</span>
+                  <span class="stat-change positive">+1.8% vs last month</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Equity Growth Chart -->
+          <section class="chart-section">
+            <div class="section-title">
+              <h2>Equity <span class="gold-text">Growth</span></h2>
+              <p>Account balance progression over time</p>
+            </div>
+
+            <div class="chart-card">
+              <div class="chart-header">
+                <h3>Equity Curve</h3>
+                <div class="chart-controls">
+                  <button class="chart-period active" data-period="1M">
+                    1M
+                  </button>
+                  <button class="chart-period" data-period="3M">3M</button>
+                  <button class="chart-period" data-period="6M">6M</button>
+                  <button class="chart-period" data-period="1Y">1Y</button>
+                  <button class="chart-period" data-period="ALL">ALL</button>
+                </div>
+              </div>
+              <div class="chart-container">
+                <canvas id="equityChart"></canvas>
+              </div>
+            </div>
+          </section>
+
+          <!-- Live Open Trades -->
+          <section class="trades-section">
+            <div class="section-title">
+              <h2>Live <span class="gold-text">Open Trades</span></h2>
+              <p>Real-time positions from the master account</p>
+            </div>
+
+            <div class="trades-table-wrapper">
+              <div class="table-controls">
+                <span class="table-count"
+                  >Showing <strong id="openTradesCount">4</strong> open
+                  trades</span
+                >
+                <button class="refresh-btn" id="refreshTradesBtn">
+                  <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+              </div>
+              <div class="table-scroll">
+                <table class="trades-table" id="openTradesTable">
+                  <thead>
+                    <tr>
+                      <th>Symbol</th>
+                      <th>Type</th>
+                      <th>Entry Price</th>
+                      <th>Current Price</th>
+                      <th>Stop Loss</th>
+                      <th>Take Profit</th>
+                      <th>Floating P&L</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="openTradesBody">
+                    <!-- Rendered by JavaScript -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- Trade History -->
+          <section class="history-section">
+            <div class="section-title">
+              <h2>Trade <span class="gold-text">History</span></h2>
+              <p>Recent closed trades from the master account</p>
+            </div>
+
+            <div class="trades-table-wrapper">
+              <div class="table-controls">
+                <span class="table-count"
+                  >Showing last
+                  <strong id="historyTradesCount">10</strong> trades</span
+                >
+                <button class="refresh-btn" id="refreshHistoryBtn">
+                  <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+              </div>
+              <div class="table-scroll">
+                <table class="trades-table" id="historyTable">
+                  <thead>
+                    <tr>
+                      <th>Symbol</th>
+                      <th>Type</th>
+                      <th>Entry</th>
+                      <th>Exit</th>
+                      <th>Profit/Loss</th>
+                      <th>Closing Date</th>
+                    </tr>
+                  </thead>
+                  <tbody id="historyBody">
+                    <!-- Rendered by JavaScript -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- How Copy Trading Works -->
+          <section class="how-it-works">
+            <div class="section-title">
+              <h2>How <span class="gold-text">Copy Trading</span> Works</h2>
+              <p>Get started in 3 simple steps</p>
+            </div>
+
+            <div class="steps-grid">
+              <div class="step-card">
+                <div class="step-number">01</div>
+                <div class="step-icon">
+                  <i class="fas fa-user-plus"></i>
+                </div>
+                <h3>Create Account</h3>
+                <p>
+                  Sign up for a Nana Forex account and complete your profile.
+                </p>
+              </div>
+              <div class="step-card">
+                <div class="step-number">02</div>
+                <div class="step-icon">
+                  <i class="fas fa-link"></i>
+                </div>
+                <h3>Connect Account</h3>
+                <p>
+                  Link your trading account (MT4/MT5) to our copy trading
+                  system.
+                </p>
+              </div>
+              <div class="step-card">
+                <div class="step-number">03</div>
+                <div class="step-icon">
+                  <i class="fas fa-copy"></i>
+                </div>
+                <h3>Start Copying</h3>
+                <p>
+                  Enable copy trading and let our professional trader work for
+                  you.
+                </p>
+              </div>
+            </div>
+
+            <div class="works-note">
+              <i class="fas fa-info-circle"></i>
+              <span
+                >You have full control — stop copying, adjust risk, or withdraw
+                anytime.</span
+              >
+            </div>
+          </section>
+
+          <!-- Benefits Section -->
+          <section class="benefits-section">
+            <div class="section-title">
+              <h2>Why Copy <span class="gold-text">Our Trader?</span></h2>
+              <p>Transparency, performance, and control — all in one place</p>
+            </div>
+
+            <div class="benefits-grid">
+              <div class="benefit-card">
+                <div class="benefit-icon">
+                  <i class="fas fa-eye"></i>
+                </div>
+                <h3>Full Transparency</h3>
+                <p>
+                  See every trade, open position, and performance metric in
+                  real-time.
+                </p>
+              </div>
+              <div class="benefit-card">
+                <div class="benefit-icon">
+                  <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Real-Time Performance</h3>
+                <p>
+                  Live updates on trades and portfolio performance — no delays.
+                </p>
+              </div>
+              <div class="benefit-card">
+                <div class="benefit-icon">
+                  <i class="fas fa-user-tie"></i>
+                </div>
+                <h3>One Professional Trader</h3>
+                <p>
+                  Follow one expert trader with a proven track record over many
+                  years.
+                </p>
+              </div>
+              <div class="benefit-card">
+                <div class="benefit-icon">
+                  <i class="fas fa-sliders-h"></i>
+                </div>
+                <h3>Full User Control</h3>
+                <p>
+                  Adjust risk, set stop limits, or stop copying at any time.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <!-- FAQ Section -->
+          <section class="faq-section">
+            <div class="section-title">
+              <h2>Frequently Asked <span class="gold-text">Questions</span></h2>
+              <p>Everything you need to know about copy trading</p>
+            </div>
+
+            <div class="faq-grid">
+              <div class="faq-item">
+                <div class="faq-question">
+                  <h3>What is copy trading?</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                  <p>
+                    Copy trading allows you to automatically mirror the trades
+                    of a professional trader in your own account. Every trade
+                    they make is replicated in your account proportionally.
+                  </p>
+                </div>
+              </div>
+
+              <div class="faq-item">
+                <div class="faq-question">
+                  <h3>Do I need trading experience?</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                  <p>
+                    No experience is needed! Copy trading is designed for
+                    beginners and experienced traders alike. You can start
+                    copying with just a few clicks.
+                  </p>
+                </div>
+              </div>
+
+              <div class="faq-item">
+                <div class="faq-question">
+                  <h3>How much money do I need to start?</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                  <p>
+                    The minimum investment for copy trading is $500. You can
+                    start small and scale up as you become more comfortable with
+                    the system.
+                  </p>
+                </div>
+              </div>
+
+              <div class="faq-item">
+                <div class="faq-question">
+                  <h3>Can I stop copying at any time?</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                  <p>
+                    Yes! You have full control over your account. You can pause
+                    or stop copying trades at any time with no penalties.
+                  </p>
+                </div>
+              </div>
+
+              <div class="faq-item">
+                <div class="faq-question">
+                  <h3>How are trades copied to my account?</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                  <p>
+                    Trades are copied automatically through our secure platform.
+                    When the master trader opens or closes a position, the same
+                    trade is executed in your account proportionally.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- CTA Section -->
+          <section class="cta-section">
+            <div class="cta-content">
+              <h2>Ready to <span class="gold-text">Copy Our Trader?</span></h2>
+              <p>
+                Join 200+ traders who are already copying our professional
+                trader.
+              </p>
+              <div class="cta-buttons">
+                <button class="btn-primary" id="ctaStartCopyBtn">
+                  <i class="fas fa-copy"></i> Start Copy Trading
+                </button>
+                <button class="btn-secondary" id="ctaViewPerformance">
+                  <i class="fas fa-chart-line"></i> View Live Performance
+                </button>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <!-- =======================
+    COPY TRADING MODAL
+    ======================= -->
+    <div class="copy-modal" id="copyModal">
+      <div class="copy-modal-content">
+        <button class="modal-close" id="copyModalClose">&times;</button>
+        <h3>
+          <i class="fas fa-copy" style="color: var(--gold)"></i> Start Copy
+          Trading
+        </h3>
+        <p>Connect your account and start copying our professional trader.</p>
+
+        <div class="modal-account-select">
+          <div class="account-option active">
+            <i class="fas fa-exchange-alt"></i>
+            <div>
+              <h4>MT4 / MT5</h4>
+              <p>Connect your MetaTrader account</p>
+            </div>
+          </div>
+        </div>
+
+        <form id="copyTradingForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Account Type <span class="required">*</span></label>
+              <select id="copyAccountType" required>
+                <option value="">Select account type</option>
+                <option value="mt4">MT4 Account</option>
+                <option value="mt5">MT5 Account</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Account Number <span class="required">*</span></label>
+              <input
+                type="text"
+                id="copyAccountNumber"
+                placeholder="Enter your account number"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label
+                >Investment Amount ($) <span class="required">*</span></label
+              >
+              <input
+                type="number"
+                id="copyInvestment"
+                placeholder="500"
+                min="500"
+                step="100"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label>Risk Level</label>
+              <select id="copyRiskLevel">
+                <option value="conservative">Conservative</option>
+                <option value="moderate" selected>Moderate</option>
+                <option value="aggressive">Aggressive</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="copyAgree" required />
+              <span
+                >I agree to the
+                <a href="#" style="color: var(--gold)">Terms and Conditions</a>
+                of copy trading.</span
+              >
+            </label>
+          </div>
+
+          <button type="submit" class="btn-primary" id="copySubmitBtn">
+            <i class="fas fa-copy"></i> Start Copy Trading
+          </button>
+          <div id="copyStatus" class="form-status"></div>
+        </form>
+      </div>
+    </div>
+
+    <!-- =======================
+    SCRIPTS
+    ======================= -->
+    <script src="/js/main.js"></script>
+    <!--<script src="/js/copy-trading.js"></script>-->
+  </body>
+</html>

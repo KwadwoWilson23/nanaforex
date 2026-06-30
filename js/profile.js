@@ -2,14 +2,105 @@
 // PROFILE PAGE - User Profile Management
 // ====================================
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
+  // ====================================
+  // HAMBURGER MENU TOGGLE
+  // ====================================
+  const hamburgerBtn = document.getElementById("hamburgerBtn");
+  const sidebar = document.getElementById("sidebar");
+  const sidebarOverlay = document.getElementById("sidebarOverlay");
+
+  function openSidebar() {
+    sidebar.classList.add("open");
+    sidebarOverlay.classList.add("active");
+    hamburgerBtn?.classList.add("active");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeSidebar() {
+    sidebar.classList.remove("open");
+    sidebarOverlay.classList.remove("active");
+    hamburgerBtn?.classList.remove("active");
+    document.body.style.overflow = "";
+  }
+
+  hamburgerBtn?.addEventListener("click", function (e) {
+    e.stopPropagation();
+    if (sidebar.classList.contains("open")) {
+      closeSidebar();
+    } else {
+      openSidebar();
+    }
+  });
+
+  const sidebarClose = document.getElementById("sidebarClose");
+  sidebarClose?.addEventListener("click", closeSidebar);
+
+  sidebarOverlay?.addEventListener("click", closeSidebar);
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && sidebar.classList.contains("open")) {
+      closeSidebar();
+    }
+  });
+
+  window.addEventListener("resize", function () {
+    if (window.innerWidth > 768 && sidebar.classList.contains("open")) {
+      closeSidebar();
+    }
+  });
+
+  // ====================================
+  // NAVIGATION LINKS
+  // ====================================
+  const navLinks = document.querySelectorAll(".sidebar-nav a");
+
+  navLinks.forEach(function (link) {
+    link.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      navLinks.forEach(function (l) {
+        l.classList.remove("active");
+      });
+
+      this.classList.add("active");
+
+      const pageName = this.dataset.page;
+      const headerTitle = document.querySelector(".dashboard-header h1");
+      const pageTitles = {
+        dashboard: "Dashboard",
+        profile: "Profile",
+        academy: "Academy",
+        signals: "Signals",
+        "copy-trading": "Copy Trading",
+        "funded-account": "Funded Account",
+        mentorship: "Mentorship",
+        "ib-partnership": "IB Partnership",
+        "trading-tools": "Trading Tools",
+        "market-analysis": "Market Analysis",
+        referrals: "Referrals",
+        payments: "Payments",
+        settings: "Settings",
+      };
+
+      if (headerTitle && pageTitles[pageName]) {
+        headerTitle.textContent = pageTitles[pageName];
+      }
+
+      if (window.innerWidth <= 768) {
+        closeSidebar();
+      }
+    });
+  });
+
   // ====================================
   // LOAD USER DATA
   // ====================================
   function loadUserData() {
-    const user = localStorage.getItem("nanaForexUser") ||
-                 sessionStorage.getItem("nanaForexUser");
-    
+    const user =
+      localStorage.getItem("nanaForexUser") ||
+      sessionStorage.getItem("nanaForexUser");
+
     if (!user) {
       window.location.href = "login.html";
       return;
@@ -17,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     try {
       const userData = JSON.parse(user);
-      
+
       // Update profile info
       const profileName = document.getElementById("profileName");
       const profileEmail = document.getElementById("profileEmail");
@@ -35,7 +126,12 @@ document.addEventListener("DOMContentLoaded", function() {
       if (emailAddress) emailAddress.value = email;
 
       // Update initials
-      const initials = name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2);
+      const initials = name
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 2);
       if (profileInitials) profileInitials.textContent = initials;
       if (userInitials) userInitials.textContent = initials;
 
@@ -70,7 +166,6 @@ document.addEventListener("DOMContentLoaded", function() {
         const leverage = document.getElementById("leverage");
         if (leverage) leverage.value = userData.leverage;
       }
-
     } catch (e) {
       console.error("Error loading user data:", e);
       window.location.href = "login.html";
@@ -80,34 +175,67 @@ document.addEventListener("DOMContentLoaded", function() {
   loadUserData();
 
   // ====================================
-  // PROFILE TABS
+  // PROFILE TABS - FIXED TOGGLING
   // ====================================
   const tabs = document.querySelectorAll(".profile-tab");
   const tabContents = document.querySelectorAll(".profile-tab-content");
 
-  tabs.forEach(tab => {
-    tab.addEventListener("click", function() {
-      // Remove active from all tabs and contents
-      tabs.forEach(t => t.classList.remove("active"));
-      tabContents.forEach(c => c.classList.remove("active"));
+  function switchTab(tabId) {
+    // Remove active from all tabs
+    tabs.forEach((t) => t.classList.remove("active"));
 
-      // Add active to clicked tab
-      this.classList.add("active");
+    // Remove active from all contents
+    tabContents.forEach((c) => c.classList.remove("active"));
 
-      // Show corresponding content
+    // Add active to clicked tab
+    const activeTab = document.querySelector(
+      `.profile-tab[data-tab="${tabId}"]`,
+    );
+    if (activeTab) {
+      activeTab.classList.add("active");
+    }
+
+    // Show corresponding content
+    const content = document.getElementById(`tab-${tabId}`);
+    if (content) {
+      content.classList.add("active");
+    }
+  }
+
+  // Add click event to each tab
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", function () {
       const tabId = this.dataset.tab;
-      const content = document.getElementById(`tab-${tabId}`);
-      if (content) {
-        content.classList.add("active");
-      }
+      switchTab(tabId);
     });
   });
 
   // ====================================
+  // EDIT PROFILE BUTTON - FIXED
+  // ====================================
+  document
+    .getElementById("editProfileBtn")
+    ?.addEventListener("click", function () {
+      // Switch to Personal Info tab
+      switchTab("personal");
+
+      // Scroll to the form after a slight delay
+      setTimeout(() => {
+        const tabContent = document.getElementById("tab-personal");
+        if (tabContent) {
+          tabContent.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }
+      }, 300);
+    });
+
+  // ====================================
   // TOGGLE PASSWORD VISIBILITY
   // ====================================
-  document.querySelectorAll(".toggle-password").forEach(btn => {
-    btn.addEventListener("click", function() {
+  document.querySelectorAll(".toggle-password").forEach((btn) => {
+    btn.addEventListener("click", function () {
       const input = this.closest(".password-wrapper").querySelector("input");
       const icon = this.querySelector("i");
 
@@ -129,7 +257,7 @@ document.addEventListener("DOMContentLoaded", function() {
   const strengthLabel = document.getElementById("securityStrengthLabel");
 
   if (newPassword) {
-    newPassword.addEventListener("input", function() {
+    newPassword.addEventListener("input", function () {
       const password = this.value;
       let strength = 0;
       let label = "Weak";
@@ -147,7 +275,7 @@ document.addEventListener("DOMContentLoaded", function() {
         1: { label: "Weak", color: "#ff4d4d" },
         2: { label: "Fair", color: "#f5b700" },
         3: { label: "Good", color: "#00c896" },
-        4: { label: "Strong", color: "#00ff88" }
+        4: { label: "Strong", color: "#00ff88" },
       };
 
       const result = strengthMap[strength] || strengthMap[0];
@@ -169,7 +297,7 @@ document.addEventListener("DOMContentLoaded", function() {
   const personalStatus = document.getElementById("personalFormStatus");
 
   if (personalForm) {
-    personalForm.addEventListener("submit", function(e) {
+    personalForm.addEventListener("submit", function (e) {
       e.preventDefault();
 
       const name = document.getElementById("fullName").value.trim();
@@ -183,9 +311,9 @@ document.addEventListener("DOMContentLoaded", function() {
         return;
       }
 
-      // Update user data
-      const user = localStorage.getItem("nanaForexUser") ||
-                   sessionStorage.getItem("nanaForexUser");
+      const user =
+        localStorage.getItem("nanaForexUser") ||
+        sessionStorage.getItem("nanaForexUser");
       if (user) {
         try {
           const userData = JSON.parse(user);
@@ -196,21 +324,29 @@ document.addEventListener("DOMContentLoaded", function() {
           userData.bio = bio;
 
           localStorage.setItem("nanaForexUser", JSON.stringify(userData));
-          
+
           // Update display
           document.getElementById("profileName").textContent = name;
           document.getElementById("profileEmail").textContent = email;
-          
-          const initials = name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2);
+
+          const initials = name
+            .split(" ")
+            .map((n) => n[0])
+            .join("")
+            .toUpperCase()
+            .slice(0, 2);
           document.getElementById("profileInitials").textContent = initials;
           document.getElementById("userInitials").textContent = initials;
 
-          showStatus(personalStatus, "Profile updated successfully!", "success");
+          showStatus(
+            personalStatus,
+            "✅ Profile updated successfully!",
+            "success",
+          );
           setTimeout(() => {
             personalStatus.className = "form-status";
             personalStatus.textContent = "";
           }, 3000);
-
         } catch (e) {
           showStatus(personalStatus, "Error updating profile.", "error");
         }
@@ -225,26 +361,33 @@ document.addEventListener("DOMContentLoaded", function() {
   const tradingPrefsStatus = document.getElementById("tradingPrefsStatus");
 
   if (tradingPrefsForm) {
-    tradingPrefsForm.addEventListener("submit", function(e) {
+    tradingPrefsForm.addEventListener("submit", function (e) {
       e.preventDefault();
 
       const tradingStyle = document.getElementById("tradingStyle").value;
       const riskTolerance = document.getElementById("riskTolerance").value;
-      const preferredPairs = document.getElementById("preferredPairs").value.trim();
+      const preferredPairs = document
+        .getElementById("preferredPairs")
+        .value.trim();
       const leverage = document.getElementById("leverage").value;
 
       // Get notification preferences
       const notificationPrefs = [];
-      document.querySelectorAll("#tab-trading .toggle-switch input").forEach(input => {
-        if (input.checked) {
-          const label = input.closest(".toggle-switch").querySelector(".toggle-label");
-          if (label) notificationPrefs.push(label.textContent.trim());
-        }
-      });
+      document
+        .querySelectorAll("#tab-trading .toggle-switch input")
+        .forEach((input) => {
+          if (input.checked) {
+            const label = input
+              .closest(".toggle-switch")
+              .querySelector(".toggle-label");
+            if (label) notificationPrefs.push(label.textContent.trim());
+          }
+        });
 
       // Save to user data
-      const user = localStorage.getItem("nanaForexUser") ||
-                   sessionStorage.getItem("nanaForexUser");
+      const user =
+        localStorage.getItem("nanaForexUser") ||
+        sessionStorage.getItem("nanaForexUser");
       if (user) {
         try {
           const userData = JSON.parse(user);
@@ -256,12 +399,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
           localStorage.setItem("nanaForexUser", JSON.stringify(userData));
 
-          showStatus(tradingPrefsStatus, "Trading preferences saved!", "success");
+          showStatus(
+            tradingPrefsStatus,
+            "✅ Trading preferences saved!",
+            "success",
+          );
           setTimeout(() => {
             tradingPrefsStatus.className = "form-status";
             tradingPrefsStatus.textContent = "";
           }, 3000);
-
         } catch (e) {
           showStatus(tradingPrefsStatus, "Error saving preferences.", "error");
         }
@@ -276,42 +422,51 @@ document.addEventListener("DOMContentLoaded", function() {
   const securityStatus = document.getElementById("securityFormStatus");
 
   if (securityForm) {
-    securityForm.addEventListener("submit", function(e) {
+    securityForm.addEventListener("submit", function (e) {
       e.preventDefault();
 
       const currentPassword = document.getElementById("currentPassword").value;
-      const newPassword = document.getElementById("newPassword").value;
+      const newPasswordVal = document.getElementById("newPassword").value;
       const confirmPassword = document.getElementById("confirmPassword").value;
 
-      if (!currentPassword || !newPassword || !confirmPassword) {
-        showStatus(securityStatus, "Please fill in all password fields.", "error");
+      if (!currentPassword || !newPasswordVal || !confirmPassword) {
+        showStatus(
+          securityStatus,
+          "Please fill in all password fields.",
+          "error",
+        );
         return;
       }
 
-      if (newPassword.length < 8) {
-        showStatus(securityStatus, "New password must be at least 8 characters.", "error");
+      if (newPasswordVal.length < 8) {
+        showStatus(
+          securityStatus,
+          "New password must be at least 8 characters.",
+          "error",
+        );
         return;
       }
 
-      if (newPassword !== confirmPassword) {
+      if (newPasswordVal !== confirmPassword) {
         showStatus(securityStatus, "Passwords do not match.", "error");
         return;
       }
 
-      // Save new password (in a real app, this would go to a backend)
-      const user = localStorage.getItem("nanaForexUser") ||
-                   sessionStorage.getItem("nanaForexUser");
+      // Save new password
+      const user =
+        localStorage.getItem("nanaForexUser") ||
+        sessionStorage.getItem("nanaForexUser");
       if (user) {
         try {
           const userData = JSON.parse(user);
-          userData.password = newPassword; // In production, this would be hashed
+          userData.password = newPasswordVal;
           localStorage.setItem("nanaForexUser", JSON.stringify(userData));
 
           // Clear fields
           document.getElementById("currentPassword").value = "";
           document.getElementById("newPassword").value = "";
           document.getElementById("confirmPassword").value = "";
-          
+
           // Reset strength meter
           if (strengthFill) {
             strengthFill.style.width = "0%";
@@ -322,18 +477,30 @@ document.addEventListener("DOMContentLoaded", function() {
             strengthLabel.style.color = "#ff4d4d";
           }
 
-          showStatus(securityStatus, "Password updated successfully!", "success");
+          showStatus(
+            securityStatus,
+            "✅ Password updated successfully!",
+            "success",
+          );
           setTimeout(() => {
             securityStatus.className = "form-status";
             securityStatus.textContent = "";
           }, 3000);
-
         } catch (e) {
           showStatus(securityStatus, "Error updating password.", "error");
         }
       }
     });
   }
+
+  // ====================================
+  // AVATAR EDIT BUTTON
+  // ====================================
+  document
+    .getElementById("avatarEditBtn")
+    ?.addEventListener("click", function () {
+      showToast("📸 Profile picture upload coming soon!", "info");
+    });
 
   // ====================================
   // HELPER: SHOW STATUS
@@ -343,29 +510,6 @@ document.addEventListener("DOMContentLoaded", function() {
     element.className = "form-status " + type;
     element.style.display = "block";
   }
-
-  // ====================================
-  // AVATAR EDIT BUTTON
-  // ====================================
-  document.getElementById("avatarEditBtn")?.addEventListener("click", function() {
-    // In a real app, this would open a file picker
-    // For demo, show a toast notification
-    showToast("Profile picture upload coming soon!", "info");
-  });
-
-  // ====================================
-  // EDIT PROFILE BUTTON (Scroll to form)
-  // ====================================
-  document.getElementById("editProfileBtn")?.addEventListener("click", function() {
-    const tab = document.querySelector('.profile-tab[data-tab="personal"]');
-    if (tab) {
-      tab.click();
-    }
-    document.getElementById("tab-personal")?.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
-  });
 
   // ====================================
   // TOAST NOTIFICATIONS
@@ -392,7 +536,7 @@ document.addEventListener("DOMContentLoaded", function() {
       success: "#00ff88",
       error: "#ff4d4d",
       warning: "#f5b700",
-      info: "#00c896"
+      info: "#00c896",
     };
 
     toast.style.cssText = `
@@ -441,4 +585,5 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   console.log("✅ Profile page initialized");
+  console.log("ℹ️ Click 'Edit Profile' to switch to Personal Info tab");
 });

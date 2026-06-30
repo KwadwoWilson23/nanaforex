@@ -1,6 +1,34 @@
 /* ====================================
-MARKET ANALYSIS PAGE STYLES
+MARKET ANALYSIS - MODERN RESPONSIVE STYLES
 ==================================== */
+
+/* ====================================
+GLOBAL RESET & BASE
+==================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img,
+canvas,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.main-content {
+  min-width: 0;
+}
+
+.dashboard-wrapper {
+  overflow-x: hidden;
+}
 
 /* ====================================
 MARKET OVERVIEW
@@ -19,7 +47,7 @@ MARKET OVERVIEW
 }
 
 .market-header h1 {
-  font-size: 1.5rem;
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
 }
 
 .market-controls {
@@ -35,10 +63,11 @@ MARKET OVERVIEW
   border: 1px solid var(--border);
   background: var(--glass-bg);
   color: var(--white);
-  font-size: 0.8rem;
+  font-size: clamp(0.7rem, 0.8vw, 0.8rem);
   cursor: pointer;
   transition: 0.3s;
   font-family: "Inter", sans-serif;
+  white-space: nowrap;
 }
 
 .refresh-btn:hover {
@@ -51,25 +80,26 @@ MARKET OVERVIEW
 }
 
 .last-updated {
-  font-size: 0.75rem;
+  font-size: clamp(0.65rem, 0.75vw, 0.75rem);
   color: var(--text-muted);
+  white-space: nowrap;
 }
 
 /* ====================================
-LIVE PRICES
+LIVE PRICES - Auto-fit grid
 ==================================== */
 .live-prices {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
   margin-bottom: 2rem;
 }
 
 .price-card {
   background: var(--card-bg);
   border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 1rem 1.25rem;
+  border-radius: clamp(12px, 1.5vw, 16px);
+  padding: clamp(0.75rem, 1.5vw, 1.25rem);
   text-align: center;
   transition: 0.3s;
 }
@@ -80,21 +110,21 @@ LIVE PRICES
 }
 
 .price-symbol {
-  font-size: 0.75rem;
+  font-size: clamp(0.65rem, 0.8vw, 0.75rem);
   font-weight: 600;
   color: var(--text-muted);
   text-transform: uppercase;
 }
 
 .price-value {
-  font-size: 1.3rem;
+  font-size: clamp(1rem, 1.5vw, 1.3rem);
   font-weight: 700;
   margin: 0.25rem 0;
   font-family: "Space Grotesk", sans-serif;
 }
 
 .price-change {
-  font-size: 0.75rem;
+  font-size: clamp(0.7rem, 0.8vw, 0.75rem);
   font-weight: 600;
 }
 
@@ -107,7 +137,7 @@ LIVE PRICES
 }
 
 /* ====================================
-ANALYSIS TABS
+ANALYSIS TABS - Horizontal scroll on mobile
 ==================================== */
 .analysis-tabs {
   display: flex;
@@ -115,9 +145,14 @@ ANALYSIS TABS
   margin-bottom: 2rem;
   background: var(--card-bg);
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: clamp(12px, 1.5vw, 16px);
   padding: 0.5rem;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.analysis-tabs::-webkit-scrollbar {
+  display: none;
 }
 
 .analysis-tab {
@@ -126,12 +161,13 @@ ANALYSIS TABS
   border: none;
   background: transparent;
   color: var(--text-muted);
-  font-size: 0.85rem;
+  font-size: clamp(0.7rem, 0.85vw, 0.85rem);
   font-weight: 500;
   cursor: pointer;
   transition: 0.3s;
   font-family: "Inter", sans-serif;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .analysis-tab i {
@@ -171,7 +207,7 @@ TAB CONTENT
 }
 
 /* ====================================
-TECHNICAL SECTION
+TECHNICAL SECTION - Auto-fit grid
 ==================================== */
 .technical-section {
   display: grid;
@@ -182,8 +218,8 @@ TECHNICAL SECTION
 .chart-container {
   background: var(--card-bg);
   border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 1.5rem;
+  border-radius: clamp(16px, 2vw, 20px);
+  padding: clamp(1rem, 2vw, 1.5rem);
 }
 
 .chart-header {
@@ -196,7 +232,7 @@ TECHNICAL SECTION
 }
 
 .chart-header h3 {
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 1.1vw, 1rem);
   font-weight: 600;
 }
 
@@ -212,14 +248,19 @@ TECHNICAL SECTION
   border: 1px solid var(--border);
   border-radius: 8px;
   color: var(--white);
-  font-size: 0.8rem;
+  font-size: clamp(0.7rem, 0.8vw, 0.8rem);
   font-family: "Inter", sans-serif;
   outline: none;
 }
 
+.chart-controls select:focus {
+  border-color: var(--secondary);
+}
+
 .chart-wrapper {
   position: relative;
-  height: 350px;
+  height: clamp(250px, 40vw, 350px);
+  width: 100%;
 }
 
 /* ====================================
@@ -228,12 +269,12 @@ TECHNICAL INDICATORS
 .technical-indicators {
   background: var(--card-bg);
   border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 1.5rem;
+  border-radius: clamp(16px, 2vw, 20px);
+  padding: clamp(1rem, 2vw, 1.5rem);
 }
 
 .technical-indicators h3 {
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 1.1vw, 1rem);
   font-weight: 600;
   margin-bottom: 1rem;
 }
@@ -248,20 +289,20 @@ TECHNICAL INDICATORS
   background: var(--glass-bg);
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 0.75rem;
+  padding: clamp(0.5rem, 0.8vw, 0.75rem);
   text-align: center;
 }
 
 .indicator-label {
   display: block;
-  font-size: 0.65rem;
+  font-size: clamp(0.55rem, 0.65vw, 0.65rem);
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .indicator-value {
-  font-size: 1rem;
+  font-size: clamp(0.85rem, 1vw, 1rem);
   font-weight: 700;
   font-family: "Space Grotesk", sans-serif;
 }
@@ -279,7 +320,7 @@ TECHNICAL INDICATORS
 }
 
 /* ====================================
-FUNDAMENTAL SECTION
+FUNDAMENTAL SECTION - Auto-fit grid
 ==================================== */
 .fundamental-section {
   display: grid;
@@ -291,13 +332,13 @@ FUNDAMENTAL SECTION
 .news-feed {
   background: var(--card-bg);
   border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 1.5rem;
+  border-radius: clamp(16px, 2vw, 20px);
+  padding: clamp(1rem, 2vw, 1.5rem);
 }
 
 .economic-calendar h3,
 .news-feed h3 {
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 1.1vw, 1rem);
   font-weight: 600;
   margin-bottom: 1rem;
 }
@@ -321,10 +362,15 @@ FUNDAMENTAL SECTION
   border: 1px solid var(--border);
   border-radius: 8px;
   color: var(--white);
-  font-size: 0.8rem;
+  font-size: clamp(0.7rem, 0.8vw, 0.8rem);
   font-family: "Inter", sans-serif;
   outline: none;
   flex: 1;
+  min-width: 120px;
+}
+
+.calendar-controls select:focus {
+  border-color: var(--secondary);
 }
 
 #economicEvents {
@@ -343,13 +389,13 @@ FUNDAMENTAL SECTION
 }
 
 .event-time {
-  font-size: 0.75rem;
+  font-size: clamp(0.65rem, 0.75vw, 0.75rem);
   color: var(--text-muted);
 }
 
 .event-currency {
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: clamp(0.75rem, 0.85vw, 0.85rem);
 }
 
 .event-impact {
@@ -375,8 +421,9 @@ FUNDAMENTAL SECTION
 }
 
 .event-name {
-  font-size: 0.85rem;
+  font-size: clamp(0.75rem, 0.85vw, 0.85rem);
   flex: 1;
+  min-width: 100px;
 }
 
 /* News Items */
@@ -390,7 +437,7 @@ FUNDAMENTAL SECTION
 }
 
 .news-title {
-  font-size: 0.9rem;
+  font-size: clamp(0.8rem, 0.9vw, 0.9rem);
   font-weight: 500;
   margin-bottom: 0.2rem;
 }
@@ -398,6 +445,7 @@ FUNDAMENTAL SECTION
 .news-title a {
   color: var(--white);
   transition: 0.3s;
+  text-decoration: none;
 }
 
 .news-title a:hover {
@@ -407,7 +455,7 @@ FUNDAMENTAL SECTION
 .news-meta {
   display: flex;
   gap: 1rem;
-  font-size: 0.7rem;
+  font-size: clamp(0.6rem, 0.7vw, 0.7rem);
   color: var(--text-muted);
 }
 
@@ -416,7 +464,7 @@ FUNDAMENTAL SECTION
 }
 
 /* ====================================
-SENTIMENT SECTION
+SENTIMENT SECTION - Auto-fit grid
 ==================================== */
 .sentiment-section {
   display: grid;
@@ -428,13 +476,13 @@ SENTIMENT SECTION
 .fear-greed-index {
   background: var(--card-bg);
   border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 1.5rem;
+  border-radius: clamp(16px, 2vw, 20px);
+  padding: clamp(1rem, 2vw, 1.5rem);
 }
 
 .sentiment-overview h3,
 .fear-greed-index h3 {
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 1.1vw, 1rem);
   font-weight: 600;
   margin-bottom: 1rem;
 }
@@ -453,7 +501,7 @@ SENTIMENT SECTION
 }
 
 .sentiment-label {
-  font-size: 0.85rem;
+  font-size: clamp(0.8rem, 0.9vw, 0.85rem);
   font-weight: 500;
 }
 
@@ -482,7 +530,7 @@ SENTIMENT SECTION
 .sentiment-stats {
   display: flex;
   justify-content: space-between;
-  font-size: 0.7rem;
+  font-size: clamp(0.6rem, 0.7vw, 0.7rem);
   color: var(--text-muted);
 }
 
@@ -495,14 +543,14 @@ FEAR & GREED INDEX
 }
 
 .fgi-value {
-  font-size: 3.5rem;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
   font-weight: 800;
   font-family: "Space Grotesk", sans-serif;
   color: var(--gold);
 }
 
 .fgi-label {
-  font-size: 1.1rem;
+  font-size: clamp(0.9rem, 1.1vw, 1.1rem);
   font-weight: 600;
   margin-top: -0.25rem;
 }
@@ -527,7 +575,7 @@ FEAR & GREED INDEX
 }
 
 .fgi-scale span {
-  font-size: 0.6rem;
+  font-size: clamp(0.5rem, 0.6vw, 0.6rem);
   color: var(--text-muted);
   white-space: nowrap;
 }
@@ -559,8 +607,8 @@ SIGNALS SECTION
 .signals-section {
   background: var(--card-bg);
   border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 1.5rem;
+  border-radius: clamp(16px, 2vw, 20px);
+  padding: clamp(1rem, 2vw, 1.5rem);
 }
 
 .signals-header {
@@ -573,7 +621,7 @@ SIGNALS SECTION
 }
 
 .signals-header h3 {
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 1.1vw, 1rem);
   font-weight: 600;
 }
 
@@ -583,13 +631,14 @@ SIGNALS SECTION
 }
 
 .signal-count {
-  font-size: 0.8rem;
+  font-size: clamp(0.7rem, 0.8vw, 0.8rem);
   color: var(--text-muted);
 }
 
+/* Signals Grid - Auto-fit */
 .signals-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1rem;
 }
 
@@ -597,7 +646,7 @@ SIGNALS SECTION
   background: var(--glass-bg);
   border: 1px solid var(--border);
   border-radius: 16px;
-  padding: 1.25rem;
+  padding: clamp(1rem, 1.5vw, 1.25rem);
   transition: 0.3s;
   border-left: 4px solid var(--border);
 }
@@ -620,12 +669,13 @@ SIGNALS SECTION
   align-items: center;
   gap: 0.75rem;
   margin-bottom: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .signal-badge {
   padding: 0.15rem 0.6rem;
   border-radius: 999px;
-  font-size: 0.65rem;
+  font-size: clamp(0.6rem, 0.7vw, 0.65rem);
   font-weight: 700;
   text-transform: uppercase;
 }
@@ -641,7 +691,7 @@ SIGNALS SECTION
 }
 
 .signal-pair {
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 0.95vw, 0.95rem);
   font-weight: 600;
 }
 
@@ -656,7 +706,8 @@ SIGNALS SECTION
 .signal-price {
   display: flex;
   gap: 0.75rem;
-  font-size: 0.8rem;
+  font-size: clamp(0.7rem, 0.8vw, 0.8rem);
+  flex-wrap: wrap;
 }
 
 .signal-price span {
@@ -666,12 +717,13 @@ SIGNALS SECTION
 .signal-risk {
   display: flex;
   gap: 0.75rem;
-  font-size: 0.8rem;
+  font-size: clamp(0.7rem, 0.8vw, 0.8rem);
   color: var(--text-muted);
+  flex-wrap: wrap;
 }
 
 .signal-time {
-  font-size: 0.7rem;
+  font-size: clamp(0.6rem, 0.7vw, 0.7rem);
   color: var(--text-muted);
   display: flex;
   align-items: center;
@@ -679,8 +731,12 @@ SIGNALS SECTION
 }
 
 /* ====================================
-RESPONSIVE
+RESPONSIVE OVERRIDES (Minimal)
 ==================================== */
+
+/* Only what cannot be solved with auto-fit + clamp */
+
+/* Tablets and below */
 @media (max-width: 1024px) {
   .technical-section {
     grid-template-columns: 1fr;
@@ -695,47 +751,8 @@ RESPONSIVE
   }
 }
 
-@media (max-width: 768px) {
-  .live-prices {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .indicators-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .signals-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .market-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .chart-wrapper {
-    height: 250px;
-  }
-
-  .analysis-tab {
-    font-size: 0.75rem;
-    padding: 0.4rem 0.8rem;
-  }
-
-  .analysis-tab i {
-    margin-right: 0.25rem;
-  }
-}
-
+/* Small phones - special cases */
 @media (max-width: 480px) {
-  .live-prices {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .indicators-grid {
-    grid-template-columns: 1fr;
-  }
-
   .chart-controls {
     flex-direction: column;
     width: 100%;
@@ -746,10 +763,6 @@ RESPONSIVE
     width: 100%;
   }
 
-  .sentiment-section {
-    grid-template-columns: 1fr;
-  }
-
   .signal-details {
     flex-direction: column;
   }
@@ -757,4 +770,183 @@ RESPONSIVE
   .signal-price {
     flex-wrap: wrap;
   }
+
+  .calendar-controls {
+    flex-direction: column;
+  }
+
+  .calendar-controls select {
+    width: 100%;
+  }
+
+  .event-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .event-name {
+    width: 100%;
+  }
+
+  .market-controls {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 360px) {
+  .live-prices {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .price-card {
+    padding: 0.5rem;
+  }
+
+  .price-value {
+    font-size: 0.9rem;
+  }
+}
+
+/* ====================================
+MOBILE MENU STYLES
+==================================== */
+
+/* Hamburger Button */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 0.25rem;
+  background: none;
+  border: none;
+}
+
+.hamburger span {
+  width: 28px;
+  height: 3px;
+  background: var(--white);
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 6px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -6px);
+}
+
+/* Show hamburger on mobile */
+@media (max-width: 992px) {
+  .hamburger {
+    display: flex;
+  }
+}
+
+/* Sidebar mobile styles */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+    width: 280px;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .sidebar-close {
+    display: block !important;
+  }
+
+  .sidebar-overlay.active {
+    display: block !important;
+  }
+
+  .main-content {
+    margin-left: 0 !important;
+    padding: 1rem !important;
+  }
+}
+
+/* Sidebar overlay */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 99;
+  backdrop-filter: blur(4px);
+}
+
+.sidebar-overlay.active {
+  display: block;
+}
+
+/* Sidebar close button */
+.sidebar-close {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.25rem;
+}
+
+/* ====================================
+HEADER FIXES
+==================================== */
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.dashboard-header h1 {
+  flex: 1;
+  min-width: 0;
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+}
+
+/* ====================================
+SCROLLBAR STYLING
+==================================== */
+#economicEvents::-webkit-scrollbar,
+.analysis-tabs::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+#economicEvents::-webkit-scrollbar-track,
+.analysis-tabs::-webkit-scrollbar-track {
+  background: var(--glass-bg);
+  border-radius: 4px;
+}
+
+#economicEvents::-webkit-scrollbar-thumb,
+.analysis-tabs::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+#economicEvents::-webkit-scrollbar-thumb:hover,
+.analysis-tabs::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary);
+}
+
+/* ====================================
+SECTION PADDING UNIFORMITY
+==================================== */
+section {
+  padding-inline: clamp(0, 1vw, 0);
 }

@@ -46,7 +46,7 @@
         </div>
 
         <nav class="sidebar-nav">
-          <a href="clientDashboard.html" data-page="dashboard">
+          <a href="client-dashboard.html" data-page="dashboard">
             <i class="fas fa-th-large"></i>
             <span>Dashboard</span>
           </a>
@@ -66,10 +66,7 @@
             <i class="fas fa-copy"></i>
             <span>Copy Trading</span>
           </a>
-          <a href="funded-account.html" data-page="funded-account">
-            <i class="fas fa-wallet"></i>
-            <span>Funded Account</span>
-          </a>
+
           <a href="mentorship.html" data-page="mentorship">
             <i class="fas fa-chalkboard-teacher"></i>
             <span>Mentorship</span>
@@ -86,10 +83,7 @@
             <i class="fas fa-chart-line"></i>
             <span>Market Analysis</span>
           </a>
-          <a href="referrals.html" data-page="referrals">
-            <i class="fas fa-users"></i>
-            <span>Referrals</span>
-          </a>
+
           <a href="payments.html" data-page="payments">
             <i class="fas fa-credit-card"></i>
             <span>Payments</span>
@@ -119,9 +113,13 @@
       <main class="main-content">
         <!-- Top Header -->
         <header class="dashboard-header">
-          <button class="sidebar-toggle" id="sidebarToggle">
-            <i class="fas fa-bars"></i>
+          <!-- SINGLE HAMBURGER BUTTON - Removed the duplicate bars icon -->
+          <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
           </button>
+
           <h1>Dashboard</h1>
           <div class="header-actions">
             <button class="notif-btn" id="notifBtn">
@@ -378,6 +376,7 @@
     SCRIPTS
     ======================= -->
     <script src="/js/main.js"></script>
-    <!-- <script src="/js/client-dashboard.js"></script>-->
+    <script src="/js/client-dashboard.js"></script>
+    
   </body>
 </html>
