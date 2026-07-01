@@ -82,11 +82,7 @@
             <i class="fas fa-chart-line"></i>
             <span>Market Analysis</span>
           </a>
-      
-          <a href="payments.html" data-page="payments">
-            <i class="fas fa-credit-card"></i>
-            <span>Payments</span>
-          </a>
+
           <a href="settings.html" data-page="settings">
             <i class="fas fa-cog"></i>
             <span>Settings</span>
@@ -112,9 +108,13 @@
       <main class="main-content">
         <!-- Top Header -->
         <header class="dashboard-header">
-          <button class="sidebar-toggle" id="sidebarToggle">
-            <i class="fas fa-bars"></i>
+          <!-- SINGLE HAMBURGER BUTTON -->
+          <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
           </button>
+
           <h1>Signal Service</h1>
           <div class="header-actions">
             <button class="notif-btn" id="notifBtn">
@@ -634,7 +634,6 @@
     SCRIPTS
     ======================= -->
     <script src="/js/main.js"></script>
-    <!--<script src="/js/client-dashboard.js"></script>-->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/js/signals.js"></script>
   </body>

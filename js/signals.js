@@ -4,6 +4,147 @@
 
 document.addEventListener("DOMContentLoaded", function () {
   // ====================================
+  // HAMBURGER MENU TOGGLE
+  // ====================================
+  const hamburgerBtn = document.getElementById("hamburgerBtn");
+  const sidebar = document.getElementById("sidebar");
+  const sidebarOverlay = document.getElementById("sidebarOverlay");
+
+  function openSidebar() {
+    sidebar.classList.add("open");
+    sidebarOverlay.classList.add("active");
+    hamburgerBtn?.classList.add("active");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeSidebar() {
+    sidebar.classList.remove("open");
+    sidebarOverlay.classList.remove("active");
+    hamburgerBtn?.classList.remove("active");
+    document.body.style.overflow = "";
+  }
+
+  hamburgerBtn?.addEventListener("click", function (e) {
+    e.stopPropagation();
+    if (sidebar.classList.contains("open")) {
+      closeSidebar();
+    } else {
+      openSidebar();
+    }
+  });
+
+  const sidebarClose = document.getElementById("sidebarClose");
+  sidebarClose?.addEventListener("click", closeSidebar);
+
+  sidebarOverlay?.addEventListener("click", closeSidebar);
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && sidebar.classList.contains("open")) {
+      closeSidebar();
+    }
+  });
+
+  window.addEventListener("resize", function () {
+    if (window.innerWidth > 768 && sidebar.classList.contains("open")) {
+      closeSidebar();
+    }
+  });
+
+  // ====================================
+  // NAVIGATION LINKS
+  // ====================================
+  const navLinks = document.querySelectorAll(".sidebar-nav a");
+
+  navLinks.forEach(function (link) {
+    link.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      navLinks.forEach(function (l) {
+        l.classList.remove("active");
+      });
+
+      this.classList.add("active");
+
+      const pageName = this.dataset.page;
+      const headerTitle = document.querySelector(".dashboard-header h1");
+      const pageTitles = {
+        dashboard: "Dashboard",
+        profile: "Profile",
+        academy: "Academy",
+        signals: "Signals",
+        "copy-trading": "Copy Trading",
+        "funded-account": "Funded Account",
+        mentorship: "Mentorship",
+        "ib-partnership": "IB Partnership",
+        "trading-tools": "Trading Tools",
+        "market-analysis": "Market Analysis",
+        referrals: "Referrals",
+        payments: "Payments",
+        settings: "Settings",
+      };
+
+      if (headerTitle && pageTitles[pageName]) {
+        headerTitle.textContent = pageTitles[pageName];
+      }
+
+      if (window.innerWidth <= 768) {
+        closeSidebar();
+      }
+    });
+  });
+
+  // ====================================
+  // USER SESSION CHECK
+  // ====================================
+  function checkUserSession() {
+    const user =
+      localStorage.getItem("nanaForexUser") ||
+      sessionStorage.getItem("nanaForexUser");
+
+    if (!user) {
+      window.location.href = "login.html";
+      return;
+    }
+
+    try {
+      const userData = JSON.parse(user);
+      if (!userData.loggedIn) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      const userInitials = document.getElementById("userInitials");
+      if (userInitials) {
+        const name = userData.name || "Trader";
+        const initials = name
+          .split(" ")
+          .map((n) => n[0])
+          .join("")
+          .toUpperCase()
+          .slice(0, 2);
+        userInitials.textContent = initials;
+      }
+    } catch (e) {
+      window.location.href = "login.html";
+    }
+  }
+
+  checkUserSession();
+
+  // ====================================
+  // LOGOUT
+  // ====================================
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  logoutBtn?.addEventListener("click", function () {
+    if (confirm("Are you sure you want to logout?")) {
+      localStorage.removeItem("nanaForexUser");
+      sessionStorage.removeItem("nanaForexUser");
+      window.location.href = "login.html";
+    }
+  });
+
+  // ====================================
   // SIGNAL DATA
   // ====================================
   let signals = [
@@ -202,7 +343,6 @@ document.addEventListener("DOMContentLoaded", function () {
       this.disabled = true;
 
       setTimeout(() => {
-        // Simulate new signals
         const newSignals = generateNewSignal();
         if (newSignals) {
           signals.unshift(newSignals);
@@ -261,7 +401,6 @@ document.addEventListener("DOMContentLoaded", function () {
     modal.classList.add("active");
     document.body.style.overflow = "hidden";
 
-    // Pre-fill user data
     const user =
       localStorage.getItem("nanaForexUser") ||
       sessionStorage.getItem("nanaForexUser");
@@ -453,7 +592,6 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      // Save to localStorage
       const waitlist = JSON.parse(
         localStorage.getItem("telegramWaitlist") || "[]",
       );

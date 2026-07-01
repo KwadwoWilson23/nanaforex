@@ -1,29 +1,62 @@
 /* ====================================
-TRADING TOOLS PAGE STYLES
+TRADING TOOLS - MODERN RESPONSIVE STYLES
 ==================================== */
+
+/* ====================================
+GLOBAL RESET & BASE
+==================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img,
+canvas,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.main-content {
+  min-width: 0;
+}
+
+.dashboard-wrapper {
+  overflow-x: hidden;
+}
 
 /* ====================================
 TOOLS HERO
 ==================================== */
 .tools-hero {
-  padding: 2rem 0 3rem;
+  padding: clamp(1.5rem, 3vw, 3rem) clamp(0.5rem, 2vw, 1rem)
+    clamp(2rem, 4vw, 3rem);
   text-align: center;
 }
 
 .tools-hero h1 {
-  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-size: clamp(1.8rem, 5vw, 3.5rem);
   margin-bottom: 0.5rem;
 }
 
 .tools-hero p {
-  font-size: 1.05rem;
+  font-size: clamp(0.9rem, 1.2vw, 1.05rem);
   color: var(--text-muted);
   max-width: 600px;
   margin: 0 auto;
 }
 
+.gold-text {
+  color: var(--gold);
+}
+
 /* ====================================
-TOOL CATEGORIES
+TOOL CATEGORIES - Horizontal scroll on mobile
 ==================================== */
 .tool-categories {
   display: flex;
@@ -34,12 +67,12 @@ TOOL CATEGORIES
 }
 
 .category-btn {
-  padding: 0.5rem 1.25rem;
+  padding: clamp(0.35rem, 0.6vw, 0.5rem) clamp(0.75rem, 1.2vw, 1.25rem);
   border-radius: 999px;
   border: 1px solid var(--border);
   background: var(--glass-bg);
   color: var(--text-muted);
-  font-size: 0.85rem;
+  font-size: clamp(0.7rem, 0.85vw, 0.85rem);
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -47,10 +80,11 @@ TOOL CATEGORIES
   display: flex;
   align-items: center;
   gap: 0.4rem;
+  white-space: nowrap;
 }
 
 .category-btn i {
-  font-size: 0.85rem;
+  font-size: clamp(0.7rem, 0.85vw, 0.85rem);
 }
 
 .category-btn:hover {
@@ -65,19 +99,19 @@ TOOL CATEGORIES
 }
 
 /* ====================================
-TOOLS GRID
+TOOLS GRID - Auto-fit
 ==================================== */
 .tools-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.5rem;
 }
 
 .tool-card {
   background: var(--card-bg);
   border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 1.5rem;
+  border-radius: clamp(16px, 2vw, 20px);
+  padding: clamp(1.25rem, 2vw, 1.5rem);
   display: flex;
   flex-direction: column;
   transition: all 0.3s ease;
@@ -90,17 +124,18 @@ TOOLS GRID
 }
 
 .tool-card .tool-icon {
-  width: 48px;
-  height: 48px;
+  width: clamp(42px, 5vw, 48px);
+  height: clamp(42px, 5vw, 48px);
   border-radius: 12px;
   background: var(--glass-bg);
   border: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.3rem;
+  font-size: clamp(1.1rem, 1.3vw, 1.3rem);
   color: var(--gold);
   margin-bottom: 1rem;
+  flex-shrink: 0;
 }
 
 .tool-card .tool-info {
@@ -108,12 +143,12 @@ TOOLS GRID
 }
 
 .tool-card .tool-info h3 {
-  font-size: 1.05rem;
+  font-size: clamp(0.95rem, 1.05vw, 1.05rem);
   margin-bottom: 0.4rem;
 }
 
 .tool-card .tool-info p {
-  font-size: 0.85rem;
+  font-size: clamp(0.8rem, 0.85vw, 0.85rem);
   color: var(--text-muted);
   line-height: 1.6;
   margin-bottom: 1rem;
@@ -125,8 +160,8 @@ TOOLS GRID
 
 .tool-card .tool-actions .btn-secondary {
   width: 100%;
-  padding: 0.6rem;
-  font-size: 0.85rem;
+  padding: clamp(0.5rem, 0.6vw, 0.6rem);
+  font-size: clamp(0.8rem, 0.85vw, 0.85rem);
   background: transparent;
   justify-content: center;
   display: flex;
@@ -152,7 +187,7 @@ TOOL MODAL
   z-index: 10000;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
+  padding: clamp(0.75rem, 2vw, 1.5rem);
 }
 
 .tool-modal.active {
@@ -162,8 +197,8 @@ TOOL MODAL
 .tool-modal-content {
   background: var(--card-bg);
   border: 1px solid var(--border);
-  border-radius: 24px;
-  padding: 2.5rem;
+  border-radius: clamp(16px, 2vw, 24px);
+  padding: clamp(1rem, 2.5vw, 2.5rem);
   max-width: 700px;
   width: 100%;
   max-height: 90vh;
@@ -185,12 +220,12 @@ TOOL MODAL
 
 .tool-modal .modal-close {
   position: absolute;
-  top: 1rem;
-  right: 1.25rem;
+  top: clamp(0.5rem, 1vw, 1rem);
+  right: clamp(0.75rem, 1.5vw, 1.25rem);
   background: none;
   border: none;
   color: var(--text-muted);
-  font-size: 1.5rem;
+  font-size: clamp(1.2rem, 1.5vw, 1.5rem);
   cursor: pointer;
   transition: 0.3s;
 }
@@ -205,13 +240,13 @@ TOOL CONTENT STYLES
 ==================================== */
 .tool-content h2 {
   font-family: "Space Grotesk", sans-serif;
-  font-size: 1.5rem;
+  font-size: clamp(1.2rem, 1.8vw, 1.5rem);
   margin-bottom: 0.25rem;
 }
 
 .tool-content .tool-description {
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: clamp(0.8rem, 0.9vw, 0.9rem);
   margin-bottom: 1.5rem;
 }
 
@@ -229,7 +264,7 @@ TOOL CONTENT STYLES
 }
 
 .tool-content .form-group label {
-  font-size: 0.85rem;
+  font-size: clamp(0.8rem, 0.85vw, 0.85rem);
   font-weight: 500;
   color: var(--white);
 }
@@ -240,20 +275,23 @@ TOOL CONTENT STYLES
 }
 
 .tool-content .form-group input,
-.tool-content .form-group select {
-  padding: 0.7rem 1rem;
+.tool-content .form-group select,
+.tool-content .form-group textarea {
+  width: 100%;
+  padding: clamp(0.5rem, 0.7vw, 0.7rem) clamp(0.75rem, 1vw, 1rem);
   background: var(--glass-bg);
   border: 1px solid var(--border);
   border-radius: 12px;
   color: var(--white);
-  font-size: 0.9rem;
+  font-size: clamp(0.8rem, 0.9vw, 0.9rem);
   font-family: "Inter", sans-serif;
   outline: none;
   transition: 0.3s;
 }
 
 .tool-content .form-group input:focus,
-.tool-content .form-group select:focus {
+.tool-content .form-group select:focus,
+.tool-content .form-group textarea:focus {
   border-color: var(--secondary);
   box-shadow: 0 0 0 3px rgba(0, 200, 150, 0.15);
 }
@@ -266,15 +304,24 @@ TOOL CONTENT STYLES
   padding-right: 2.5rem;
 }
 
+.tool-content .form-group textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
 .tool-content .btn-primary {
   width: 100%;
-  padding: 0.8rem;
+  padding: clamp(0.7rem, 0.8vw, 0.8rem);
   margin-top: 0.5rem;
+}
+
+.tool-content .btn-secondary {
+  background: transparent;
 }
 
 .tool-content .tool-result {
   margin-top: 1.5rem;
-  padding: 1.25rem;
+  padding: clamp(1rem, 1.5vw, 1.25rem);
   background: var(--glass-bg);
   border-radius: 16px;
   border: 1px solid var(--border);
@@ -287,12 +334,12 @@ TOOL CONTENT STYLES
 }
 
 .tool-content .tool-result .result-label {
-  font-size: 0.8rem;
+  font-size: clamp(0.7rem, 0.8vw, 0.8rem);
   color: var(--text-muted);
 }
 
 .tool-content .tool-result .result-value {
-  font-size: 1.8rem;
+  font-size: clamp(1.3rem, 1.8vw, 1.8rem);
   font-weight: 700;
   color: var(--profit-green);
   font-family: "Space Grotesk", sans-serif;
@@ -303,16 +350,27 @@ TOOL CONTENT STYLES
 }
 
 /* ====================================
-RESPONSIVE
+RESPONSIVE OVERRIDES (Minimal)
 ==================================== */
+
+/* Tablets and below */
 @media (max-width: 768px) {
   .tool-categories {
     gap: 0.5rem;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.5rem;
+  }
+
+  .tool-categories::-webkit-scrollbar {
+    display: none;
   }
 
   .category-btn {
-    font-size: 0.75rem;
-    padding: 0.4rem 1rem;
+    font-size: 0.7rem;
+    padding: 0.35rem 0.8rem;
+    flex-shrink: 0;
   }
 
   .tools-grid {
@@ -320,7 +378,7 @@ RESPONSIVE
   }
 
   .tool-modal-content {
-    padding: 1.5rem;
+    padding: 1.25rem;
     margin: 0.5rem;
   }
 
@@ -329,155 +387,40 @@ RESPONSIVE
   }
 
   .tools-hero h1 {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
   }
 }
 
+/* Small phones */
 @media (max-width: 480px) {
-  .tool-categories {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 0.5rem;
-  }
-
-  .category-btn {
-    white-space: nowrap;
-    font-size: 0.7rem;
-    padding: 0.35rem 0.8rem;
-  }
-
   .tool-card {
-    padding: 1.25rem;
+    padding: 1rem;
+  }
+
+  .tool-content .form-row {
+    gap: 0.75rem;
+  }
+
+  .tool-content .tool-result .result-value {
+    font-size: 1.2rem;
+  }
+
+  .tool-modal-content {
+    padding: 1rem;
+  }
+
+  .tools-hero h1 {
+    font-size: 1.3rem;
+  }
+
+  .tools-hero p {
+    font-size: 0.85rem;
   }
 }
+
 /* ====================================
 MOBILE MENU STYLES
 ==================================== */
-
-/* Mobile Menu Close Button */
-.mobile-menu-close {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  width: 40px;
-  height: 40px;
-  background: var(--glass-bg);
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  color: var(--white);
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-}
-
-.mobile-menu-close:hover {
-  background: var(--gradient-primary);
-  color: var(--dark);
-  transform: rotate(90deg);
-  border-color: transparent;
-}
-
-/* Mobile Menu Links Container */
-.mobile-menu-links {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-top: 2rem;
-  overflow-y: auto;
-}
-
-.mobile-menu-links a {
-  font-size: 1rem;
-  font-weight: 500;
-  padding: 0.6rem 0;
-  border-bottom: 1px solid var(--border);
-  transition: 0.3s;
-  color: var(--text-muted);
-  text-decoration: none;
-}
-
-.mobile-menu-links a:hover {
-  color: var(--gold);
-  padding-left: 0.5rem;
-  border-bottom-color: var(--gold);
-}
-
-.mobile-menu-links a.active {
-  color: var(--gold);
-  border-bottom-color: var(--gold);
-}
-
-/* Mobile Menu */
-.mobile-menu {
-  position: fixed;
-  right: -100%;
-  top: 0;
-  width: min(320px, 85vw);
-  height: 100vh;
-  background: rgba(5, 10, 22, 0.98);
-  backdrop-filter: blur(25px);
-  z-index: 2000;
-  transition: 0.4s ease;
-  display: flex;
-  flex-direction: column;
-  padding: 1.5rem 1.5rem 2rem;
-  overflow-y: auto;
-}
-
-.mobile-menu.active {
-  right: 0;
-}
-
-.menu-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(10px);
-  opacity: 0;
-  visibility: hidden;
-  z-index: 1500;
-  transition: 0.3s;
-}
-
-.menu-overlay.active {
-  opacity: 1;
-  visibility: visible;
-}
-
-/* Mobile Social Icons */
-.mobile-social {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  margin-top: auto;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--border);
-}
-
-.mobile-social a {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--glass-bg);
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  transition: 0.3s;
-  color: var(--white);
-  text-decoration: none;
-}
-
-.mobile-social a:hover {
-  background: var(--gradient-primary);
-  color: var(--dark);
-  transform: translateY(-3px);
-}
 
 /* Hamburger Button */
 .hamburger {
@@ -515,4 +458,92 @@ MOBILE MENU STYLES
   .hamburger {
     display: flex;
   }
+}
+
+/* Sidebar mobile styles */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+    width: 280px;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .sidebar-close {
+    display: block !important;
+  }
+
+  .sidebar-overlay.active {
+    display: block !important;
+  }
+
+  .main-content {
+    margin-left: 0 !important;
+    padding: 1rem !important;
+  }
+}
+
+/* Sidebar overlay */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 99;
+  backdrop-filter: blur(4px);
+}
+
+.sidebar-overlay.active {
+  display: block;
+}
+
+/* Sidebar close button */
+.sidebar-close {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.25rem;
+}
+
+/* ====================================
+HEADER FIXES
+==================================== */
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.dashboard-header h1 {
+  flex: 1;
+  min-width: 0;
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+}
+
+/* ====================================
+SCROLLBAR STYLING
+==================================== */
+.tool-categories::-webkit-scrollbar {
+  height: 4px;
+}
+
+.tool-categories::-webkit-scrollbar-track {
+  background: var(--glass-bg);
+  border-radius: 4px;
+}
+
+.tool-categories::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+.tool-categories::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary);
 }

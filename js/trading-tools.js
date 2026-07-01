@@ -4,20 +4,145 @@
 
 document.addEventListener("DOMContentLoaded", function () {
   // ====================================
-  // API CONFIGURATION
+  // HAMBURGER MENU TOGGLE
   // ====================================
-  const API_CONFIG = {
-    // Free Exchange Rate API (limited to 1500 requests/month)
-    EXCHANGE_RATE_API: "https://api.exchangerate-api.com/v4/latest/",
-    // Free Forex API (for real-time forex data)
-    FOREX_API: "https://api.twelvedata.com/",
-    // Free Alpha Vantage API (requires API key - free tier)
-    ALPHA_VANTAGE: "https://www.alphavantage.co/query",
-  };
+  const hamburgerBtn = document.getElementById("hamburgerBtn");
+  const sidebar = document.getElementById("sidebar");
+  const sidebarOverlay = document.getElementById("sidebarOverlay");
 
-  // Get free API key from: https://www.alphavantage.co/support/#api-key
-  // Free tier: 5 requests per minute, 500 requests per day
-  const ALPHA_VANTAGE_API_KEY = "YOUR_API_KEY"; // Replace with your key
+  function openSidebar() {
+    sidebar.classList.add("open");
+    sidebarOverlay.classList.add("active");
+    hamburgerBtn?.classList.add("active");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeSidebar() {
+    sidebar.classList.remove("open");
+    sidebarOverlay.classList.remove("active");
+    hamburgerBtn?.classList.remove("active");
+    document.body.style.overflow = "";
+  }
+
+  hamburgerBtn?.addEventListener("click", function (e) {
+    e.stopPropagation();
+    if (sidebar.classList.contains("open")) {
+      closeSidebar();
+    } else {
+      openSidebar();
+    }
+  });
+
+  const sidebarClose = document.getElementById("sidebarClose");
+  sidebarClose?.addEventListener("click", closeSidebar);
+
+  sidebarOverlay?.addEventListener("click", closeSidebar);
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && sidebar.classList.contains("open")) {
+      closeSidebar();
+    }
+  });
+
+  window.addEventListener("resize", function () {
+    if (window.innerWidth > 768 && sidebar.classList.contains("open")) {
+      closeSidebar();
+    }
+  });
+
+  // ====================================
+  // NAVIGATION LINKS
+  // ====================================
+  const navLinks = document.querySelectorAll(".sidebar-nav a");
+
+  navLinks.forEach(function (link) {
+    link.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      navLinks.forEach(function (l) {
+        l.classList.remove("active");
+      });
+
+      this.classList.add("active");
+
+      const pageName = this.dataset.page;
+      const headerTitle = document.querySelector(".dashboard-header h1");
+      const pageTitles = {
+        dashboard: "Dashboard",
+        profile: "Profile",
+        academy: "Academy",
+        signals: "Signals",
+        "copy-trading": "Copy Trading",
+        "funded-account": "Funded Account",
+        mentorship: "Mentorship",
+        "ib-partnership": "IB Partnership",
+        "trading-tools": "Trading Tools",
+        "market-analysis": "Market Analysis",
+        referrals: "Referrals",
+        payments: "Payments",
+        settings: "Settings",
+      };
+
+      if (headerTitle && pageTitles[pageName]) {
+        headerTitle.textContent = pageTitles[pageName];
+      }
+
+      if (window.innerWidth <= 768) {
+        closeSidebar();
+      }
+    });
+  });
+
+  // ====================================
+  // USER SESSION CHECK
+  // ====================================
+  function checkUserSession() {
+    const user =
+      localStorage.getItem("nanaForexUser") ||
+      sessionStorage.getItem("nanaForexUser");
+
+    if (!user) {
+      window.location.href = "login.html";
+      return;
+    }
+
+    try {
+      const userData = JSON.parse(user);
+      if (!userData.loggedIn) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      const userInitials = document.getElementById("userInitials");
+      if (userInitials) {
+        const name = userData.name || "Trader";
+        const initials = name
+          .split(" ")
+          .map((n) => n[0])
+          .join("")
+          .toUpperCase()
+          .slice(0, 2);
+        userInitials.textContent = initials;
+      }
+    } catch (e) {
+      window.location.href = "login.html";
+    }
+  }
+
+  checkUserSession();
+
+  // ====================================
+  // LOGOUT
+  // ====================================
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  logoutBtn?.addEventListener("click", function () {
+    if (confirm("Are you sure you want to logout?")) {
+      localStorage.removeItem("nanaForexUser");
+      sessionStorage.removeItem("nanaForexUser");
+      window.location.href = "login.html";
+    }
+  });
 
   // ====================================
   // TOOL CATEGORY FILTER
@@ -128,7 +253,7 @@ document.addEventListener("DOMContentLoaded", function () {
   async function fetchExchangeRates(baseCurrency = "USD") {
     try {
       const response = await fetch(
-        `${API_CONFIG.EXCHANGE_RATE_API}${baseCurrency}`,
+        `https://api.exchangerate-api.com/v4/latest/${baseCurrency}`,
       );
       if (!response.ok) throw new Error("Failed to fetch exchange rates");
       const data = await response.json();
@@ -139,40 +264,24 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Fetch forex data from Twelve Data (free tier)
-  async function fetchForexData(symbol, interval = "1day") {
-    try {
-      const response = await fetch(
-        `${API_CONFIG.FOREX_API}time_series?symbol=${symbol}&interval=${interval}&apikey=${ALPHA_VANTAGE_API_KEY}`,
-      );
-      if (!response.ok) throw new Error("Failed to fetch forex data");
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error("Forex API error:", error);
-      return null;
-    }
-  }
-
-  // Fetch stock/forex data from Alpha Vantage
+  // Fetch forex data
   async function fetchAlphaVantageData(symbol, functionName = "FX_DAILY") {
     try {
-      const url = `${API_CONFIG.ALPHA_VANTAGE}?function=${functionName}&from_symbol=${symbol}&to_symbol=USD&apikey=${ALPHA_VANTAGE_API_KEY}`;
+      // Using a free endpoint that doesn't require API key for demo
+      const url = `https://api.twelvedata.com/time_series?symbol=${symbol}&interval=1day&outputsize=30`;
       const response = await fetch(url);
-      if (!response.ok)
-        throw new Error("Failed to fetch data from Alpha Vantage");
+      if (!response.ok) throw new Error("Failed to fetch data");
       const data = await response.json();
       return data;
     } catch (error) {
-      console.error("Alpha Vantage API error:", error);
+      console.error("Data fetch error:", error);
       return null;
     }
   }
 
-  // Fetch economic calendar events (using free API)
+  // Fetch economic calendar events
   async function fetchEconomicCalendar() {
     try {
-      // Using ForexFactory-like free API endpoint
       const response = await fetch(
         "https://nfs.faireconomy.media/ff_calendar_thisweek.json",
       );
@@ -181,12 +290,10 @@ document.addEventListener("DOMContentLoaded", function () {
       return data;
     } catch (error) {
       console.error("Economic calendar API error:", error);
-      // Return fallback data if API fails
       return getFallbackEconomicEvents();
     }
   }
 
-  // Fallback economic data
   function getFallbackEconomicEvents() {
     return [
       {
@@ -253,7 +360,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ====================================
-  // TOOL TEMPLATES (UPDATED WITH API SUPPORT)
+  // TOOL TEMPLATES
   // ====================================
 
   // 1. Position Size Calculator
@@ -540,7 +647,7 @@ document.addEventListener("DOMContentLoaded", function () {
     `;
   }
 
-  // 6. RSI Indicator (WITH DATA FETCH)
+  // 6. RSI Indicator
   function getRSITool() {
     return `
       <div class="tool-content">
@@ -627,7 +734,7 @@ document.addEventListener("DOMContentLoaded", function () {
     `;
   }
 
-  // 8. Economic Calendar (WITH API)
+  // 8. Economic Calendar
   function getEconomicCalendarTool() {
     return `
       <div class="tool-content">
@@ -912,193 +1019,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ====================================
-  // API INTEGRATION FUNCTIONS
-  // ====================================
-
-  // Currency Converter - Fetch live exchange rates
-  window.updateCurrencyRate = async function () {
-    const from = document.getElementById("ccFrom").value;
-    const to = document.getElementById("ccTo").value;
-    const rateInput = document.getElementById("ccRate");
-    const rateDisplay = document.getElementById("ccRateDisplay");
-
-    if (!from || !to) return;
-
-    rateInput.placeholder = "Loading...";
-    rateInput.value = "";
-
-    try {
-      const data = await fetchExchangeRates(from);
-      if (data && data.rates && data.rates[to]) {
-        const rate = data.rates[to];
-        rateInput.value = rate.toFixed(6);
-        if (rateDisplay) {
-          rateDisplay.textContent = `Rate: 1 ${from} = ${rate.toFixed(4)} ${to}`;
-        }
-        showToast(
-          `Exchange rate updated: 1 ${from} = ${rate.toFixed(4)} ${to}`,
-          "success",
-        );
-      } else {
-        rateInput.placeholder = "Failed to fetch rate";
-        showToast("Failed to fetch exchange rate. Please try again.", "error");
-      }
-    } catch (error) {
-      rateInput.placeholder = "Error fetching rate";
-      showToast("Error fetching exchange rate. Please try again.", "error");
-    }
-  };
-
-  // Fetch current price for Pip Value calculator
-  window.fetchCurrentPrice = async function (pairSelectId, priceInputId) {
-    const pairSelect = document.getElementById(pairSelectId);
-    const priceInput = document.getElementById(priceInputId);
-    if (!pairSelect || !priceInput) return;
-
-    const symbol = pairSelect.value;
-    priceInput.placeholder = "Fetching...";
-
-    try {
-      const data = await fetchAlphaVantageData(symbol);
-      if (data && data["Time Series FX (Daily)"]) {
-        const dates = Object.keys(data["Time Series FX (Daily)"]).sort();
-        const latest = dates[dates.length - 1];
-        const close = data["Time Series FX (Daily)"][latest]["4. close"];
-        priceInput.value = parseFloat(close).toFixed(4);
-        showToast(`Price updated: ${symbol} = ${close}`, "success");
-      } else {
-        priceInput.placeholder = "Unable to fetch";
-        showToast("Unable to fetch price. Please enter manually.", "error");
-      }
-    } catch (error) {
-      priceInput.placeholder = "Error fetching";
-      showToast("Error fetching price. Please enter manually.", "error");
-    }
-  };
-
-  // Fetch price for Risk/Reward tool
-  window.fetchCurrentPriceForRR = async function () {
-    const entryInput = document.getElementById("rrEntry");
-    if (!entryInput) return;
-
-    entryInput.placeholder = "Fetching...";
-
-    try {
-      const data = await fetchAlphaVantageData("EURUSD");
-      if (data && data["Time Series FX (Daily)"]) {
-        const dates = Object.keys(data["Time Series FX (Daily)"]).sort();
-        const latest = dates[dates.length - 1];
-        const close = data["Time Series FX (Daily)"][latest]["4. close"];
-        entryInput.value = parseFloat(close).toFixed(4);
-        showToast(`Price updated: EUR/USD = ${close}`, "success");
-      } else {
-        entryInput.placeholder = "Unable to fetch";
-        showToast("Unable to fetch price. Please enter manually.", "error");
-      }
-    } catch (error) {
-      entryInput.placeholder = "Error fetching";
-      showToast("Error fetching price. Please enter manually.", "error");
-    }
-  };
-
-  // Fetch data for RSI indicator
-  window.fetchRSIData = async function () {
-    const symbol = document.getElementById("rsiSymbol").value;
-    const dataTextarea = document.getElementById("rsiData");
-    if (!symbol || !dataTextarea) return;
-
-    dataTextarea.placeholder = "Fetching data...";
-
-    try {
-      const data = await fetchAlphaVantageData(symbol);
-      if (data && data["Time Series FX (Daily)"]) {
-        const dates = Object.keys(data["Time Series FX (Daily)"]).sort();
-        const prices = dates
-          .slice(-30)
-          .map((date) =>
-            parseFloat(data["Time Series FX (Daily)"][date]["4. close"]),
-          );
-        dataTextarea.value = prices.join(",");
-        showToast(
-          `Fetched ${prices.length} data points for ${symbol}`,
-          "success",
-        );
-      } else {
-        dataTextarea.placeholder = "Unable to fetch data";
-        showToast("Unable to fetch data. Please enter manually.", "error");
-      }
-    } catch (error) {
-      dataTextarea.placeholder = "Error fetching data";
-      showToast("Error fetching data. Please enter manually.", "error");
-    }
-  };
-
-  // Fetch data for Volatility calculator
-  window.fetchVolatilityData = async function () {
-    const symbol = document.getElementById("volSymbol").value;
-    const dataTextarea = document.getElementById("volData");
-    if (!symbol || !dataTextarea) return;
-
-    dataTextarea.placeholder = "Fetching data...";
-
-    try {
-      const data = await fetchAlphaVantageData(symbol);
-      if (data && data["Time Series FX (Daily)"]) {
-        const dates = Object.keys(data["Time Series FX (Daily)"]).sort();
-        const prices = dates
-          .slice(-30)
-          .map((date) =>
-            parseFloat(data["Time Series FX (Daily)"][date]["4. close"]),
-          );
-        dataTextarea.value = prices.join(",");
-        showToast(
-          `Fetched ${prices.length} data points for ${symbol}`,
-          "success",
-        );
-      } else {
-        dataTextarea.placeholder = "Unable to fetch data";
-        showToast("Unable to fetch data. Please enter manually.", "error");
-      }
-    } catch (error) {
-      dataTextarea.placeholder = "Error fetching data";
-      showToast("Error fetching data. Please enter manually.", "error");
-    }
-  };
-
-  // Fetch data for Moving Average crossover
-  window.fetchMAData = async function () {
-    const symbol = document.getElementById("maSymbol").value;
-    const dataTextarea = document.getElementById("maData");
-    if (!symbol || !dataTextarea) return;
-
-    dataTextarea.placeholder = "Fetching data...";
-
-    try {
-      const data = await fetchAlphaVantageData(symbol);
-      if (data && data["Time Series FX (Daily)"]) {
-        const dates = Object.keys(data["Time Series FX (Daily)"]).sort();
-        const prices = dates
-          .slice(-50)
-          .map((date) =>
-            parseFloat(data["Time Series FX (Daily)"][date]["4. close"]),
-          );
-        dataTextarea.value = prices.join(",");
-        showToast(
-          `Fetched ${prices.length} data points for ${symbol}`,
-          "success",
-        );
-      } else {
-        dataTextarea.placeholder = "Unable to fetch data";
-        showToast("Unable to fetch data. Please enter manually.", "error");
-      }
-    } catch (error) {
-      dataTextarea.placeholder = "Error fetching data";
-      showToast("Error fetching data. Please enter manually.", "error");
-    }
-  };
-
-  // ====================================
-  // TOOL CALCULATION FUNCTIONS
+  // CALCULATION FUNCTIONS
   // ====================================
 
   // Position Size Calculator
@@ -1485,6 +1406,173 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("lsRiskAmount").textContent =
       `$${riskAmount.toFixed(2)}`;
     result.classList.add("show");
+  };
+
+  // ====================================
+  // API INTEGRATION FUNCTIONS
+  // ====================================
+
+  // Currency Converter - Fetch live exchange rates
+  window.updateCurrencyRate = async function () {
+    const from = document.getElementById("ccFrom").value;
+    const to = document.getElementById("ccTo").value;
+    const rateInput = document.getElementById("ccRate");
+    const rateDisplay = document.getElementById("ccRateDisplay");
+
+    if (!from || !to) return;
+
+    rateInput.placeholder = "Loading...";
+    rateInput.value = "";
+
+    try {
+      const data = await fetchExchangeRates(from);
+      if (data && data.rates && data.rates[to]) {
+        const rate = data.rates[to];
+        rateInput.value = rate.toFixed(6);
+        if (rateDisplay) {
+          rateDisplay.textContent = `Rate: 1 ${from} = ${rate.toFixed(4)} ${to}`;
+        }
+        showToast(
+          `Exchange rate updated: 1 ${from} = ${rate.toFixed(4)} ${to}`,
+          "success",
+        );
+      } else {
+        rateInput.placeholder = "Failed to fetch rate";
+        showToast("Failed to fetch exchange rate. Please try again.", "error");
+      }
+    } catch (error) {
+      rateInput.placeholder = "Error fetching rate";
+      showToast("Error fetching exchange rate. Please try again.", "error");
+    }
+  };
+
+  // Fetch current price for Pip Value calculator
+  window.fetchCurrentPrice = async function (pairSelectId, priceInputId) {
+    const pairSelect = document.getElementById(pairSelectId);
+    const priceInput = document.getElementById(priceInputId);
+    if (!pairSelect || !priceInput) return;
+
+    const symbol = pairSelect.value;
+    priceInput.placeholder = "Fetching...";
+
+    try {
+      const data = await fetchAlphaVantageData(symbol);
+      if (data && data.values && data.values.length > 0) {
+        const close = parseFloat(data.values[0].close);
+        priceInput.value = close.toFixed(4);
+        showToast(`Price updated: ${symbol} = ${close}`, "success");
+      } else {
+        priceInput.placeholder = "Unable to fetch";
+        showToast("Unable to fetch price. Please enter manually.", "error");
+      }
+    } catch (error) {
+      priceInput.placeholder = "Error fetching";
+      showToast("Error fetching price. Please enter manually.", "error");
+    }
+  };
+
+  // Fetch price for Risk/Reward tool
+  window.fetchCurrentPriceForRR = async function () {
+    const entryInput = document.getElementById("rrEntry");
+    if (!entryInput) return;
+
+    entryInput.placeholder = "Fetching...";
+
+    try {
+      const data = await fetchAlphaVantageData("EURUSD");
+      if (data && data.values && data.values.length > 0) {
+        const close = parseFloat(data.values[0].close);
+        entryInput.value = close.toFixed(4);
+        showToast(`Price updated: EUR/USD = ${close}`, "success");
+      } else {
+        entryInput.placeholder = "Unable to fetch";
+        showToast("Unable to fetch price. Please enter manually.", "error");
+      }
+    } catch (error) {
+      entryInput.placeholder = "Error fetching";
+      showToast("Error fetching price. Please enter manually.", "error");
+    }
+  };
+
+  // Fetch data for RSI indicator
+  window.fetchRSIData = async function () {
+    const symbol = document.getElementById("rsiSymbol").value;
+    const dataTextarea = document.getElementById("rsiData");
+    if (!symbol || !dataTextarea) return;
+
+    dataTextarea.placeholder = "Fetching data...";
+
+    try {
+      const data = await fetchAlphaVantageData(symbol);
+      if (data && data.values && data.values.length > 0) {
+        const prices = data.values.slice(0, 30).map((v) => parseFloat(v.close));
+        dataTextarea.value = prices.join(",");
+        showToast(
+          `Fetched ${prices.length} data points for ${symbol}`,
+          "success",
+        );
+      } else {
+        dataTextarea.placeholder = "Unable to fetch data";
+        showToast("Unable to fetch data. Please enter manually.", "error");
+      }
+    } catch (error) {
+      dataTextarea.placeholder = "Error fetching data";
+      showToast("Error fetching data. Please enter manually.", "error");
+    }
+  };
+
+  // Fetch data for Volatility calculator
+  window.fetchVolatilityData = async function () {
+    const symbol = document.getElementById("volSymbol").value;
+    const dataTextarea = document.getElementById("volData");
+    if (!symbol || !dataTextarea) return;
+
+    dataTextarea.placeholder = "Fetching data...";
+
+    try {
+      const data = await fetchAlphaVantageData(symbol);
+      if (data && data.values && data.values.length > 0) {
+        const prices = data.values.slice(0, 30).map((v) => parseFloat(v.close));
+        dataTextarea.value = prices.join(",");
+        showToast(
+          `Fetched ${prices.length} data points for ${symbol}`,
+          "success",
+        );
+      } else {
+        dataTextarea.placeholder = "Unable to fetch data";
+        showToast("Unable to fetch data. Please enter manually.", "error");
+      }
+    } catch (error) {
+      dataTextarea.placeholder = "Error fetching data";
+      showToast("Error fetching data. Please enter manually.", "error");
+    }
+  };
+
+  // Fetch data for Moving Average crossover
+  window.fetchMAData = async function () {
+    const symbol = document.getElementById("maSymbol").value;
+    const dataTextarea = document.getElementById("maData");
+    if (!symbol || !dataTextarea) return;
+
+    dataTextarea.placeholder = "Fetching data...";
+
+    try {
+      const data = await fetchAlphaVantageData(symbol);
+      if (data && data.values && data.values.length > 0) {
+        const prices = data.values.slice(0, 50).map((v) => parseFloat(v.close));
+        dataTextarea.value = prices.join(",");
+        showToast(
+          `Fetched ${prices.length} data points for ${symbol}`,
+          "success",
+        );
+      } else {
+        dataTextarea.placeholder = "Unable to fetch data";
+        showToast("Unable to fetch data. Please enter manually.", "error");
+      }
+    } catch (error) {
+      dataTextarea.placeholder = "Error fetching data";
+      showToast("Error fetching data. Please enter manually.", "error");
+    }
   };
 
   // ====================================

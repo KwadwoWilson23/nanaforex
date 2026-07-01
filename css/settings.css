@@ -1,25 +1,53 @@
 /* ====================================
-SETTINGS PAGE STYLES
+SETTINGS - MODERN RESPONSIVE STYLES
 ==================================== */
+
+/* ====================================
+GLOBAL RESET & BASE
+==================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img,
+canvas,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.main-content {
+  min-width: 0;
+}
+
+.dashboard-wrapper {
+  overflow-x: hidden;
+}
 
 /* ====================================
 SETTINGS CONTENT LAYOUT
 ==================================== */
 .settings-content {
   display: flex;
-  gap: 2rem;
+  gap: clamp(1rem, 2vw, 2rem);
   padding: 0 0 2rem;
 }
 
 /* ====================================
-SETTINGS NAVIGATION
+SETTINGS NAVIGATION - Desktop
 ==================================== */
 .settings-nav {
   width: 240px;
   flex-shrink: 0;
   background: var(--card-bg);
   border: 1px solid var(--border);
-  border-radius: 20px;
+  border-radius: clamp(16px, 2vw, 20px);
   padding: 0.75rem;
   display: flex;
   flex-direction: column;
@@ -33,12 +61,12 @@ SETTINGS NAVIGATION
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.7rem 1rem;
+  padding: clamp(0.6rem, 0.8vw, 0.7rem) clamp(0.75rem, 1vw, 1rem);
   border-radius: 12px;
   border: none;
   background: transparent;
   color: var(--text-muted);
-  font-size: 0.85rem;
+  font-size: clamp(0.8rem, 0.85vw, 0.85rem);
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -50,7 +78,8 @@ SETTINGS NAVIGATION
 .settings-nav-item i {
   width: 20px;
   text-align: center;
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 0.95vw, 0.95rem);
+  flex-shrink: 0;
 }
 
 .settings-nav-item:hover {
@@ -61,6 +90,41 @@ SETTINGS NAVIGATION
 .settings-nav-item.active {
   background: var(--gradient-primary);
   color: var(--bg-dark);
+}
+
+/* ====================================
+SETTINGS NAVIGATION - Mobile Dropdown
+==================================== */
+.settings-nav-mobile {
+  display: none;
+  margin-bottom: 1rem;
+}
+
+.settings-nav-select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--white);
+  font-size: 0.9rem;
+  font-family: "Inter", sans-serif;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+  cursor: pointer;
+  outline: none;
+}
+
+.settings-nav-select:focus {
+  border-color: var(--secondary);
+}
+
+.settings-nav-select option {
+  background: var(--card-bg);
+  color: var(--white);
 }
 
 /* ====================================
@@ -75,8 +139,8 @@ SETTINGS PANELS
   display: none;
   background: var(--card-bg);
   border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 2rem;
+  border-radius: clamp(16px, 2vw, 20px);
+  padding: clamp(1rem, 2vw, 2rem);
   animation: fadeIn 0.3s ease;
 }
 
@@ -97,13 +161,13 @@ SETTINGS PANELS
 
 .settings-panel h2 {
   font-family: "Space Grotesk", sans-serif;
-  font-size: 1.5rem;
+  font-size: clamp(1.2rem, 1.8vw, 1.5rem);
   margin-bottom: 0.25rem;
 }
 
 .settings-panel .panel-description {
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: clamp(0.8rem, 0.9vw, 0.9rem);
   margin-bottom: 2rem;
 }
 
@@ -120,7 +184,7 @@ SETTINGS GROUP & ITEMS
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 1.25rem;
+  padding: clamp(0.75rem, 1.5vw, 1.25rem);
   background: var(--glass-bg);
   border-radius: 16px;
   gap: 1.5rem;
@@ -134,17 +198,17 @@ SETTINGS GROUP & ITEMS
 
 .setting-info {
   flex: 1;
-  min-width: 180px;
+  min-width: 160px;
 }
 
 .setting-info h4 {
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 0.95vw, 0.95rem);
   font-weight: 600;
   margin-bottom: 0.15rem;
 }
 
 .setting-info p {
-  font-size: 0.8rem;
+  font-size: clamp(0.7rem, 0.8vw, 0.8rem);
   color: var(--text-muted);
   margin: 0;
 }
@@ -154,20 +218,21 @@ SETTINGS GROUP & ITEMS
   align-items: center;
   gap: 0.75rem;
   flex-shrink: 0;
+  flex-wrap: wrap;
 }
 
 .setting-control select,
 .setting-control input[type="number"],
 .setting-control input[type="url"] {
-  padding: 0.5rem 1rem;
+  padding: clamp(0.4rem, 0.6vw, 0.5rem) clamp(0.75rem, 1vw, 1rem);
   background: var(--bg-dark);
   border: 1px solid var(--border);
   border-radius: 10px;
   color: var(--white);
-  font-size: 0.85rem;
+  font-size: clamp(0.8rem, 0.85vw, 0.85rem);
   font-family: "Inter", sans-serif;
   outline: none;
-  min-width: 150px;
+  min-width: 140px;
   transition: 0.3s;
 }
 
@@ -177,8 +242,8 @@ SETTINGS GROUP & ITEMS
 }
 
 .setting-control .btn-secondary {
-  padding: 0.5rem 1.25rem;
-  font-size: 0.8rem;
+  padding: clamp(0.4rem, 0.6vw, 0.5rem) clamp(0.75rem, 1vw, 1.25rem);
+  font-size: clamp(0.75rem, 0.8vw, 0.8rem);
   background: transparent;
 }
 
@@ -206,6 +271,7 @@ TOGGLE SWITCH
   border-radius: 12px;
   position: relative;
   transition: 0.3s;
+  flex-shrink: 0;
 }
 
 .toggle-slider::after {
@@ -234,6 +300,7 @@ THEME OPTIONS
 .theme-options {
   display: flex;
   gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .theme-btn {
@@ -248,7 +315,7 @@ THEME OPTIONS
   cursor: pointer;
   transition: 0.3s;
   font-family: "Inter", sans-serif;
-  font-size: 0.8rem;
+  font-size: clamp(0.7rem, 0.8vw, 0.8rem);
 }
 
 .theme-btn:hover {
@@ -272,13 +339,14 @@ COLOR OPTIONS
 }
 
 .color-btn {
-  width: 32px;
-  height: 32px;
+  width: clamp(28px, 3vw, 32px);
+  height: clamp(28px, 3vw, 32px);
   border-radius: 50%;
   border: 2px solid transparent;
   cursor: pointer;
   transition: 0.3s;
   position: relative;
+  flex-shrink: 0;
 }
 
 .color-btn:hover {
@@ -306,7 +374,7 @@ API KEYS LIST
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem 1rem;
+  padding: clamp(0.5rem, 0.8vw, 0.75rem) clamp(0.75rem, 1vw, 1rem);
   background: var(--glass-bg);
   border-radius: 12px;
   flex-wrap: wrap;
@@ -317,15 +385,16 @@ API KEYS LIST
   display: flex;
   align-items: center;
   gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .api-key-name {
-  font-size: 0.85rem;
+  font-size: clamp(0.8rem, 0.85vw, 0.85rem);
   font-weight: 500;
 }
 
 .api-key-status {
-  font-size: 0.7rem;
+  font-size: clamp(0.6rem, 0.7vw, 0.7rem);
   padding: 0.2rem 0.6rem;
   border-radius: 999px;
 }
@@ -349,7 +418,7 @@ API KEYS LIST
 ACCOUNT TIER
 ==================================== */
 .account-tier {
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 1.1vw, 1.1rem);
   font-weight: 700;
   color: var(--gold);
 }
@@ -360,7 +429,7 @@ ACCOUNT TIER
   gap: 0.3rem;
   padding: 0.2rem 0.75rem;
   border-radius: 999px;
-  font-size: 0.75rem;
+  font-size: clamp(0.65rem, 0.75vw, 0.75rem);
   background: rgba(0, 255, 136, 0.1);
   color: var(--profit-green);
 }
@@ -379,7 +448,7 @@ SETTINGS ACTIONS
 }
 
 .settings-status {
-  font-size: 0.85rem;
+  font-size: clamp(0.8rem, 0.85vw, 0.85rem);
   color: var(--profit-green);
   opacity: 0;
   transition: 0.3s;
@@ -405,7 +474,7 @@ SETTINGS MODAL
   z-index: 10000;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
+  padding: clamp(0.75rem, 2vw, 1.5rem);
 }
 
 .settings-modal.active {
@@ -415,8 +484,8 @@ SETTINGS MODAL
 .settings-modal-content {
   background: var(--card-bg);
   border: 1px solid var(--border);
-  border-radius: 24px;
-  padding: 2rem;
+  border-radius: clamp(16px, 2vw, 24px);
+  padding: clamp(1rem, 3vw, 2rem);
   max-width: 480px;
   width: 100%;
   position: relative;
@@ -436,12 +505,12 @@ SETTINGS MODAL
 
 .settings-modal .modal-close {
   position: absolute;
-  top: 1rem;
-  right: 1.25rem;
+  top: clamp(0.5rem, 1vw, 1rem);
+  right: clamp(0.75rem, 1.5vw, 1.25rem);
   background: none;
   border: none;
   color: var(--text-muted);
-  font-size: 1.5rem;
+  font-size: clamp(1.2rem, 1.5vw, 1.5rem);
   cursor: pointer;
   transition: 0.3s;
 }
@@ -453,6 +522,7 @@ SETTINGS MODAL
 
 .settings-modal-content h3 {
   font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(1.1rem, 1.5vw, 1.5rem);
   margin-bottom: 0.5rem;
 }
 
@@ -463,7 +533,7 @@ SETTINGS MODAL
 
 .settings-modal-content p {
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: clamp(0.8rem, 0.9vw, 0.9rem);
   margin-bottom: 1.5rem;
 }
 
@@ -473,7 +543,7 @@ SETTINGS MODAL
 
 .settings-modal .form-group label {
   display: block;
-  font-size: 0.85rem;
+  font-size: clamp(0.8rem, 0.85vw, 0.85rem);
   font-weight: 500;
   margin-bottom: 0.3rem;
   color: var(--white);
@@ -492,12 +562,13 @@ SETTINGS MODAL
 
 .settings-modal .password-wrapper input {
   width: 100%;
-  padding: 0.7rem 3rem 0.7rem 1rem;
+  padding: clamp(0.5rem, 0.7vw, 0.7rem) clamp(2.5rem, 3vw, 3rem)
+    clamp(0.5rem, 0.7vw, 0.7rem) clamp(0.75rem, 1vw, 1rem);
   background: var(--glass-bg);
   border: 1px solid var(--border);
   border-radius: 12px;
   color: var(--white);
-  font-size: 0.9rem;
+  font-size: clamp(0.8rem, 0.9vw, 0.9rem);
   font-family: "Inter", sans-serif;
   outline: none;
   transition: 0.3s;
@@ -526,21 +597,21 @@ SETTINGS MODAL
 }
 
 .settings-modal .form-actions .btn-secondary {
-  padding: 0.6rem 1.5rem;
-  font-size: 0.85rem;
+  padding: clamp(0.5rem, 0.7vw, 0.6rem) clamp(1rem, 1.5vw, 1.5rem);
+  font-size: clamp(0.8rem, 0.85vw, 0.85rem);
   background: transparent;
 }
 
 .settings-modal .form-actions .btn-primary {
-  padding: 0.6rem 1.5rem;
-  font-size: 0.85rem;
+  padding: clamp(0.5rem, 0.7vw, 0.6rem) clamp(1rem, 1.5vw, 1.5rem);
+  font-size: clamp(0.8rem, 0.85vw, 0.85rem);
 }
 
 .settings-modal .form-status {
   margin-top: 1rem;
-  padding: 0.75rem 1rem;
+  padding: clamp(0.5rem, 0.8vw, 0.75rem) clamp(0.75rem, 1vw, 1rem);
   border-radius: 10px;
-  font-size: 0.875rem;
+  font-size: clamp(0.8rem, 0.9vw, 0.875rem);
   display: none;
 }
 
@@ -559,30 +630,21 @@ SETTINGS MODAL
 }
 
 /* ====================================
-RESPONSIVE
+RESPONSIVE OVERRIDES
 ==================================== */
+
+/* Tablets and below */
 @media (max-width: 992px) {
   .settings-content {
     flex-direction: column;
   }
 
   .settings-nav {
-    width: 100%;
-    flex-direction: row;
-    overflow-x: auto;
-    padding: 0.5rem;
-    gap: 0.25rem;
-    position: static;
+    display: none;
   }
 
-  .settings-nav-item {
-    white-space: nowrap;
-    padding: 0.5rem 1rem;
-    font-size: 0.8rem;
-  }
-
-  .settings-nav-item i {
-    margin-right: 0.25rem;
+  .settings-nav-mobile {
+    display: block;
   }
 
   .setting-item {
@@ -599,16 +661,18 @@ RESPONSIVE
   .setting-control select,
   .setting-control input {
     width: 100%;
+    min-width: auto;
   }
 }
 
+/* Mobile */
 @media (max-width: 768px) {
   .settings-panel {
-    padding: 1.25rem;
+    padding: clamp(0.75rem, 1.5vw, 1.25rem);
   }
 
   .settings-panel h2 {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
   }
 
   .theme-options {
@@ -640,7 +704,7 @@ RESPONSIVE
   }
 
   .settings-modal-content {
-    padding: 1.5rem;
+    padding: 1.25rem;
     margin: 0.5rem;
   }
 
@@ -654,152 +718,30 @@ RESPONSIVE
   }
 }
 
+/* Small phones */
 @media (max-width: 480px) {
   .settings-panel {
-    padding: 1rem;
-  }
-
-  .settings-nav-item {
-    font-size: 0.7rem;
-    padding: 0.4rem 0.7rem;
+    padding: 0.75rem;
   }
 
   .setting-info h4 {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
 
   .setting-info p {
+    font-size: 0.7rem;
+  }
+
+  .setting-control select,
+  .setting-control input {
     font-size: 0.75rem;
+    padding: 0.35rem 0.6rem;
   }
 }
 
 /* ====================================
 MOBILE MENU STYLES
 ==================================== */
-
-/* Mobile Menu Close Button */
-.mobile-menu-close {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  width: 40px;
-  height: 40px;
-  background: var(--glass-bg);
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  color: var(--white);
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-}
-
-.mobile-menu-close:hover {
-  background: var(--gradient-primary);
-  color: var(--dark);
-  transform: rotate(90deg);
-  border-color: transparent;
-}
-
-/* Mobile Menu Links Container */
-.mobile-menu-links {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-top: 2rem;
-  overflow-y: auto;
-}
-
-.mobile-menu-links a {
-  font-size: 1rem;
-  font-weight: 500;
-  padding: 0.6rem 0;
-  border-bottom: 1px solid var(--border);
-  transition: 0.3s;
-  color: var(--text-muted);
-  text-decoration: none;
-}
-
-.mobile-menu-links a:hover {
-  color: var(--gold);
-  padding-left: 0.5rem;
-  border-bottom-color: var(--gold);
-}
-
-.mobile-menu-links a.active {
-  color: var(--gold);
-  border-bottom-color: var(--gold);
-}
-
-/* Mobile Menu */
-.mobile-menu {
-  position: fixed;
-  right: -100%;
-  top: 0;
-  width: min(320px, 85vw);
-  height: 100vh;
-  background: rgba(5, 10, 22, 0.98);
-  backdrop-filter: blur(25px);
-  z-index: 2000;
-  transition: 0.4s ease;
-  display: flex;
-  flex-direction: column;
-  padding: 1.5rem 1.5rem 2rem;
-  overflow-y: auto;
-}
-
-.mobile-menu.active {
-  right: 0;
-}
-
-.menu-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(10px);
-  opacity: 0;
-  visibility: hidden;
-  z-index: 1500;
-  transition: 0.3s;
-}
-
-.menu-overlay.active {
-  opacity: 1;
-  visibility: visible;
-}
-
-/* Mobile Social Icons */
-.mobile-social {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  margin-top: auto;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--border);
-}
-
-.mobile-social a {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--glass-bg);
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  transition: 0.3s;
-  color: var(--white);
-  text-decoration: none;
-}
-
-.mobile-social a:hover {
-  background: var(--gradient-primary);
-  color: var(--dark);
-  transform: translateY(-3px);
-}
 
 /* Hamburger Button */
 .hamburger {
@@ -837,4 +779,92 @@ MOBILE MENU STYLES
   .hamburger {
     display: flex;
   }
+}
+
+/* Sidebar mobile styles */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+    width: 280px;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .sidebar-close {
+    display: block !important;
+  }
+
+  .sidebar-overlay.active {
+    display: block !important;
+  }
+
+  .main-content {
+    margin-left: 0 !important;
+    padding: 1rem !important;
+  }
+}
+
+/* Sidebar overlay */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 99;
+  backdrop-filter: blur(4px);
+}
+
+.sidebar-overlay.active {
+  display: block;
+}
+
+/* Sidebar close button */
+.sidebar-close {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.25rem;
+}
+
+/* ====================================
+HEADER FIXES
+==================================== */
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.dashboard-header h1 {
+  flex: 1;
+  min-width: 0;
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+}
+
+/* ====================================
+SCROLLBAR STYLING
+==================================== */
+.settings-nav::-webkit-scrollbar {
+  height: 4px;
+}
+
+.settings-nav::-webkit-scrollbar-track {
+  background: var(--glass-bg);
+  border-radius: 4px;
+}
+
+.settings-nav::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+.settings-nav::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary);
 }
