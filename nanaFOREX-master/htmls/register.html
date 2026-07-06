@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Account | Nana Forex</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../css/auth.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/env.js"></script>
+    <script src="../js/supabase-client.js"></script>
+  </head>
+
+  <body>
+    <header class="navbar">
+      <div class="logo" style="font-weight: 900">
+        <a href="index.html">NanaForex</a>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+        <a href="dashboard.html">Performance</a>
+        <a href="blog.html">Blogs</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div class="hamburger"><span></span><span></span><span></span></div>
+    </header>
+
+    <div class="menu-overlay"></div>
+    <div class="mobile-menu">
+      <button class="mobile-menu-close" aria-label="Close menu">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="mobile-menu-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+        <a href="dashboard.html">Performance</a>
+        <a href="blog.html">Blogs</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+
+    <main class="auth-wrap">
+      <div class="auth-card">
+        <h1>Create your <span class="gold-text">account</span></h1>
+        <p class="auth-sub">Join Nana Forex — it only takes a minute.</p>
+
+        <form class="auth-form" id="registerForm" novalidate>
+          <div class="form-group">
+            <label for="regFullName">Full Name</label>
+            <input type="text" id="regFullName" autocomplete="name" placeholder="John Mensah" required />
+          </div>
+
+          <div class="form-group">
+            <label for="regEmail">Email Address</label>
+            <input type="email" id="regEmail" autocomplete="email" placeholder="you@example.com" required />
+          </div>
+
+          <div class="form-group">
+            <label for="regPhone">Phone Number <span style="opacity:.5">(optional)</span></label>
+            <input type="tel" id="regPhone" autocomplete="tel" placeholder="+233 ..." />
+          </div>
+
+          <div class="form-group">
+            <label for="regPassword">Password</label>
+            <div class="pw-wrap">
+              <input type="password" id="regPassword" autocomplete="new-password" placeholder="At least 8 characters" required />
+              <button type="button" class="pw-toggle" aria-label="Show password">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="regConfirmPassword">Confirm Password</label>
+            <div class="pw-wrap">
+              <input type="password" id="regConfirmPassword" autocomplete="new-password" placeholder="Re-enter password" required />
+              <button type="button" class="pw-toggle" aria-label="Show password">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" id="registerBtn">Create Account</button>
+          <p id="registerStatus" class="auth-status"></p>
+        </form>
+
+        <p class="auth-alt">
+          Already have an account? <a href="login.html">Log in</a>
+        </p>
+      </div>
+    </main>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/auth.js"></script>
+  </body>
+</html>

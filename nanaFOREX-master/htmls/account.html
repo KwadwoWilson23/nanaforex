@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Account | Nana Forex</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../css/auth.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/env.js"></script>
+    <script src="../js/supabase-client.js"></script>
+  </head>
+
+  <body>
+    <header class="navbar">
+      <div class="logo" style="font-weight: 900">
+        <a href="index.html">NanaForex</a>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+        <a href="dashboard.html">Performance</a>
+        <a href="blog.html">Blogs</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div class="hamburger"><span></span><span></span><span></span></div>
+    </header>
+
+    <div class="menu-overlay"></div>
+    <div class="mobile-menu">
+      <button class="mobile-menu-close" aria-label="Close menu">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="mobile-menu-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+        <a href="dashboard.html">Performance</a>
+        <a href="blog.html">Blogs</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+
+    <main class="account-wrap">
+      <div class="account-header">
+        <div class="account-avatar">
+          <img id="avatarImg" alt="Avatar" style="display: none" />
+          <div id="avatarFallback" class="avatar-fallback">?</div>
+          <label class="avatar-edit" title="Change photo">
+            <i class="fas fa-camera"></i>
+            <input type="file" id="avatarInput" accept="image/*" />
+          </label>
+        </div>
+        <div class="account-head-text">
+          <h1 id="accountName">My Account</h1>
+          <p id="accountEmail">—</p>
+        </div>
+      </div>
+
+      <div class="account-grid">
+        <!-- LEFT: profile -->
+        <section class="account-card">
+          <h2>Profile</h2>
+          <form class="auth-form" id="profileForm" novalidate>
+            <div class="form-group">
+              <label for="fullName">Full Name</label>
+              <input type="text" id="fullName" autocomplete="name" />
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone</label>
+              <input type="tel" id="phone" autocomplete="tel" />
+            </div>
+            <div class="form-group">
+              <label for="country">Country</label>
+              <input type="text" id="country" autocomplete="country-name" />
+            </div>
+            <div class="form-group">
+              <label for="bio">Bio</label>
+              <textarea id="bio" rows="3" placeholder="A little about you…"></textarea>
+            </div>
+            <button type="submit" id="saveProfileBtn">Save Profile</button>
+            <p id="profileStatus" class="auth-status"></p>
+          </form>
+        </section>
+
+        <!-- RIGHT: security + notifications -->
+        <div style="display: flex; flex-direction: column; gap: 1.5rem">
+          <section class="account-card">
+            <h2>Change Password</h2>
+            <form class="auth-form" id="passwordForm" novalidate>
+              <div class="form-group">
+                <label for="accountNewPassword">New Password</label>
+                <div class="pw-wrap">
+                  <input
+                    type="password"
+                    id="accountNewPassword"
+                    autocomplete="new-password"
+                    placeholder="At least 8 characters"
+                  />
+                  <button type="button" class="pw-toggle" aria-label="Show password">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+              <button type="submit" id="changePasswordBtn" class="btn-secondary">
+                Update Password
+              </button>
+              <p id="passwordStatus" class="auth-status"></p>
+            </form>
+          </section>
+
+          <section class="account-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem">
+              <h2 style="margin: 0">Notifications</h2>
+              <button
+                id="markAllReadBtn"
+                style="background: none; border: none; color: var(--secondary); cursor: pointer; font-size: 0.82rem"
+              >
+                Mark all read
+              </button>
+            </div>
+            <div id="notificationList">
+              <p class="acct-empty">Loading…</p>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <div class="account-logout">
+        <a data-logout><i class="fas fa-sign-out-alt"></i> Log out</a>
+      </div>
+    </main>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/account.js"></script>
+  </body>
+</html>
