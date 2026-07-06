@@ -1,0 +1,946 @@
+/* ====================================
+MENTORSHIP - MODERN RESPONSIVE STYLES
+==================================== */
+
+/* ====================================
+GLOBAL RESET & BASE
+==================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img,
+canvas,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.main-content {
+  min-width: 0;
+}
+
+.dashboard-wrapper {
+  overflow-x: hidden;
+}
+
+/* ====================================
+MENTORSHIP HERO
+==================================== */
+.mentorship-hero {
+  position: relative;
+  padding: clamp(2rem, 5vw, 4rem) clamp(1rem, 3vw, 2rem);
+  margin-bottom: 2rem;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 200, 150, 0.05),
+    rgba(5, 10, 22, 0.95)
+  );
+  border-radius: clamp(16px, 2vw, 24px);
+  overflow: hidden;
+  text-align: center;
+}
+
+.mentorship-hero-glow {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: var(--glow-gold);
+  border-radius: 50%;
+  filter: blur(120px);
+  bottom: -150px;
+  right: -100px;
+  opacity: 0.3;
+}
+
+.mentorship-hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.mentorship-hero .hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1rem;
+  background: var(--glass-bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: clamp(0.75rem, 1vw, 0.85rem);
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+}
+
+.mentorship-hero h1 {
+  font-size: clamp(1.8rem, 5vw, 4rem);
+  margin-bottom: 1rem;
+  line-height: 1.1;
+}
+
+.mentorship-hero p {
+  font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+  max-width: 600px;
+  margin: 0 auto 1.5rem;
+  color: var(--text-muted);
+}
+
+/* Hero Buttons - Auto wrap */
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.hero-buttons .btn-primary,
+.hero-buttons .btn-secondary {
+  flex: 1;
+  min-width: 180px;
+  max-width: 260px;
+  padding: clamp(0.7rem, 1vw, 0.85rem) clamp(1.5rem, 2vw, 2rem);
+  font-size: clamp(0.85rem, 1vw, 0.95rem);
+  justify-content: center;
+}
+
+.hero-buttons .btn-secondary {
+  background: transparent;
+}
+
+/* ====================================
+MENTORSHIP STATS - Auto-fit grid
+==================================== */
+.mentorship-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: clamp(12px, 1.5vw, 16px);
+  padding: clamp(1rem, 1.5vw, 1.25rem);
+  text-align: center;
+  transition: 0.3s;
+}
+
+.stat-card:hover {
+  border-color: var(--gold);
+  transform: translateY(-2px);
+}
+
+.stat-card .stat-number {
+  display: block;
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 700;
+  font-family: "Space Grotesk", sans-serif;
+  color: var(--gold);
+}
+
+.stat-card .stat-label {
+  font-size: clamp(0.75rem, 0.85vw, 0.85rem);
+  color: var(--text-muted);
+}
+
+/* ====================================
+SECTION TITLE
+==================================== */
+.section-title {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.section-title h2 {
+  font-size: clamp(1.3rem, 3vw, 2.2rem);
+  margin-bottom: 0.5rem;
+}
+
+.section-title p {
+  font-size: clamp(0.85rem, 1.1vw, 1rem);
+  color: var(--text-muted);
+}
+
+/* ====================================
+PROGRAMS SECTION - Auto-fit grid
+==================================== */
+.programs-section {
+  padding: 2rem 0;
+}
+
+.programs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.program-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: clamp(16px, 2vw, 20px);
+  padding: clamp(1.5rem, 2.5vw, 2rem) clamp(1rem, 2vw, 1.5rem);
+  text-align: center;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.program-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--secondary);
+}
+
+.program-card.featured {
+  border-color: var(--gold);
+  transform: scale(1.02);
+}
+
+.program-card.featured:hover {
+  transform: scale(1.02) translateY(-5px);
+}
+
+.program-badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.25rem 1.5rem;
+  border-radius: 999px;
+  font-size: clamp(0.6rem, 0.7vw, 0.7rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.program-badge.beginner {
+  background: var(--secondary);
+  color: var(--bg-dark);
+}
+
+.program-badge.intermediate {
+  background: var(--gold);
+  color: var(--bg-dark);
+}
+
+.program-badge.advanced {
+  background: var(--danger);
+  color: var(--white);
+}
+
+.program-icon {
+  width: clamp(50px, 6vw, 60px);
+  height: clamp(50px, 6vw, 60px);
+  border-radius: 50%;
+  background: var(--glass-bg);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.5rem auto 1rem;
+  font-size: clamp(1.2rem, 1.5vw, 1.5rem);
+  color: var(--gold);
+}
+
+.program-card h3 {
+  font-size: clamp(1.1rem, 1.3vw, 1.25rem);
+  margin-bottom: 0.5rem;
+}
+
+.program-description {
+  font-size: clamp(0.8rem, 0.9vw, 0.9rem);
+  color: var(--text-muted);
+  margin-bottom: 1.25rem;
+  min-height: 50px;
+}
+
+.program-features {
+  text-align: left;
+  margin-bottom: 1.5rem;
+}
+
+.program-features .feature {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0;
+  font-size: clamp(0.8rem, 0.85vw, 0.85rem);
+  color: var(--text-muted);
+}
+
+.program-features .feature i {
+  color: var(--profit-green);
+  font-size: clamp(0.8rem, 0.9vw, 0.9rem);
+  flex-shrink: 0;
+}
+
+.program-pricing {
+  margin-bottom: 1.5rem;
+}
+
+.program-pricing .price {
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 700;
+  color: var(--gold);
+  font-family: "Space Grotesk", sans-serif;
+}
+
+.program-pricing .price-period {
+  font-size: clamp(0.75rem, 0.85vw, 0.85rem);
+  color: var(--text-muted);
+  margin-left: 0.25rem;
+}
+
+.program-btn {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: clamp(0.8rem, 0.9vw, 0.9rem);
+}
+
+/* ====================================
+MENTORS SECTION - Auto-fit grid
+==================================== */
+.mentors-section {
+  padding: 2rem 0;
+}
+
+.mentors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.mentor-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: clamp(16px, 2vw, 20px);
+  padding: clamp(1rem, 2vw, 1.5rem);
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  transition: 0.3s;
+}
+
+.mentor-card:hover {
+  border-color: var(--secondary);
+  transform: translateY(-4px);
+}
+
+.mentor-image {
+  flex-shrink: 0;
+}
+
+.mentor-avatar {
+  width: clamp(50px, 6vw, 60px);
+  height: clamp(50px, 6vw, 60px);
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: clamp(1rem, 1.2vw, 1.2rem);
+  color: var(--bg-dark);
+}
+
+.mentor-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.mentor-info h3 {
+  font-size: clamp(1rem, 1.1vw, 1.1rem);
+  margin-bottom: 0.15rem;
+}
+
+.mentor-role {
+  font-size: clamp(0.7rem, 0.8vw, 0.8rem);
+  color: var(--gold);
+  font-weight: 500;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.mentor-info p {
+  font-size: clamp(0.8rem, 0.85vw, 0.85rem);
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+
+.mentor-social {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.mentor-social a {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--glass-bg);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  transition: 0.3s;
+  text-decoration: none;
+}
+
+.mentor-social a:hover {
+  background: var(--gradient-primary);
+  color: var(--bg-dark);
+  border-color: transparent;
+}
+
+.mentor-stats {
+  display: flex;
+  gap: 1rem;
+  font-size: clamp(0.7rem, 0.8vw, 0.8rem);
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+
+.mentor-stats i {
+  margin-right: 0.25rem;
+}
+
+/* ====================================
+TESTIMONIALS SECTION - Auto-fit grid
+==================================== */
+.testimonials-section {
+  padding: 2rem 0;
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.testimonial-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: clamp(16px, 2vw, 20px);
+  padding: clamp(1.25rem, 2vw, 1.5rem);
+  transition: 0.3s;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--secondary);
+}
+
+.testimonial-rating {
+  color: var(--gold);
+  margin-bottom: 0.75rem;
+  letter-spacing: 2px;
+  font-size: clamp(0.8rem, 1vw, 1rem);
+}
+
+.testimonial-card p {
+  font-size: clamp(0.85rem, 0.95vw, 0.95rem);
+  line-height: 1.7;
+  margin-bottom: 1.25rem;
+  font-style: italic;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.author-avatar {
+  width: clamp(38px, 5vw, 44px);
+  height: clamp(38px, 5vw, 44px);
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: var(--bg-dark);
+  font-size: clamp(0.8rem, 0.9vw, 0.9rem);
+  flex-shrink: 0;
+}
+
+.testimonial-author h4 {
+  font-size: clamp(0.85rem, 0.95vw, 0.95rem);
+  margin-bottom: 0.1rem;
+}
+
+.testimonial-author span {
+  font-size: clamp(0.7rem, 0.8vw, 0.8rem);
+  color: var(--text-muted);
+}
+
+/* ====================================
+FAQ SECTION
+==================================== */
+.faq-section {
+  padding: 2rem 0;
+}
+
+.faq-grid {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  transition: 0.3s;
+}
+
+.faq-item:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: clamp(0.75rem, 1.5vw, 1.25rem) clamp(1rem, 2vw, 1.5rem);
+  cursor: pointer;
+  gap: 1rem;
+}
+
+.faq-question h3 {
+  font-size: clamp(0.85rem, 1vw, 1rem);
+  font-weight: 500;
+  margin: 0;
+  flex: 1;
+}
+
+.faq-question i {
+  transition: 0.3s;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.faq-item.active .faq-question i {
+  transform: rotate(180deg);
+  color: var(--gold);
+}
+
+.faq-answer {
+  padding: 0 clamp(1rem, 2vw, 1.5rem);
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.faq-item.active .faq-answer {
+  padding: 0 clamp(1rem, 2vw, 1.5rem) clamp(1rem, 2vw, 1.25rem);
+  max-height: 300px;
+}
+
+.faq-answer p {
+  font-size: clamp(0.8rem, 0.9vw, 0.9rem);
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ====================================
+CTA SECTION
+==================================== */
+.cta-section {
+  padding: 2rem 0 1rem;
+}
+
+.cta-content {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 200, 150, 0.1),
+    rgba(245, 183, 0, 0.08)
+  );
+  border: 1px solid var(--border);
+  border-radius: clamp(16px, 2vw, 24px);
+  padding: clamp(2rem, 4vw, 3rem) clamp(1rem, 3vw, 2rem);
+  text-align: center;
+}
+
+.cta-content h2 {
+  font-size: clamp(1.3rem, 3vw, 2.8rem);
+  margin-bottom: 0.5rem;
+}
+
+.cta-content p {
+  font-size: clamp(0.9rem, 1.1vw, 1.05rem);
+  margin-bottom: 1.5rem;
+}
+
+.cta-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.cta-buttons .btn-primary,
+.cta-buttons .btn-secondary {
+  flex: 1;
+  min-width: 180px;
+  max-width: 260px;
+  justify-content: center;
+}
+
+.cta-buttons .btn-secondary {
+  background: transparent;
+}
+
+/* ====================================
+MENTORSHIP MODAL
+==================================== */
+.mentorship-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  z-index: 10000;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(0.75rem, 2vw, 1.5rem);
+}
+
+.mentorship-modal.active {
+  display: flex;
+}
+
+.mentorship-modal-content {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: clamp(16px, 2vw, 24px);
+  padding: clamp(1rem, 3vw, 2rem);
+  width: min(580px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.mentorship-modal .modal-close {
+  position: absolute;
+  top: clamp(0.5rem, 1vw, 1rem);
+  right: clamp(0.75rem, 1.5vw, 1.25rem);
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: clamp(1.2rem, 1.5vw, 1.5rem);
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.mentorship-modal .modal-close:hover {
+  color: var(--white);
+  transform: rotate(90deg);
+}
+
+.mentorship-modal-content h3 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(1.1rem, 1.5vw, 1.5rem);
+  margin-bottom: 0.5rem;
+}
+
+.mentorship-modal-content h3 i {
+  margin-right: 0.5rem;
+}
+
+.mentorship-modal-content p {
+  color: var(--text-muted);
+  font-size: clamp(0.8rem, 0.9vw, 0.9rem);
+  margin-bottom: 1.5rem;
+}
+
+.mentorship-modal .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.mentorship-modal .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.mentorship-modal .form-group label {
+  font-size: clamp(0.8rem, 0.9vw, 0.85rem);
+  font-weight: 500;
+  color: var(--white);
+}
+
+.mentorship-modal .form-group label .required {
+  color: var(--danger);
+  margin-left: 2px;
+}
+
+.mentorship-modal .form-group input,
+.mentorship-modal .form-group select,
+.mentorship-modal .form-group textarea {
+  width: 100%;
+  padding: clamp(0.5rem, 0.8vw, 0.7rem) clamp(0.75rem, 1vw, 1rem);
+  background: var(--glass-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--white);
+  font-size: clamp(0.8rem, 0.9vw, 0.9rem);
+  font-family: "Inter", sans-serif;
+  outline: none;
+  transition: 0.3s;
+}
+
+.mentorship-modal .form-group input:focus,
+.mentorship-modal .form-group select:focus,
+.mentorship-modal .form-group textarea:focus {
+  border-color: var(--secondary);
+  box-shadow: 0 0 0 3px rgba(0, 200, 150, 0.15);
+}
+
+.mentorship-modal .form-group select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+
+.mentorship-modal .form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.mentorship-modal .btn-primary {
+  width: 100%;
+  padding: clamp(0.7rem, 1vw, 0.85rem);
+  margin-top: 0.5rem;
+}
+
+.mentorship-modal .form-status {
+  margin-top: 1rem;
+  padding: clamp(0.5rem, 0.8vw, 0.75rem) clamp(0.75rem, 1vw, 1rem);
+  border-radius: 10px;
+  font-size: clamp(0.8rem, 0.9vw, 0.875rem);
+  display: none;
+}
+
+.mentorship-modal .form-status.error {
+  display: block;
+  background: rgba(255, 77, 77, 0.1);
+  border: 1px solid var(--danger);
+  color: var(--danger);
+}
+
+.mentorship-modal .form-status.success {
+  display: block;
+  background: rgba(0, 255, 136, 0.1);
+  border: 1px solid var(--profit-green);
+  color: var(--profit-green);
+}
+
+/* ====================================
+RESPONSIVE OVERRIDES (Minimal)
+==================================== */
+
+/* Only what cannot be solved with auto-fit + clamp */
+
+/* Tablets and below - special cases */
+@media (max-width: 768px) {
+  .program-card.featured {
+    transform: scale(1);
+  }
+
+  .program-card.featured:hover {
+    transform: translateY(-5px);
+  }
+
+  .mentor-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .mentor-social {
+    justify-content: center;
+  }
+
+  .mentor-stats {
+    justify-content: center;
+  }
+}
+
+/* Small phones - special cases */
+@media (max-width: 480px) {
+  .mentorship-modal .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .program-features .feature {
+    font-size: 0.8rem;
+  }
+
+  .mentorship-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 360px) {
+  .hero-buttons .btn-primary,
+  .hero-buttons .btn-secondary {
+    min-width: 140px;
+    max-width: 100%;
+  }
+
+  .cta-buttons .btn-primary,
+  .cta-buttons .btn-secondary {
+    min-width: 140px;
+    max-width: 100%;
+  }
+
+  .mentorship-stats {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ====================================
+MOBILE MENU STYLES
+==================================== */
+
+/* Hamburger Button */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 0.25rem;
+  background: none;
+  border: none;
+}
+
+.hamburger span {
+  width: 28px;
+  height: 3px;
+  background: var(--white);
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 6px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -6px);
+}
+
+/* Show hamburger on mobile */
+@media (max-width: 992px) {
+  .hamburger {
+    display: flex;
+  }
+}
+
+/* Sidebar mobile styles */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+    width: 280px;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .sidebar-close {
+    display: block !important;
+  }
+
+  .sidebar-overlay.active {
+    display: block !important;
+  }
+
+  .main-content {
+    margin-left: 0 !important;
+    padding: 1rem !important;
+  }
+}
+
+/* Sidebar overlay */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 99;
+  backdrop-filter: blur(4px);
+}
+
+.sidebar-overlay.active {
+  display: block;
+}
+
+/* Sidebar close button */
+.sidebar-close {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.25rem;
+}
+
+/* ====================================
+HEADER FIXES
+==================================== */
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.dashboard-header h1 {
+  flex: 1;
+  min-width: 0;
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+}
+
+/* ====================================
+SECTION PADDING UNIFORMITY
+==================================== */
+section {
+  padding-inline: clamp(0, 1vw, 0);
+}

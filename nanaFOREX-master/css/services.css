@@ -1,0 +1,207 @@
+/* services.css - Additional styles for Services page */
+
+.services-hero {
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: linear-gradient(
+    135deg,
+    rgba(245, 183, 0, 0.1),
+    rgba(5, 10, 22, 0.95)
+  );
+  padding-top: 100px;
+}
+
+.services-hero-content {
+  max-width: 800px;
+  padding: 2rem;
+}
+
+.main-services {
+  padding: 4rem clamp(1rem, 5vw, 6rem);
+}
+
+.service-detail {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  margin-bottom: 2rem;
+  overflow: hidden;
+  transition: 0.3s;
+}
+
+.service-detail:hover {
+  transform: translateX(10px);
+  border-color: var(--secondary);
+}
+
+.service-detail-content {
+  padding: 2.5rem;
+}
+
+.service-detail-content i {
+  font-size: 3rem;
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+
+.service-detail-content h2 {
+  margin-bottom: 1rem;
+}
+
+.service-detail-content ul {
+  list-style: none;
+  margin: 1.5rem 0;
+}
+
+.service-detail-content ul li {
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.service-detail-content ul li i {
+  font-size: 1rem;
+  color: var(--profit-green);
+  margin: 0;
+}
+
+.pricing {
+  background: var(--bg-dark);
+  padding: 4rem clamp(1rem, 5vw, 6rem);
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.pricing-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+  transition: 0.3s;
+}
+
+.pricing-card:hover {
+  transform: translateY(-10px);
+}
+
+.pricing-card.popular {
+  border-color: var(--gold);
+  transform: scale(1.02);
+}
+
+.popular-badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--gradient-gold);
+  color: var(--dark);
+  padding: 0.25rem 1rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.pricing-card h3 {
+  margin-bottom: 1rem;
+}
+
+.price {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+}
+
+.price span {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.pricing-card ul {
+  list-style: none;
+  margin: 1.5rem 0;
+  text-align: left;
+}
+
+.pricing-card ul li {
+  margin-bottom: 0.75rem;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.pricing-card ul li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--profit-green);
+}
+
+.faq {
+  padding: 4rem clamp(1rem, 5vw, 6rem);
+}
+
+.faq-grid {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  background: var(--glass-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  cursor: pointer;
+}
+
+.faq-question h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.faq-question i {
+  transition: 0.3s;
+}
+
+.faq-item.active .faq-question i {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  padding: 0 1.5rem;
+  max-height: 0;
+  overflow: hidden;
+  transition: 0.3s;
+}
+
+.faq-item.active .faq-answer {
+  padding: 0 1.5rem 1.25rem;
+  max-height: 300px;
+}
+
+@media (max-width: 768px) {
+  .pricing-card.popular {
+    transform: scale(1);
+  }
+}

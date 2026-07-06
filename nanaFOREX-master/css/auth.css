@@ -1,0 +1,338 @@
+/* ====================================
+   Auth pages (login / register / reset)
+   Uses the design tokens from style.css
+==================================== */
+
+/* heading accent — defined here since auth pages don't load blog/about css */
+.gold-text {
+  color: var(--gold);
+}
+
+.auth-wrap {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.25rem;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.auth-card h1 {
+  font-size: 1.75rem;
+  margin-bottom: 0.4rem;
+}
+
+.auth-card .auth-sub {
+  color: var(--text-muted);
+  margin-bottom: 1.75rem;
+  font-size: 0.95rem;
+}
+
+.auth-form .form-group {
+  margin-bottom: 1.15rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-form label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  background: var(--glass-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--white);
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.auth-form input:focus {
+  outline: none;
+  border-color: var(--secondary);
+  box-shadow: 0 0 0 3px var(--glow-green);
+}
+
+.auth-form input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* password field + show/hide eye */
+.pw-wrap {
+  position: relative;
+}
+.pw-wrap input {
+  padding-right: 2.9rem;
+}
+.pw-toggle {
+  position: absolute;
+  top: 50%;
+  right: 0.5rem;
+  transform: translateY(-50%);
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: 8px;
+  transition: color 0.15s;
+}
+.pw-toggle:hover {
+  color: var(--secondary);
+}
+
+.auth-form button[type="submit"] {
+  width: 100%;
+  padding: 0.9rem;
+  margin-top: 0.5rem;
+  border: none;
+  border-radius: 12px;
+  background: var(--gradient-primary);
+  color: var(--dark);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.2s;
+}
+
+.auth-form button[type="submit"]:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-green);
+}
+
+.auth-form button[type="submit"]:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-status {
+  min-height: 1.2rem;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  text-align: center;
+}
+.auth-status.error {
+  color: var(--danger);
+}
+.auth-status.success {
+  color: var(--profit-green);
+}
+
+.auth-alt {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+.auth-alt a {
+  color: var(--secondary);
+  font-weight: 600;
+}
+.auth-alt a:hover {
+  text-decoration: underline;
+}
+
+.auth-meta {
+  display: flex;
+  justify-content: flex-end;
+  margin: -0.5rem 0 1rem;
+}
+.auth-meta a {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+.auth-meta a:hover {
+  color: var(--secondary);
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 1.75rem 1.35rem;
+  }
+}
+
+/* ====================================
+   Account page
+==================================== */
+.account-wrap {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 4rem;
+}
+
+.account-header {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.account-avatar {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  flex-shrink: 0;
+}
+.account-avatar img,
+.account-avatar .avatar-fallback {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border);
+}
+.account-avatar .avatar-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gradient-primary);
+  color: var(--dark);
+  font-size: 2rem;
+  font-weight: 800;
+}
+.account-avatar .avatar-edit {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  color: var(--secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.account-avatar input[type="file"] {
+  display: none;
+}
+
+.account-head-text h1 {
+  font-size: 1.6rem;
+  margin-bottom: 0.15rem;
+}
+.account-head-text p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.account-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+@media (max-width: 760px) {
+  .account-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.account-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 1.75rem;
+}
+.account-card h2 {
+  font-size: 1.1rem;
+  margin-bottom: 1.25rem;
+}
+.account-card textarea {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  background: var(--glass-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--white);
+  font-family: inherit;
+  font-size: 0.95rem;
+  resize: vertical;
+}
+.account-card .btn-secondary {
+  width: 100%;
+  padding: 0.85rem;
+  border: 1px solid var(--secondary);
+  border-radius: 12px;
+  background: transparent;
+  color: var(--secondary);
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+.account-card .btn-secondary:hover:not(:disabled) {
+  background: var(--secondary);
+  color: var(--dark);
+}
+
+.acct-empty {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.acct-notif {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.acct-notif:last-child {
+  border-bottom: none;
+}
+.acct-notif p {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin: 0.15rem 0;
+}
+.acct-notif-time {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.35);
+}
+.acct-notif.unread strong::after {
+  content: "•";
+  color: var(--secondary);
+  margin-left: 0.4rem;
+}
+.acct-notif-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-top: 6px;
+  flex-shrink: 0;
+  background: var(--secondary);
+}
+.acct-notif-dot.success { background: var(--profit-green); }
+.acct-notif-dot.warning { background: var(--gold); }
+.acct-notif-dot.error   { background: var(--danger); }
+
+.account-logout {
+  margin-top: 2rem;
+  text-align: center;
+}
+.account-logout a {
+  color: var(--danger);
+  font-size: 0.9rem;
+  cursor: pointer;
+}

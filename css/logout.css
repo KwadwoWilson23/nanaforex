@@ -1,0 +1,606 @@
+/* ====================================
+LOGOUT PAGE STYLES
+==================================== */
+
+/* ====================================
+LOGOUT CONTENT
+==================================== */
+.logout-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 200px);
+  padding: 2rem 0;
+}
+
+.logout-container {
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+/* ====================================
+LOGOUT CARD
+==================================== */
+.logout-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+.logout-card::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient-primary);
+}
+
+.logout-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(255, 77, 77, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  font-size: 2.5rem;
+  color: var(--danger);
+}
+
+.logout-card h2 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.8rem;
+  margin-bottom: 0.75rem;
+}
+
+.logout-card p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+/* ====================================
+SESSION INFO
+==================================== */
+.logout-info {
+  background: var(--glass-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.25rem;
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.session-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+
+.session-info:last-child {
+  border-bottom: none;
+}
+
+.session-info i {
+  width: 20px;
+  color: var(--gold);
+}
+
+.session-info span {
+  color: var(--white);
+}
+
+/* ====================================
+LOGOUT BUTTONS
+==================================== */
+.logout-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.logout-buttons .btn-secondary {
+  flex: 1;
+  background: transparent;
+  padding: 0.75rem;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.logout-buttons .btn-primary {
+  flex: 1.5;
+  padding: 0.75rem;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--gradient-primary);
+  color: var(--bg-dark);
+}
+
+.logout-buttons .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(0, 200, 150, 0.3);
+}
+
+/* ====================================
+SECURITY NOTE
+==================================== */
+.logout-security-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.logout-security-note i {
+  color: var(--gold);
+}
+
+/* ====================================
+LOGOUT FOOTER LINKS
+==================================== */
+.logout-footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.logout-footer-links a {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.logout-footer-links a:hover {
+  color: var(--gold);
+}
+
+/* ====================================
+LOGOUT MODAL
+==================================== */
+.logout-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  z-index: 10000;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.logout-modal.active {
+  display: flex;
+}
+
+.logout-modal-content {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 2rem;
+  max-width: 450px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modal-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(245, 183, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  font-size: 2rem;
+  color: var(--gold);
+}
+
+.logout-modal-content h3 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.logout-modal-content p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.modal-buttons .btn-secondary {
+  flex: 1;
+  background: transparent;
+  padding: 0.65rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.modal-buttons .btn-primary {
+  flex: 1;
+  padding: 0.65rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* ====================================
+LOGOUT SUCCESS OVERLAY
+==================================== */
+.logout-success-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(15px);
+  z-index: 99999;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.logout-success-overlay.active {
+  display: flex;
+}
+
+.logout-success-content {
+  text-align: center;
+  max-width: 400px;
+  animation: fadeInUp 0.6s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.success-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(0, 255, 136, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  font-size: 3rem;
+  color: var(--profit-green);
+}
+
+.logout-success-content h2 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.logout-success-content p {
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+.success-redirect {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.success-redirect span {
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.logout-success-content .btn-primary {
+  margin-top: 1.5rem;
+  padding: 0.75rem 2rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ====================================
+RESPONSIVE
+==================================== */
+@media (max-width: 768px) {
+  .logout-content {
+    min-height: calc(100vh - 160px);
+    padding: 1rem 0;
+  }
+
+  .logout-card {
+    padding: 2rem 1.25rem;
+  }
+
+  .logout-card h2 {
+    font-size: 1.5rem;
+  }
+
+  .logout-buttons {
+    flex-direction: column;
+  }
+
+  .logout-buttons .btn-secondary,
+  .logout-buttons .btn-primary {
+    flex: 1;
+    width: 100%;
+  }
+
+  .modal-buttons {
+    flex-direction: column;
+  }
+
+  .modal-buttons .btn-secondary,
+  .modal-buttons .btn-primary {
+    flex: 1;
+    width: 100%;
+  }
+
+  .logout-footer-links {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .logout-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 2rem;
+  }
+
+  .logout-modal-content {
+    padding: 1.5rem;
+    margin: 0.5rem;
+  }
+
+  .logout-success-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .success-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .logout-card {
+    padding: 1.5rem 1rem;
+  }
+
+  .logout-card h2 {
+    font-size: 1.3rem;
+  }
+
+  .logout-card p {
+    font-size: 0.85rem;
+  }
+
+  .session-info {
+    font-size: 0.8rem;
+  }
+
+  .logout-buttons .btn-secondary,
+  .logout-buttons .btn-primary {
+    font-size: 0.85rem;
+    padding: 0.6rem;
+  }
+}
+
+/* ====================================
+MOBILE MENU STYLES
+==================================== */
+
+/* Mobile Menu Close Button */
+.mobile-menu-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 40px;
+  height: 40px;
+  background: var(--glass-bg);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--white);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.mobile-menu-close:hover {
+  background: var(--gradient-primary);
+  color: var(--dark);
+  transform: rotate(90deg);
+  border-color: transparent;
+}
+
+/* Mobile Menu Links Container */
+.mobile-menu-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  overflow-y: auto;
+}
+
+.mobile-menu-links a {
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border);
+  transition: 0.3s;
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.mobile-menu-links a:hover {
+  color: var(--gold);
+  padding-left: 0.5rem;
+  border-bottom-color: var(--gold);
+}
+
+.mobile-menu-links a.active {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+}
+
+/* Mobile Menu */
+.mobile-menu {
+  position: fixed;
+  right: -100%;
+  top: 0;
+  width: min(320px, 85vw);
+  height: 100vh;
+  background: rgba(5, 10, 22, 0.98);
+  backdrop-filter: blur(25px);
+  z-index: 2000;
+  transition: 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 1.5rem 2rem;
+  overflow-y: auto;
+}
+
+.mobile-menu.active {
+  right: 0;
+}
+
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  visibility: hidden;
+  z-index: 1500;
+  transition: 0.3s;
+}
+
+.menu-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Mobile Social Icons */
+.mobile-social {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: auto;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.mobile-social a {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--glass-bg);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  transition: 0.3s;
+  color: var(--white);
+  text-decoration: none;
+}
+
+.mobile-social a:hover {
+  background: var(--gradient-primary);
+  color: var(--dark);
+  transform: translateY(-3px);
+}
+
+/* Hamburger Button */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 0.25rem;
+  background: none;
+  border: none;
+}
+
+.hamburger span {
+  width: 28px;
+  height: 3px;
+  background: var(--white);
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 6px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -6px);
+}
+
+/* Show hamburger on mobile */
+@media (max-width: 992px) {
+  .hamburger {
+    display: flex;
+  }
+}

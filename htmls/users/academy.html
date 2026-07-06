@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Forex Academy | Nana Forex</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/client-dashboard.css" />
+    <link rel="stylesheet" href="/css/academy.css" />
+  </head>
+
+  <body>
+    <!-- =======================
+    DASHBOARD WRAPPER
+    ======================= -->
+    <div class="dashboard-wrapper">
+      <!-- =======================
+      SIDEBAR
+      ======================= -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+          <h2>NanaForex</h2>
+          <button class="sidebar-close" id="sidebarClose">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="client-dashboard.html" data-page="dashboard">
+            <i class="fas fa-th-large"></i>
+            <span>Dashboard</span>
+          </a>
+          <a href="profile.html" data-page="profile">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+          </a>
+          <a href="academy.html" class="active" data-page="academy">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Academy</span>
+          </a>
+          <a href="signals.html" data-page="signals">
+            <i class="fas fa-signal"></i>
+            <span>Signals</span>
+          </a>
+          <a href="copy-trading.html" data-page="copy-trading">
+            <i class="fas fa-copy"></i>
+            <span>Copy Trading</span>
+          </a>
+
+          <a href="mentorship.html" data-page="mentorship">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <span>Mentorship</span>
+          </a>
+          <a href="ib-partnership.html" data-page="ib-partnership">
+            <i class="fas fa-handshake"></i>
+            <span>IB Partnership</span>
+          </a>
+          <a href="trading-tools.html" data-page="trading-tools">
+            <i class="fas fa-tools"></i>
+            <span>Trading Tools</span>
+          </a>
+          <a href="market-analysis.html" data-page="market-analysis">
+            <i class="fas fa-chart-line"></i>
+            <span>Market Analysis</span>
+          </a>
+
+          <a href="settings.html" data-page="settings">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <button class="logout-btn" id="logoutBtn">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- =======================
+      SIDEBAR OVERLAY (Mobile)
+      ======================= -->
+      <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+      <!-- =======================
+      MAIN CONTENT
+      ======================= -->
+      <main class="main-content">
+        <!-- Top Header -->
+        <header class="dashboard-header">
+          <!-- SINGLE HAMBURGER BUTTON -->
+          <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+          <h1>Forex Academy</h1>
+          <div class="header-actions">
+            <button class="notif-btn" id="notifBtn">
+              <i class="fas fa-bell"></i>
+              <span class="notif-badge">3</span>
+            </button>
+            <div class="user-avatar">
+              <span id="userInitials">JD</span>
+            </div>
+          </div>
+        </header>
+
+        <!-- =======================
+        ACADEMY CONTENT
+        ======================= -->
+        <div class="academy-content">
+          <!-- =======================
+          HERO SECTION
+          ======================= -->
+          <section class="academy-hero">
+            <div class="academy-hero-glow"></div>
+            <div class="academy-hero-content">
+              <span class="hero-badge">
+                <i class="fas fa-graduation-cap"></i>
+                Learn from the Pros
+              </span>
+              <h1>Master <span class="gold-text">Forex Trading</span></h1>
+              <p>
+                From beginner basics to advanced strategies — learn everything
+                you need to become a consistently profitable trader.
+              </p>
+              <div class="hero-buttons">
+                <a href="#courses" class="btn-primary">
+                  <i class="fas fa-play"></i> Start Learning
+                </a>
+                <a href="#learning-path" class="btn-secondary">
+                  View Learning Path
+                </a>
+              </div>
+              <div class="hero-stats">
+                <div>
+                  <span class="stat-number">500+</span>
+                  <span class="stat-label">Students Trained</span>
+                </div>
+                <div>
+                  <span class="stat-number">85%</span>
+                  <span class="stat-label">Success Rate</span>
+                </div>
+                <div>
+                  <span class="stat-number">50+</span>
+                  <span class="stat-label">Video Lessons</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- =======================
+          LEARNING CATEGORIES
+          ======================= -->
+          <section class="categories-section">
+            <div class="section-title">
+              <h2>Learning <span class="gold-text">Categories</span></h2>
+              <p>Explore our comprehensive trading curriculum</p>
+            </div>
+            <div class="categories-grid">
+              <div class="category-card">
+                <i class="fas fa-book"></i>
+                <h3>Forex Basics</h3>
+                <p>
+                  Understanding currency pairs, pips, lots, and market
+                  structure.
+                </p>
+              </div>
+              <div class="category-card">
+                <i class="fas fa-chart-line"></i>
+                <h3>Technical Analysis</h3>
+                <p>Chart patterns, indicators, and price action strategies.</p>
+              </div>
+              <div class="category-card">
+                <i class="fas fa-globe"></i>
+                <h3>Fundamental Analysis</h3>
+                <p>
+                  Economic indicators, news trading, and central bank policies.
+                </p>
+              </div>
+              <div class="category-card">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Risk Management</h3>
+                <p>
+                  Position sizing, stop-loss strategies, and capital
+                  preservation.
+                </p>
+              </div>
+              <div class="category-card">
+                <i class="fas fa-arrows-alt-h"></i>
+                <h3>Price Action</h3>
+                <p>
+                  Reading naked charts, support/resistance, and candlestick
+                  patterns.
+                </p>
+              </div>
+              <div class="category-card">
+                <i class="fas fa-brain"></i>
+                <h3>Trading Psychology</h3>
+                <p>
+                  Mastering emotions, discipline, and developing a trader's
+                  mindset.
+                </p>
+              </div>
+              <div class="category-card">
+                <i class="fas fa-rocket"></i>
+                <h3>Advanced Strategies</h3>
+                <p>
+                  Scalping, swing trading, and algorithmic trading approaches.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <!-- =======================
+          FEATURED COURSES
+          ======================= -->
+          <section class="courses-section" id="courses">
+            <div class="section-title">
+              <h2>Featured <span class="gold-text">Courses</span></h2>
+              <p>Handpicked courses to accelerate your trading journey</p>
+            </div>
+            <div class="courses-grid" id="coursesGrid">
+              <!-- Course cards will be rendered by JavaScript -->
+            </div>
+          </section>
+
+          <!-- =======================
+          LEARNING PATH
+          ======================= -->
+          <section class="learning-path" id="learning-path">
+            <div class="section-title">
+              <h2>Your <span class="gold-text">Learning Path</span></h2>
+              <p>From beginner to professional trader — follow this roadmap</p>
+            </div>
+            <div class="path-timeline">
+              <div class="path-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h3>Beginner</h3>
+                  <p>
+                    Learn the fundamentals of forex trading, terminology, and
+                    basic strategies.
+                  </p>
+                  <span class="step-duration">4-6 weeks</span>
+                </div>
+              </div>
+              <div class="path-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h3>Intermediate</h3>
+                  <p>
+                    Master technical analysis, chart patterns, and develop your
+                    trading system.
+                  </p>
+                  <span class="step-duration">8-10 weeks</span>
+                </div>
+              </div>
+              <div class="path-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <h3>Advanced</h3>
+                  <p>
+                    Refine strategies, risk management, and learn advanced
+                    trading techniques.
+                  </p>
+                  <span class="step-duration">10-12 weeks</span>
+                </div>
+              </div>
+              <div class="path-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                  <h3>Professional Trader</h3>
+                  <p>
+                    Consistent profitability, funded accounts, and mentorship.
+                  </p>
+                  <span class="step-duration">Ongoing</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- =======================
+          TESTIMONIALS
+          ======================= -->
+          <section class="testimonials-section">
+            <div class="section-title">
+              <h2>Student <span class="gold-text">Success Stories</span></h2>
+              <p>Hear from traders who transformed their skills with us</p>
+            </div>
+            <div class="testimonials-grid">
+              <div class="testimonial-card">
+                <div class="testimonial-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+                <p>
+                  "The Academy transformed my trading completely. I went from
+                  losing money to consistently profitable in just 3 months."
+                </p>
+                <div class="testimonial-author">
+                  <div class="author-avatar">KM</div>
+                  <div>
+                    <h4>Kwame Mensah</h4>
+                    <span>Funded Trader</span>
+                  </div>
+                </div>
+              </div>
+              <div class="testimonial-card">
+                <div class="testimonial-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+                <p>
+                  "The structured learning path and practical examples made all
+                  the difference. I'm now trading with confidence."
+                </p>
+                <div class="testimonial-author">
+                  <div class="author-avatar">AA</div>
+                  <div>
+                    <h4>Adwoa Asante</h4>
+                    <span>Forex Trader</span>
+                  </div>
+                </div>
+              </div>
+              <div class="testimonial-card">
+                <div class="testimonial-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+                <p>
+                  "Best investment I've made in my trading career. The
+                  mentorship and community support is unmatched."
+                </p>
+                <div class="testimonial-author">
+                  <div class="author-avatar">MO</div>
+                  <div>
+                    <h4>Michael Osei</h4>
+                    <span>Professional Trader</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- =======================
+          FAQ SECTION
+          ======================= -->
+          <section class="faq-section">
+            <div class="section-title">
+              <h2>Frequently Asked <span class="gold-text">Questions</span></h2>
+              <p>Everything you need to know about the Academy</p>
+            </div>
+            <div class="faq-grid">
+              <div class="faq-item">
+                <div class="faq-question">
+                  <h3>Do I need prior trading experience?</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                  <p>
+                    Not at all! Our Academy is designed for all levels. We start
+                    from the absolute basics and build up to advanced
+                    strategies.
+                  </p>
+                </div>
+              </div>
+              <div class="faq-item">
+                <div class="faq-question">
+                  <h3>Are the courses self-paced?</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                  <p>
+                    Yes! All courses are self-paced with lifetime access. You
+                    can learn at your own speed and revisit content anytime.
+                  </p>
+                </div>
+              </div>
+              <div class="faq-item">
+                <div class="faq-question">
+                  <h3>How do I access paid courses?</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                  <p>
+                    Paid courses require payment approval. Once your payment is
+                    confirmed, you'll get immediate access to the course
+                    content.
+                  </p>
+                </div>
+              </div>
+              <div class="faq-item">
+                <div class="faq-question">
+                  <h3>Is there a certificate after completion?</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                  <p>
+                    Yes! You'll receive a certificate of completion for each
+                    course you finish, which you can add to your portfolio.
+                  </p>
+                </div>
+              </div>
+              <div class="faq-item">
+                <div class="faq-question">
+                  <h3>Can I interact with instructors?</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                  <p>
+                    Absolutely! Our courses include Q&A sections and live
+                    sessions where you can directly interact with instructors.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- =======================
+          CTA SECTION
+          ======================= -->
+          <section class="academy-cta">
+            <div class="cta-content">
+              <h2>Ready to <span class="gold-text">Start Learning?</span></h2>
+              <p>
+                Join thousands of traders who have transformed their skills with
+                Nana Forex Academy.
+              </p>
+              <a href="#courses" class="btn-primary">
+                <i class="fas fa-rocket"></i> Enroll Now
+              </a>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <!-- =======================
+    COURSE ACCESS MODAL
+    ======================= -->
+    <div class="course-modal" id="courseModal">
+      <div class="course-modal-content">
+        <button class="modal-close" id="courseModalClose">&times;</button>
+        <div class="course-modal-body" id="courseModalBody">
+          <!-- Dynamic content -->
+        </div>
+      </div>
+    </div>
+
+    <!-- =======================
+    VIDEO PLAYER MODAL
+    ======================= -->
+    <div class="video-modal" id="videoModal">
+      <div class="video-modal-content">
+        <button class="video-modal-close" id="videoModalClose">
+          <i class="fas fa-times"></i>
+        </button>
+        <div class="video-wrapper" id="videoWrapper">
+          <!-- Video will be embedded here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- =======================
+    SCRIPTS
+    ======================= -->
+    <script src="/js/main.js"></script>
+    <script src="/js/academy.js"></script>
+  </body>
+</html>
