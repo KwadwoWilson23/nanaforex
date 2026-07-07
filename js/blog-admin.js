@@ -7,9 +7,19 @@ let isAdminLoggedIn = false;
 // ====================================
 // AUTH
 // ====================================
-async function checkAdminSession() {
+async function isCurrentUserAdmin() {
   const { data: { session } } = await supabaseClient.auth.getSession();
-  if (session) {
+  if (!session) return false;
+  const { data, error } = await supabaseClient
+    .from("profiles")
+    .select("role")
+    .eq("id", session.user.id)
+    .single();
+  return !error && data && data.role === "admin";
+}
+
+async function checkAdminSession() {
+  if (await isCurrentUserAdmin()) {
     isAdminLoggedIn = true;
     showAdminUI();
   }
@@ -34,6 +44,15 @@ async function adminLogin() {
 
   if (error) {
     loginError.textContent = error.message;
+    loginBtn.disabled = false;
+    loginBtn.textContent = "Sign In";
+    return;
+  }
+
+  // Gate the admin panel on the admin role, not just a valid login.
+  if (!(await isCurrentUserAdmin())) {
+    await supabaseClient.auth.signOut();
+    loginError.textContent = "This account does not have admin access.";
     loginBtn.disabled = false;
     loginBtn.textContent = "Sign In";
     return;

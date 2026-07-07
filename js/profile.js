@@ -96,80 +96,57 @@ document.addEventListener("DOMContentLoaded", function () {
   // ====================================
   // LOAD USER DATA
   // ====================================
-  function loadUserData() {
-    const user =
-      localStorage.getItem("nanaForexUser") ||
-      sessionStorage.getItem("nanaForexUser");
+  async function loadUserData() {
+    // Validate the real Supabase session (redirects if absent).
+    const session =
+      typeof NanaSession !== "undefined" ? await NanaSession.guard("login.html") : null;
+    if (!session) return;
 
-    if (!user) {
-      window.location.href = "login.html";
-      return;
+    const profile = (await NanaSession.loadProfile()) || {};
+    const prefs = profile.preferences || {};
+
+    const name = profile.full_name || NanaSession.displayNameFromUser(session.user);
+    const email = profile.email || session.user.email || "";
+
+    const setText = (id, val) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = val;
+    };
+    const setVal = (id, val) => {
+      const el = document.getElementById(id);
+      if (el && val != null) el.value = val;
+    };
+
+    setText("profileName", name);
+    setText("profileEmail", email);
+    setVal("fullName", name);
+    setVal("emailAddress", email);
+
+    // Email is managed by Supabase Auth — keep it read-only here.
+    const emailInput = document.getElementById("emailAddress");
+    if (emailInput) emailInput.setAttribute("readonly", "readonly");
+
+    const initials = name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+    setText("profileInitials", initials);
+    setText("userInitials", initials);
+
+    if (profile.avatar_url && window.__renderProfileAvatar) {
+      window.__renderProfileAvatar(profile.avatar_url);
     }
 
-    try {
-      const userData = JSON.parse(user);
+    setVal("phoneNumber", profile.phone);
+    setVal("location", profile.country);
+    setVal("bio", profile.bio);
 
-      // Update profile info
-      const profileName = document.getElementById("profileName");
-      const profileEmail = document.getElementById("profileEmail");
-      const profileInitials = document.getElementById("profileInitials");
-      const userInitials = document.getElementById("userInitials");
-      const fullName = document.getElementById("fullName");
-      const emailAddress = document.getElementById("emailAddress");
-
-      const name = userData.name || "Trader";
-      const email = userData.email || "trader@example.com";
-
-      if (profileName) profileName.textContent = name;
-      if (profileEmail) profileEmail.textContent = email;
-      if (fullName) fullName.value = name;
-      if (emailAddress) emailAddress.value = email;
-
-      // Update initials
-      const initials = name
-        .split(" ")
-        .map((n) => n[0])
-        .join("")
-        .toUpperCase()
-        .slice(0, 2);
-      if (profileInitials) profileInitials.textContent = initials;
-      if (userInitials) userInitials.textContent = initials;
-
-      // Load phone and location if available
-      if (userData.phone) {
-        const phoneInput = document.getElementById("phoneNumber");
-        if (phoneInput) phoneInput.value = userData.phone;
-      }
-      if (userData.location) {
-        const locationInput = document.getElementById("location");
-        if (locationInput) locationInput.value = userData.location;
-      }
-      if (userData.bio) {
-        const bioInput = document.getElementById("bio");
-        if (bioInput) bioInput.value = userData.bio;
-      }
-
-      // Load trading preferences if available
-      if (userData.tradingStyle) {
-        const tradingStyle = document.getElementById("tradingStyle");
-        if (tradingStyle) tradingStyle.value = userData.tradingStyle;
-      }
-      if (userData.riskTolerance) {
-        const riskTolerance = document.getElementById("riskTolerance");
-        if (riskTolerance) riskTolerance.value = userData.riskTolerance;
-      }
-      if (userData.preferredPairs) {
-        const preferredPairs = document.getElementById("preferredPairs");
-        if (preferredPairs) preferredPairs.value = userData.preferredPairs;
-      }
-      if (userData.leverage) {
-        const leverage = document.getElementById("leverage");
-        if (leverage) leverage.value = userData.leverage;
-      }
-    } catch (e) {
-      console.error("Error loading user data:", e);
-      window.location.href = "login.html";
-    }
+    setVal("tradingStyle", prefs.tradingStyle);
+    setVal("riskTolerance", prefs.riskTolerance);
+    setVal("preferredPairs", prefs.preferredPairs);
+    setVal("leverage", prefs.leverage);
   }
 
   loadUserData();
@@ -297,60 +274,47 @@ document.addEventListener("DOMContentLoaded", function () {
   const personalStatus = document.getElementById("personalFormStatus");
 
   if (personalForm) {
-    personalForm.addEventListener("submit", function (e) {
+    personalForm.addEventListener("submit", async function (e) {
       e.preventDefault();
 
       const name = document.getElementById("fullName").value.trim();
-      const email = document.getElementById("emailAddress").value.trim();
       const phone = document.getElementById("phoneNumber").value.trim();
       const location = document.getElementById("location").value.trim();
       const bio = document.getElementById("bio").value.trim();
 
-      if (!name || !email) {
-        showStatus(personalStatus, "Name and email are required.", "error");
+      if (!name) {
+        showStatus(personalStatus, "Name is required.", "error");
         return;
       }
 
-      const user =
-        localStorage.getItem("nanaForexUser") ||
-        sessionStorage.getItem("nanaForexUser");
-      if (user) {
-        try {
-          const userData = JSON.parse(user);
-          userData.name = name;
-          userData.email = email;
-          userData.phone = phone;
-          userData.location = location;
-          userData.bio = bio;
+      const { error } = await NanaSession.updateProfile({
+        full_name: name,
+        phone,
+        country: location,
+        bio,
+      });
 
-          localStorage.setItem("nanaForexUser", JSON.stringify(userData));
-
-          // Update display
-          document.getElementById("profileName").textContent = name;
-          document.getElementById("profileEmail").textContent = email;
-
-          const initials = name
-            .split(" ")
-            .map((n) => n[0])
-            .join("")
-            .toUpperCase()
-            .slice(0, 2);
-          document.getElementById("profileInitials").textContent = initials;
-          document.getElementById("userInitials").textContent = initials;
-
-          showStatus(
-            personalStatus,
-            "✅ Profile updated successfully!",
-            "success",
-          );
-          setTimeout(() => {
-            personalStatus.className = "form-status";
-            personalStatus.textContent = "";
-          }, 3000);
-        } catch (e) {
-          showStatus(personalStatus, "Error updating profile.", "error");
-        }
+      if (error) {
+        showStatus(personalStatus, "Error updating profile: " + error.message, "error");
+        return;
       }
+
+      // Update display
+      document.getElementById("profileName").textContent = name;
+      const initials = name
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 2);
+      document.getElementById("profileInitials").textContent = initials;
+      document.getElementById("userInitials").textContent = initials;
+
+      showStatus(personalStatus, "✅ Profile updated successfully!", "success");
+      setTimeout(() => {
+        personalStatus.className = "form-status";
+        personalStatus.textContent = "";
+      }, 3000);
     });
   }
 
@@ -361,7 +325,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const tradingPrefsStatus = document.getElementById("tradingPrefsStatus");
 
   if (tradingPrefsForm) {
-    tradingPrefsForm.addEventListener("submit", function (e) {
+    tradingPrefsForm.addEventListener("submit", async function (e) {
       e.preventDefault();
 
       const tradingStyle = document.getElementById("tradingStyle").value;
@@ -384,34 +348,28 @@ document.addEventListener("DOMContentLoaded", function () {
           }
         });
 
-      // Save to user data
-      const user =
-        localStorage.getItem("nanaForexUser") ||
-        sessionStorage.getItem("nanaForexUser");
-      if (user) {
-        try {
-          const userData = JSON.parse(user);
-          userData.tradingStyle = tradingStyle;
-          userData.riskTolerance = riskTolerance;
-          userData.preferredPairs = preferredPairs;
-          userData.leverage = leverage;
-          userData.notifications = notificationPrefs;
+      // Merge into the existing preferences jsonb so we don't drop other keys.
+      const existing = (await NanaSession.loadProfile()) || {};
+      const preferences = Object.assign({}, existing.preferences || {}, {
+        tradingStyle,
+        riskTolerance,
+        preferredPairs,
+        leverage,
+        notifications: notificationPrefs,
+      });
 
-          localStorage.setItem("nanaForexUser", JSON.stringify(userData));
+      const { error } = await NanaSession.updateProfile({ preferences });
 
-          showStatus(
-            tradingPrefsStatus,
-            "✅ Trading preferences saved!",
-            "success",
-          );
-          setTimeout(() => {
-            tradingPrefsStatus.className = "form-status";
-            tradingPrefsStatus.textContent = "";
-          }, 3000);
-        } catch (e) {
-          showStatus(tradingPrefsStatus, "Error saving preferences.", "error");
-        }
+      if (error) {
+        showStatus(tradingPrefsStatus, "Error saving preferences: " + error.message, "error");
+        return;
       }
+
+      showStatus(tradingPrefsStatus, "✅ Trading preferences saved!", "success");
+      setTimeout(() => {
+        tradingPrefsStatus.className = "form-status";
+        tradingPrefsStatus.textContent = "";
+      }, 3000);
     });
   }
 
@@ -422,19 +380,14 @@ document.addEventListener("DOMContentLoaded", function () {
   const securityStatus = document.getElementById("securityFormStatus");
 
   if (securityForm) {
-    securityForm.addEventListener("submit", function (e) {
+    securityForm.addEventListener("submit", async function (e) {
       e.preventDefault();
 
-      const currentPassword = document.getElementById("currentPassword").value;
       const newPasswordVal = document.getElementById("newPassword").value;
       const confirmPassword = document.getElementById("confirmPassword").value;
 
-      if (!currentPassword || !newPasswordVal || !confirmPassword) {
-        showStatus(
-          securityStatus,
-          "Please fill in all password fields.",
-          "error",
-        );
+      if (!newPasswordVal || !confirmPassword) {
+        showStatus(securityStatus, "Please fill in the new password fields.", "error");
         return;
       }
 
@@ -452,55 +405,82 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      // Save new password
-      const user =
-        localStorage.getItem("nanaForexUser") ||
-        sessionStorage.getItem("nanaForexUser");
-      if (user) {
-        try {
-          const userData = JSON.parse(user);
-          userData.password = newPasswordVal;
-          localStorage.setItem("nanaForexUser", JSON.stringify(userData));
+      const { error } = await NanaSession.changePassword(newPasswordVal);
 
-          // Clear fields
-          document.getElementById("currentPassword").value = "";
-          document.getElementById("newPassword").value = "";
-          document.getElementById("confirmPassword").value = "";
-
-          // Reset strength meter
-          if (strengthFill) {
-            strengthFill.style.width = "0%";
-            strengthFill.style.background = "#ff4d4d";
-          }
-          if (strengthLabel) {
-            strengthLabel.textContent = "Weak";
-            strengthLabel.style.color = "#ff4d4d";
-          }
-
-          showStatus(
-            securityStatus,
-            "✅ Password updated successfully!",
-            "success",
-          );
-          setTimeout(() => {
-            securityStatus.className = "form-status";
-            securityStatus.textContent = "";
-          }, 3000);
-        } catch (e) {
-          showStatus(securityStatus, "Error updating password.", "error");
-        }
+      if (error) {
+        showStatus(securityStatus, "Error updating password: " + error.message, "error");
+        return;
       }
+
+      // Clear fields
+      const cur = document.getElementById("currentPassword");
+      if (cur) cur.value = "";
+      document.getElementById("newPassword").value = "";
+      document.getElementById("confirmPassword").value = "";
+
+      // Reset strength meter
+      if (strengthFill) {
+        strengthFill.style.width = "0%";
+        strengthFill.style.background = "#ff4d4d";
+      }
+      if (strengthLabel) {
+        strengthLabel.textContent = "Weak";
+        strengthLabel.style.color = "#ff4d4d";
+      }
+
+      showStatus(securityStatus, "✅ Password updated successfully!", "success");
+      setTimeout(() => {
+        securityStatus.className = "form-status";
+        securityStatus.textContent = "";
+      }, 3000);
     });
   }
 
   // ====================================
-  // AVATAR EDIT BUTTON
+  // AVATAR UPLOAD (Supabase Storage)
   // ====================================
-  document
-    .getElementById("avatarEditBtn")
-    ?.addEventListener("click", function () {
-      showToast("📸 Profile picture upload coming soon!", "info");
-    });
+  function renderAvatar(url) {
+    if (!url) return;
+    const img = `<img src="${url}" alt="Avatar" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;" />`;
+    const profileAvatar = document.getElementById("profileAvatar");
+    if (profileAvatar) profileAvatar.innerHTML = img;
+    // small header/sidebar avatar
+    const smallInitials = document.getElementById("userInitials");
+    if (smallInitials && smallInitials.parentElement) {
+      smallInitials.parentElement.innerHTML = img;
+    }
+  }
+  // expose so loadUserData can call it
+  window.__renderProfileAvatar = renderAvatar;
+
+  // hidden file input, triggered by the camera button
+  const avatarInput = document.createElement("input");
+  avatarInput.type = "file";
+  avatarInput.accept = "image/*";
+  avatarInput.style.display = "none";
+  document.body.appendChild(avatarInput);
+
+  document.getElementById("avatarEditBtn")?.addEventListener("click", function () {
+    avatarInput.click();
+  });
+
+  avatarInput.addEventListener("change", async function () {
+    const file = this.files && this.files[0];
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) {
+      showToast("Image must be under 2MB.", "error");
+      return;
+    }
+    try {
+      showToast("Uploading photo…", "info");
+      const url = await NanaSession.uploadAvatar(file);
+      renderAvatar(url);
+      showToast("✅ Profile photo updated!", "success");
+    } catch (err) {
+      showToast("Upload failed: " + err.message, "error");
+    }
+    avatarInput.value = "";
+  });
 
   // ====================================
   // HELPER: SHOW STATUS

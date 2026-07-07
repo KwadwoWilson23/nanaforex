@@ -129,6 +129,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  if (typeof NanaSession !== "undefined") NanaSession.guard("login.html");
   checkUserSession();
 
   // ====================================
@@ -138,6 +139,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   logoutBtn?.addEventListener("click", function () {
     if (confirm("Are you sure you want to logout?")) {
+      if (typeof NanaSession !== "undefined") {
+        NanaSession.logout("login.html");
+        return;
+      }
       localStorage.removeItem("nanaForexUser");
       sessionStorage.removeItem("nanaForexUser");
       window.location.href = "login.html";
@@ -431,10 +436,20 @@ document.addEventListener("DOMContentLoaded", function () {
   // ====================================
   // SAVE SETTINGS
   // ====================================
+  // Cache of the user's full `preferences` jsonb so settings saves don't
+  // clobber trading preferences stored under the same column.
+  let serverPrefs = {};
+
   function saveSettings(settings) {
     const current = JSON.parse(localStorage.getItem("userSettings") || "{}");
     const updated = { ...current, ...settings };
     localStorage.setItem("userSettings", JSON.stringify(updated));
+
+    // Mirror to the server so settings follow the user across devices.
+    if (typeof NanaSession !== "undefined") {
+      serverPrefs.settings = updated;
+      NanaSession.updateProfile({ preferences: serverPrefs }).catch(() => {});
+    }
   }
 
   // ====================================
@@ -735,8 +750,29 @@ document.addEventListener("DOMContentLoaded", function () {
   // ====================================
   // LOAD SETTINGS ON INIT
   // ====================================
-  loadSavedLanguage();
-  loadSettings();
+  // Hydrate settings from the server (profiles.preferences.settings) first,
+  // then apply. Falls back to whatever is already in localStorage.
+  (async () => {
+    if (typeof NanaSession !== "undefined") {
+      try {
+        const profile = await NanaSession.loadProfile();
+        if (profile && profile.preferences) {
+          serverPrefs = profile.preferences;
+          if (serverPrefs.settings) {
+            const current = JSON.parse(localStorage.getItem("userSettings") || "{}");
+            localStorage.setItem(
+              "userSettings",
+              JSON.stringify({ ...current, ...serverPrefs.settings })
+            );
+          }
+        }
+      } catch (e) {
+        /* fall back to local settings */
+      }
+    }
+    loadSavedLanguage();
+    loadSettings();
+  })();
 
   
 });

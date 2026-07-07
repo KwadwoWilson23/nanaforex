@@ -105,43 +105,25 @@ document.addEventListener("DOMContentLoaded", function () {
   // ====================================
   // USER SESSION CHECK
   // ====================================
-  function checkUserSession() {
-    const user =
-      localStorage.getItem("nanaForexUser") ||
-      sessionStorage.getItem("nanaForexUser");
+  async function checkUserSession() {
+    // Validate the real Supabase session; redirects to login if absent.
+    const session = typeof NanaSession !== "undefined" ? await NanaSession.guard("login.html") : null;
+    if (!session) return;
 
-    if (!user) {
-      window.location.href = "login.html";
-      return;
-    }
+    const userData = NanaSession.getMirror() || {};
+    const name = userData.name || "Trader";
 
-    try {
-      const userData = JSON.parse(user);
-      if (!userData.loggedIn) {
-        window.location.href = "login.html";
-        return;
-      }
+    const userName = document.getElementById("userName");
+    const userInitials = document.getElementById("userInitials");
 
-      // Update user info
-      const userName = document.getElementById("userName");
-      const userInitials = document.getElementById("userInitials");
-
-      if (userName) {
-        userName.textContent = userData.name || "Trader";
-      }
-
-      if (userInitials) {
-        const name = userData.name || "Trader";
-        const initials = name
-          .split(" ")
-          .map((n) => n[0])
-          .join("")
-          .toUpperCase()
-          .slice(0, 2);
-        userInitials.textContent = initials;
-      }
-    } catch (e) {
-      window.location.href = "login.html";
+    if (userName) userName.textContent = name;
+    if (userInitials) {
+      userInitials.textContent = name
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 2);
     }
   }
 
@@ -154,9 +136,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   logoutBtn?.addEventListener("click", function () {
     if (confirm("Are you sure you want to logout?")) {
-      localStorage.removeItem("nanaForexUser");
-      sessionStorage.removeItem("nanaForexUser");
-      window.location.href = "login.html";
+      if (typeof NanaSession !== "undefined") {
+        NanaSession.logout("login.html");
+      } else {
+        localStorage.removeItem("nanaForexUser");
+        sessionStorage.removeItem("nanaForexUser");
+        window.location.href = "login.html";
+      }
     }
   });
 

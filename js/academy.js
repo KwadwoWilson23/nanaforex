@@ -580,6 +580,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  if (typeof NanaSession !== "undefined") NanaSession.guard("login.html");
   checkUserSession();
 
   // ====================================
@@ -589,6 +590,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   logoutBtn?.addEventListener("click", function () {
     if (confirm("Are you sure you want to logout?")) {
+      if (typeof NanaSession !== "undefined") { NanaSession.logout("login.html"); return; }
       localStorage.removeItem("nanaForexUser");
       sessionStorage.removeItem("nanaForexUser");
       window.location.href = "login.html";

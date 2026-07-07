@@ -1,11 +1,27 @@
 // ====================================
-// SECURITY - Supabase Auth
+// LIVE LEADERBOARD — Supabase backed
+// Public visitors read; a signed-in admin writes.
+// (Data moved off localStorage so it's shared across all visitors.)
 // ====================================
+
 let isAdminAuthenticated = false;
 
-async function checkDashboardSession() {
+// ====================================
+// ADMIN AUTH (Supabase)
+// ====================================
+async function isCurrentUserAdmin() {
   const { data: { session } } = await supabaseClient.auth.getSession();
-  if (session) {
+  if (!session) return false;
+  const { data, error } = await supabaseClient
+    .from("profiles")
+    .select("role")
+    .eq("id", session.user.id)
+    .single();
+  return !error && data && data.role === "admin";
+}
+
+async function checkDashboardSession() {
+  if (await isCurrentUserAdmin()) {
     isAdminAuthenticated = true;
     showDashboardAdmin();
   }
@@ -30,6 +46,15 @@ async function dashboardLogin() {
 
   if (error) {
     errorEl.textContent = error.message;
+    loginBtn.disabled = false;
+    loginBtn.textContent = "Sign In";
+    return;
+  }
+
+  // Gate the admin panel on the admin role, not just a valid login.
+  if (!(await isCurrentUserAdmin())) {
+    await supabaseClient.auth.signOut();
+    errorEl.textContent = "This account does not have admin access.";
     loginBtn.disabled = false;
     loginBtn.textContent = "Sign In";
     return;
@@ -84,7 +109,7 @@ function checkAuth() {
 }
 
 // ====================================
-// CHALLENGE CONFIGURATION
+// CHALLENGE + LEADERBOARD STATE
 // ====================================
 let currentChallenge = {
   name: "March 2026 Trading Challenge",
@@ -94,68 +119,102 @@ let currentChallenge = {
   status: "active",
 };
 
-// ====================================
-// DEFAULT LEADERBOARD DATA
-// ====================================
+// In-memory cache of the leaderboard (populated from Supabase).
+let leaderboardData = [];
+
+// Seed used by "Reset to default".
 const defaultLeaderboardData = [
-  { id: 1, name: "Kwame Asante", account: "Pro Account", return: 42.8, pips: 1245, winRate: 89, trades: 47 },
-  { id: 2, name: "Adwoa Mensah", account: "Elite Account", return: 38.2, pips: 1120, winRate: 85, trades: 52 },
-  { id: 3, name: "Michael Osei", account: "Pro Account", return: 31.5, pips: 980, winRate: 82, trades: 41 },
-  { id: 4, name: "Esi Boateng", account: "Standard Account", return: 27.3, pips: 845, winRate: 79, trades: 38 },
-  { id: 5, name: "Kofi Annan", account: "Pro Account", return: 22.9, pips: 720, winRate: 76, trades: 44 },
-  { id: 6, name: "Ama Serwaa", account: "Standard Account", return: 18.4, pips: 610, winRate: 81, trades: 35 },
-  { id: 7, name: "Yaw Tuffour", account: "Elite Account", return: 14.2, pips: 505, winRate: 74, trades: 29 },
-  { id: 8, name: "Nana Ama", account: "Standard Account", return: 9.8, pips: 390, winRate: 71, trades: 33 },
-  { id: 9, name: "Kwabena Darko", account: "Pro Account", return: 5.3, pips: 245, winRate: 68, trades: 27 },
-  { id: 10, name: "Abena Oforiwaa", account: "Standard Account", return: 2.1, pips: 98, winRate: 65, trades: 22 },
+  { name: "Kwame Asante", account: "Pro Account", return: 42.8, pips: 1245, winRate: 89, trades: 47 },
+  { name: "Adwoa Mensah", account: "Elite Account", return: 38.2, pips: 1120, winRate: 85, trades: 52 },
+  { name: "Michael Osei", account: "Pro Account", return: 31.5, pips: 980, winRate: 82, trades: 41 },
+  { name: "Esi Boateng", account: "Standard Account", return: 27.3, pips: 845, winRate: 79, trades: 38 },
+  { name: "Kofi Annan", account: "Pro Account", return: 22.9, pips: 720, winRate: 76, trades: 44 },
+  { name: "Ama Serwaa", account: "Standard Account", return: 18.4, pips: 610, winRate: 81, trades: 35 },
+  { name: "Yaw Tuffour", account: "Elite Account", return: 14.2, pips: 505, winRate: 74, trades: 29 },
+  { name: "Nana Ama", account: "Standard Account", return: 9.8, pips: 390, winRate: 71, trades: 33 },
+  { name: "Kwabena Darko", account: "Pro Account", return: 5.3, pips: 245, winRate: 68, trades: 27 },
+  { name: "Abena Oforiwaa", account: "Standard Account", return: 2.1, pips: 98, winRate: 65, trades: 22 },
 ];
 
-let nextId = 11;
+// map a DB row -> UI shape
+function rowToTrader(r) {
+  return {
+    id: r.id,
+    name: r.name,
+    account: r.account,
+    return: Number(r.return_pct),
+    pips: r.pips,
+    winRate: r.win_rate,
+    trades: r.trades,
+  };
+}
+
+// map a UI trader -> DB columns
+function traderToRow(t) {
+  return {
+    name: t.name,
+    account: t.account,
+    return_pct: t.return,
+    pips: t.pips,
+    win_rate: t.winRate,
+    trades: t.trades,
+  };
+}
 
 // ====================================
-// LOAD/SAVE FUNCTIONS
+// DATA FETCH (Supabase)
 // ====================================
-function loadLeaderboardData() {
-  const saved = localStorage.getItem("nanaForexLeaderboard");
-  if (saved) {
-    try {
-      const data = JSON.parse(saved);
-      if (Array.isArray(data)) {
-        if (data.length > 0) {
-          const maxId = Math.max(...data.map((t) => t.id || 0));
-          nextId = maxId + 1;
-        }
-        return data;
-      }
-    } catch (error) {
-      localStorage.removeItem("nanaForexLeaderboard");
-    }
+async function fetchLeaderboard() {
+  const { data, error } = await supabaseClient
+    .from("leaderboard_traders")
+    .select("*")
+    .order("return_pct", { ascending: false });
+
+  if (error) {
+    console.error("[leaderboard] fetch:", error.message);
+    leaderboardData = [];
+  } else {
+    leaderboardData = (data || []).map(rowToTrader);
   }
-  return [...defaultLeaderboardData];
+  renderLeaderboard();
 }
 
-function saveLeaderboardData(data) {
-  localStorage.setItem("nanaForexLeaderboard", JSON.stringify(data));
-}
+async function fetchChallenge() {
+  const { data, error } = await supabaseClient
+    .from("challenge_config")
+    .select("*")
+    .eq("id", 1)
+    .maybeSingle();
 
-function loadChallengeData() {
-  const saved = localStorage.getItem("nanaForexChallenge");
-  if (saved) {
-    try {
-      currentChallenge = JSON.parse(saved);
-    } catch (error) {
-      localStorage.removeItem("nanaForexChallenge");
-    }
+  if (!error && data) {
+    currentChallenge = {
+      name: data.name,
+      startDate: data.start_date,
+      endDate: data.end_date,
+      prizePool: Number(data.prize_pool),
+      status: data.status,
+    };
   }
-  return currentChallenge;
+  checkChallengeStatus();
+  updateChallengeDateDisplay();
+  updatePrizePoolDisplay();
+  loadDatesIntoPickers();
 }
 
-function saveChallengeData() {
-  localStorage.setItem("nanaForexChallenge", JSON.stringify(currentChallenge));
+async function saveChallenge(patch) {
+  const { error } = await supabaseClient
+    .from("challenge_config")
+    .update({ ...patch, updated_at: new Date().toISOString() })
+    .eq("id", 1);
+  if (error) {
+    showToast("Could not save: " + error.message, "error");
+    return false;
+  }
+  return true;
 }
 
 // ====================================
-// DATE FORMATTING
+// DATE FORMATTING / CHALLENGE DISPLAY
 // ====================================
 function formatDate(dateString) {
   if (!dateString) return "Not set";
@@ -210,7 +269,6 @@ function checkChallengeStatus() {
   else if (today > endDate) currentChallenge.status = "ended";
   else currentChallenge.status = "active";
 
-  saveChallengeData();
   updateChallengeDateDisplay();
 }
 
@@ -250,9 +308,9 @@ if (!document.querySelector("#toastStyles")) {
 }
 
 // ====================================
-// DATE UPDATE FUNCTIONS (ADMIN ONLY)
+// CHALLENGE ADMIN ACTIONS
 // ====================================
-function updateChallengeDates() {
+async function updateChallengeDates() {
   if (!checkAuth()) return showToast("Please log in first.", "error");
 
   const startDate = document.getElementById("challengeStartDate")?.value;
@@ -263,27 +321,47 @@ function updateChallengeDates() {
 
   currentChallenge.startDate = startDate;
   currentChallenge.endDate = endDate;
-  saveChallengeData();
-  checkChallengeStatus();
-  showToast(`Dates updated: ${formatDate(startDate)} - ${formatDate(endDate)}`, "success");
+  if (await saveChallenge({ start_date: startDate, end_date: endDate })) {
+    checkChallengeStatus();
+    showToast(`Dates updated: ${formatDate(startDate)} - ${formatDate(endDate)}`, "success");
+  }
 }
 
-function updateChallengeName() {
+async function updateChallengeName() {
   if (!checkAuth()) return showToast("Please log in first.", "error");
 
   const newName = document.getElementById("challengeName")?.value.trim();
   if (!newName) return showToast("Please enter a challenge name.", "error");
 
   currentChallenge.name = newName;
-  saveChallengeData();
-  updateChallengeDateDisplay();
-  showToast(`Challenge name updated to "${newName}"`, "success");
+  if (await saveChallenge({ name: newName })) {
+    updateChallengeDateDisplay();
+    showToast(`Challenge name updated to "${newName}"`, "success");
+  }
+}
+
+async function updatePrizePool() {
+  if (!checkAuth()) return showToast("Please log in first.", "error");
+
+  const newAmount = prompt("New prize pool ($):", currentChallenge.prizePool);
+  if (newAmount && !isNaN(newAmount) && parseFloat(newAmount) > 0) {
+    currentChallenge.prizePool = parseFloat(newAmount);
+    if (await saveChallenge({ prize_pool: currentChallenge.prizePool })) {
+      updatePrizePoolDisplay();
+      showToast(`Prize pool: $${currentChallenge.prizePool.toLocaleString()}`, "success");
+    }
+  }
+}
+
+function updatePrizePoolDisplay() {
+  const prizeElement = document.querySelector(".prize-amount");
+  if (prizeElement) prizeElement.textContent = `$${(currentChallenge.prizePool || 0).toLocaleString()}`;
 }
 
 // ====================================
-// ADD TRADER
+// TRADER ADMIN ACTIONS
 // ====================================
-function addTrader(name, account, returnPercent, pips, winRate, trades) {
+async function addTrader(name, account, returnPercent, pips, winRate, trades) {
   if (!checkAuth()) return showToast("Please log in first.", "error");
   if (!name || !name.trim()) return showToast("Please enter a trader name.", "error");
   if (!returnPercent || isNaN(returnPercent)) return showToast("Please enter a valid return %.", "error");
@@ -291,59 +369,58 @@ function addTrader(name, account, returnPercent, pips, winRate, trades) {
   if (!winRate || isNaN(winRate) || winRate < 0 || winRate > 100) return showToast("Win rate must be 0-100.", "error");
   if (!trades || isNaN(trades) || trades < 0) return showToast("Please enter valid trades.", "error");
 
-  const data = loadLeaderboardData();
-  if (data.some((t) => t.name.toLowerCase() === name.trim().toLowerCase())) {
+  if (leaderboardData.some((t) => t.name.toLowerCase() === name.trim().toLowerCase())) {
     return showToast(`"${name}" already exists!`, "error");
   }
 
-  data.push({
-    id: nextId++,
-    name: name.trim(),
-    account,
-    return: parseFloat(returnPercent),
-    pips: parseInt(pips),
-    winRate: parseInt(winRate),
-    trades: parseInt(trades),
-  });
+  const { error } = await supabaseClient.from("leaderboard_traders").insert(
+    traderToRow({
+      name: name.trim(),
+      account,
+      return: parseFloat(returnPercent),
+      pips: parseInt(pips),
+      winRate: parseInt(winRate),
+      trades: parseInt(trades),
+    })
+  );
 
-  saveLeaderboardData(data);
-  renderLeaderboard();
+  if (error) return showToast("Error: " + error.message, "error");
+
+  await fetchLeaderboard();
   showToast(`${name} added!`, "success");
   return true;
 }
 
-// ====================================
-// REMOVE TRADER
-// ====================================
-function removeTrader(traderId, traderName) {
+async function removeTrader(traderId, traderName) {
   if (!checkAuth()) return showToast("Please log in first.", "error");
   if (!confirm(`Remove ${traderName}?`)) return;
 
-  let data = loadLeaderboardData();
-  data = data.filter((t) => t.id !== traderId);
-  saveLeaderboardData(data);
-  renderLeaderboard();
+  const { error } = await supabaseClient.from("leaderboard_traders").delete().eq("id", traderId);
+  if (error) return showToast("Error: " + error.message, "error");
+
+  await fetchLeaderboard();
   showToast(`Removed ${traderName}`, "success");
 }
 
-// ====================================
-// EDIT TRADER
-// ====================================
-function editTrader(traderId, field, value) {
+async function editTrader(traderId, field, value) {
   if (!checkAuth()) return showToast("Please log in first.", "error");
 
-  const data = loadLeaderboardData();
-  const trader = data.find((t) => t.id === traderId);
-  if (trader) {
-    if (["return", "pips", "winRate", "trades"].includes(field)) {
-      trader[field] = parseFloat(value);
-    } else {
-      trader[field] = value;
-    }
-    saveLeaderboardData(data);
-    renderLeaderboard();
-    showToast(`Updated ${trader.name}`, "success");
-  }
+  const columnMap = { return: "return_pct", winRate: "win_rate", pips: "pips", trades: "trades", account: "account" };
+  const column = columnMap[field];
+  if (!column) return showToast("Invalid field.", "error");
+
+  const numericFields = ["return", "pips", "winRate", "trades"];
+  const parsed = numericFields.includes(field) ? parseFloat(value) : value;
+
+  const { error } = await supabaseClient
+    .from("leaderboard_traders")
+    .update({ [column]: parsed })
+    .eq("id", traderId);
+
+  if (error) return showToast("Error: " + error.message, "error");
+
+  await fetchLeaderboard();
+  showToast("Trader updated", "success");
 }
 
 function editTraderPrompt(traderId, traderName) {
@@ -356,53 +433,34 @@ function editTraderPrompt(traderId, traderName) {
   }
 }
 
-// ====================================
-// RESET FUNCTIONS
-// ====================================
-function resetToDefaultLeaderboard() {
+async function resetToDefaultLeaderboard() {
   if (!checkAuth()) return showToast("Please log in first.", "error");
   if (!confirm("Reset to default leaderboard data?")) return;
 
-  saveLeaderboardData([...defaultLeaderboardData]);
-  nextId = defaultLeaderboardData.length + 1;
-  renderLeaderboard();
+  const del = await supabaseClient.from("leaderboard_traders").delete().not("id", "is", null);
+  if (del.error) return showToast("Error: " + del.error.message, "error");
+
+  const { error } = await supabaseClient.from("leaderboard_traders").insert(defaultLeaderboardData.map(traderToRow));
+  if (error) return showToast("Error: " + error.message, "error");
+
+  await fetchLeaderboard();
   showToast("Leaderboard reset!", "success");
 }
 
-function clearAllLeaderboardData() {
+async function clearAllLeaderboardData() {
   if (!checkAuth()) return showToast("Please log in first.", "error");
 
   const confirmText = prompt('Type "CONFIRM" to delete all traders:');
   if (confirmText === "CONFIRM") {
-    saveLeaderboardData([]);
-    nextId = 1;
-    renderLeaderboard();
+    const { error } = await supabaseClient.from("leaderboard_traders").delete().not("id", "is", null);
+    if (error) return showToast("Error: " + error.message, "error");
+    await fetchLeaderboard();
     showToast("All data cleared!", "warning");
   }
 }
 
 // ====================================
-// PRIZE POOL
-// ====================================
-function updatePrizePool() {
-  if (!checkAuth()) return showToast("Please log in first.", "error");
-
-  const newAmount = prompt("New prize pool ($):", currentChallenge.prizePool);
-  if (newAmount && !isNaN(newAmount) && parseFloat(newAmount) > 0) {
-    currentChallenge.prizePool = parseFloat(newAmount);
-    saveChallengeData();
-    updatePrizePoolDisplay();
-    showToast(`Prize pool: $${currentChallenge.prizePool.toLocaleString()}`, "success");
-  }
-}
-
-function updatePrizePoolDisplay() {
-  const prizeElement = document.querySelector(".prize-amount");
-  if (prizeElement) prizeElement.textContent = `$${currentChallenge.prizePool.toLocaleString()}`;
-}
-
-// ====================================
-// RENDER LEADERBOARD
+// RENDER LEADERBOARD (from cache)
 // ====================================
 function escapeHtml(str) {
   if (!str) return "";
@@ -410,8 +468,7 @@ function escapeHtml(str) {
 }
 
 function renderLeaderboard() {
-  let data = loadLeaderboardData();
-  data.sort((a, b) => b.return - a.return);
+  const data = [...leaderboardData].sort((a, b) => b.return - a.return);
   data.forEach((item, index) => { item.rank = index + 1; });
 
   const tbody = document.getElementById("leaderboardBody");
@@ -438,13 +495,11 @@ function renderLeaderboard() {
       <td>${item.trades}</td>
       ${isAdminAuthenticated ? `
       <td class="actions">
-        <button class="edit-btn" onclick="editTraderPrompt(${item.id}, '${escapeHtml(item.name)}')" title="Edit"><i class="fas fa-edit"></i></button>
-        <button class="delete-btn" onclick="removeTrader(${item.id}, '${escapeHtml(item.name)}')" title="Delete"><i class="fas fa-trash"></i></button>
+        <button class="edit-btn" onclick="editTraderPrompt('${item.id}', '${escapeHtml(item.name)}')" title="Edit"><i class="fas fa-edit"></i></button>
+        <button class="delete-btn" onclick="removeTrader('${item.id}', '${escapeHtml(item.name)}')" title="Delete"><i class="fas fa-trash"></i></button>
       </td>` : ""}
     </tr>
   `).join("");
-
-  saveLeaderboardData(data);
 }
 
 // ====================================
@@ -478,12 +533,8 @@ function toggleAdminPanel() {
 // INITIALIZE
 // ====================================
 document.addEventListener("DOMContentLoaded", function () {
-  loadChallengeData();
-  checkChallengeStatus();
-  renderLeaderboard();
-  updatePrizePoolDisplay();
-  updateChallengeDateDisplay();
-  loadDatesIntoPickers();
+  fetchChallenge();
+  fetchLeaderboard();
   checkDashboardSession();
 
   document.getElementById("adminToggleBtn")?.addEventListener("click", toggleAdminPanel);
@@ -502,13 +553,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const winRate = document.getElementById("winRate")?.value;
     const trades = document.getElementById("tradesCount")?.value;
 
-    if (addTrader(name, account, returnPercent, pips, winRate, trades)) {
-      document.getElementById("traderName").value = "";
-      document.getElementById("returnPercent").value = "";
-      document.getElementById("totalPips").value = "";
-      document.getElementById("winRate").value = "";
-      document.getElementById("tradesCount").value = "";
-    }
+    addTrader(name, account, returnPercent, pips, winRate, trades).then((ok) => {
+      if (ok) {
+        document.getElementById("traderName").value = "";
+        document.getElementById("returnPercent").value = "";
+        document.getElementById("totalPips").value = "";
+        document.getElementById("winRate").value = "";
+        document.getElementById("tradesCount").value = "";
+      }
+    });
   });
 
   document.getElementById("resetLeaderboardBtn")?.addEventListener("click", resetToDefaultLeaderboard);

@@ -1,8 +1,23 @@
 // ====================================
-// AUTHENTICATION - Login & Register
+// AUTHENTICATION - Login & Register (Supabase-backed)
+//
+// UI behaviour (tabs, password strength, show/hide, remember-me,
+// verification notice, social buttons) is unchanged from the original.
+// The localStorage "mock" backend has been replaced with real Supabase
+// Auth. On success we also write the `nanaForexUser` mirror via
+// NanaSession so the rest of the users/* pages keep working.
+//
+// Requires (loaded before this file):
+//   @supabase/supabase-js -> env.js -> supabase-client.js -> user-session.js
 // ====================================
 
 document.addEventListener("DOMContentLoaded", function () {
+  if (typeof supabaseClient === "undefined" || typeof NanaSession === "undefined") {
+    console.error("[authentication] Supabase not loaded — check script order.");
+  }
+
+  const DASHBOARD_URL = "client-dashboard.html";
+
   // ====================================
   // DOM REFERENCES
   // ====================================
@@ -23,23 +38,23 @@ document.addEventListener("DOMContentLoaded", function () {
   function switchTab(tab) {
     const formId = tab.dataset.form;
 
-    // Update tabs
     tabs.forEach((t) => {
       t.classList.toggle("active", t === tab);
       t.setAttribute("aria-selected", t === tab ? "true" : "false");
     });
 
-    // Update forms
     Object.keys(forms).forEach((key) => {
       forms[key].classList.toggle("active", key === formId);
     });
 
-    // Clear status messages
     clearStatus(loginStatus);
     clearStatus(registerStatus);
+
+    if (verificationNotice) verificationNotice.classList.remove("show");
   }
 
   function clearStatus(element) {
+    if (!element) return;
     element.className = "form-status";
     element.textContent = "";
     element.style.display = "none";
@@ -51,24 +66,15 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Switch form links
-  document
-    .getElementById("switchToRegister")
-    .addEventListener("click", function (e) {
-      e.preventDefault();
-      const registerTab = document.querySelector(
-        '.auth-tab[data-form="register"]',
-      );
-      switchTab(registerTab);
-    });
+  document.getElementById("switchToRegister")?.addEventListener("click", function (e) {
+    e.preventDefault();
+    switchTab(document.querySelector('.auth-tab[data-form="register"]'));
+  });
 
-  document
-    .getElementById("switchToLogin")
-    .addEventListener("click", function (e) {
-      e.preventDefault();
-      const loginTab = document.querySelector('.auth-tab[data-form="login"]');
-      switchTab(loginTab);
-    });
+  document.getElementById("switchToLogin")?.addEventListener("click", function (e) {
+    e.preventDefault();
+    switchTab(document.querySelector('.auth-tab[data-form="login"]'));
+  });
 
   // ====================================
   // TOGGLE PASSWORD VISIBILITY
@@ -77,7 +83,6 @@ document.addEventListener("DOMContentLoaded", function () {
     btn.addEventListener("click", function () {
       const input = this.closest(".input-wrapper").querySelector("input");
       const icon = this.querySelector("i");
-
       if (input.type === "password") {
         input.type = "text";
         icon.className = "fas fa-eye-slash";
@@ -95,11 +100,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const strengthFill = document.getElementById("strengthFill");
   const strengthLabel = document.getElementById("strengthLabel");
 
-  passwordInput.addEventListener("input", function () {
+  passwordInput?.addEventListener("input", function () {
     const password = this.value;
     let strength = 0;
-    let label = "Weak";
-    let color = "#ff4d4d";
 
     if (password.length >= 8) strength += 1;
     if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength += 1;
@@ -107,7 +110,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (/[^a-zA-Z0-9]/.test(password)) strength += 1;
 
     const percentage = (strength / 4) * 100;
-
     const strengthMap = {
       0: { label: "Weak", color: "#ff4d4d" },
       1: { label: "Weak", color: "#ff4d4d" },
@@ -124,18 +126,29 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // ====================================
-  // SHOW STATUS HELPER
+  // STATUS + BUTTON HELPERS
   // ====================================
   function showStatus(element, message, type) {
+    if (!element) return;
     element.textContent = message;
     element.className = "form-status " + type;
     element.style.display = "block";
   }
 
+  function setLoading(btn, loading) {
+    if (!btn) return;
+    btn.classList.toggle("loading", loading);
+    btn.disabled = loading;
+  }
+
+  function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
   // ====================================
-  // LOGIN HANDLER
+  // LOGIN HANDLER (Supabase)
   // ====================================
-  loginForm.addEventListener("submit", async function (e) {
+  loginForm?.addEventListener("submit", async function (e) {
     e.preventDefault();
 
     const email = document.getElementById("loginEmail").value.trim();
@@ -143,306 +156,158 @@ document.addEventListener("DOMContentLoaded", function () {
     const rememberMe = document.getElementById("rememberMe").checked;
     const btn = document.getElementById("loginBtn");
 
-    // Basic validation
     if (!email || !password) {
       showStatus(loginStatus, "Please fill in all required fields.", "error");
       return;
     }
-
-    // Email validation
     if (!isValidEmail(email)) {
       showStatus(loginStatus, "Please enter a valid email address.", "error");
       return;
     }
 
-    // Simulate loading
-    btn.classList.add("loading");
-    btn.disabled = true;
+    setLoading(btn, true);
 
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+    const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
 
-      // Check for unverified email (demo)
-      if (email.includes("unverified")) {
-        verificationNotice.classList.add("show");
-        showStatus(
-          loginStatus,
-          "Please verify your email before logging in. Check your inbox.",
-          "error",
-        );
-        btn.classList.remove("loading");
-        btn.disabled = false;
-        return;
+    if (error) {
+      // Supabase returns "Email not confirmed" when verification is pending.
+      if (/confirm/i.test(error.message)) {
+        verificationNotice?.classList.add("show");
       }
-
-      // Check for demo credentials
-      if (email === "demo@nanaforex.com" && password === "password123") {
-        // Store session
-        if (rememberMe) {
-          localStorage.setItem(
-            "nanaForexUser",
-            JSON.stringify({
-              email: email,
-              name: "Demo User",
-              loggedIn: true,
-            }),
-          );
-        } else {
-          sessionStorage.setItem(
-            "nanaForexUser",
-            JSON.stringify({
-              email: email,
-              name: "Demo User",
-              loggedIn: true,
-            }),
-          );
-        }
-
-        showStatus(loginStatus, "Login successful! Redirecting...", "success");
-        setTimeout(() => {
-          window.location.href = "dashboard.html";
-        }, 1000);
-        return;
-      }
-
-      // Check for registered users in localStorage
-      const users = JSON.parse(localStorage.getItem("nanaForexUsers") || "[]");
-      const user = users.find(
-        (u) => u.email === email && u.password === password,
-      );
-
-      if (user) {
-        // Store session
-        const sessionData = {
-          email: user.email,
-          name: user.name,
-          loggedIn: true,
-        };
-        if (rememberMe) {
-          localStorage.setItem("nanaForexUser", JSON.stringify(sessionData));
-        } else {
-          sessionStorage.setItem("nanaForexUser", JSON.stringify(sessionData));
-        }
-
-        showStatus(loginStatus, "Login successful! Redirecting...", "success");
-        setTimeout(() => {
-          window.location.href = "dashboard.html";
-        }, 1000);
-        return;
-      }
-
-      // No user found
-      showStatus(
-        loginStatus,
-        "Invalid email or password. Please try again or create an account.",
-        "error",
-      );
-    } catch (error) {
-      showStatus(loginStatus, "Network error. Please try again.", "error");
+      showStatus(loginStatus, error.message, "error");
+      setLoading(btn, false);
+      return;
     }
 
-    btn.classList.remove("loading");
-    btn.disabled = false;
+    NanaSession.writeMirror(data.user, rememberMe);
+    showStatus(loginStatus, "Login successful! Redirecting...", "success");
+    setTimeout(() => (window.location.href = DASHBOARD_URL), 800);
   });
 
   // ====================================
-  // REGISTER HANDLER
+  // REGISTER HANDLER (Supabase)
   // ====================================
-  registerForm.addEventListener("submit", async function (e) {
+  registerForm?.addEventListener("submit", async function (e) {
     e.preventDefault();
 
     const name = document.getElementById("registerName").value.trim();
     const email = document.getElementById("registerEmail").value.trim();
     const phone = document.getElementById("registerPhone").value.trim();
     const password = document.getElementById("registerPassword").value;
-    const confirmPassword = document.getElementById(
-      "registerConfirmPassword",
-    ).value;
+    const confirmPassword = document.getElementById("registerConfirmPassword").value;
     const btn = document.getElementById("registerBtn");
 
-    // Validation
     if (!name || !email || !password || !confirmPassword) {
-      showStatus(
-        registerStatus,
-        "Please fill in all required fields.",
-        "error",
-      );
+      showStatus(registerStatus, "Please fill in all required fields.", "error");
       return;
     }
-
     if (name.length < 2) {
-      showStatus(
-        registerStatus,
-        "Name must be at least 2 characters.",
-        "error",
-      );
+      showStatus(registerStatus, "Name must be at least 2 characters.", "error");
       return;
     }
-
     if (!isValidEmail(email)) {
-      showStatus(
-        registerStatus,
-        "Please enter a valid email address.",
-        "error",
-      );
+      showStatus(registerStatus, "Please enter a valid email address.", "error");
       return;
     }
-
     if (password.length < 8) {
-      showStatus(
-        registerStatus,
-        "Password must be at least 8 characters.",
-        "error",
-      );
+      showStatus(registerStatus, "Password must be at least 8 characters.", "error");
       return;
     }
-
     if (password !== confirmPassword) {
       showStatus(registerStatus, "Passwords do not match.", "error");
       return;
     }
 
-    // Check if email already registered
-    const users = JSON.parse(localStorage.getItem("nanaForexUsers") || "[]");
-    if (users.some((u) => u.email === email)) {
-      showStatus(
-        registerStatus,
-        "This email is already registered. Please login.",
-        "error",
-      );
+    setLoading(btn, true);
+
+    const { data, error } = await supabaseClient.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { full_name: name, phone: phone || "" },
+        emailRedirectTo: window.location.origin + "/htmls/users/login.html",
+      },
+    });
+
+    if (error) {
+      showStatus(registerStatus, error.message, "error");
+      setLoading(btn, false);
       return;
     }
 
-    // Simulate loading
-    btn.classList.add("loading");
-    btn.disabled = true;
+    setLoading(btn, false);
 
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      // Save user
-      const newUser = {
-        id: Date.now(),
-        name: name,
-        email: email,
-        phone: phone || "",
-        password: password,
-        created_at: new Date().toISOString(),
-        verified: false,
-      };
-
-      users.push(newUser);
-      localStorage.setItem("nanaForexUsers", JSON.stringify(users));
-
-      // Show verification notice
-      verificationNotice.classList.add("show");
-
+    // No session => email confirmation is required.
+    if (!data.session) {
+      verificationNotice?.classList.add("show");
       showStatus(
         registerStatus,
-        "Account created successfully! Please check your email for verification.",
-        "success",
+        "Account created! Please check your email to verify your address.",
+        "success"
       );
-
-      // Clear form
       registerForm.reset();
-      strengthFill.style.width = "0%";
-      strengthLabel.textContent = "Weak";
-      strengthLabel.style.color = "#ff4d4d";
-
-      btn.classList.remove("loading");
-      btn.disabled = false;
-
-      // Auto-switch to login after 2.5 seconds
+      if (strengthFill) strengthFill.style.width = "0%";
+      if (strengthLabel) {
+        strengthLabel.textContent = "Weak";
+        strengthLabel.style.color = "#ff4d4d";
+      }
       setTimeout(() => {
-        const loginTab = document.querySelector('.auth-tab[data-form="login"]');
-        switchTab(loginTab);
-        showStatus(
-          loginStatus,
-          "Account created! Please log in with your credentials.",
-          "success",
-        );
-        // Pre-fill email
+        switchTab(document.querySelector('.auth-tab[data-form="login"]'));
+        showStatus(loginStatus, "Please log in once your email is verified.", "success");
         document.getElementById("loginEmail").value = email;
       }, 2500);
-    } catch (error) {
-      showStatus(
-        registerStatus,
-        "Registration failed. Please try again.",
-        "error",
-      );
-      btn.classList.remove("loading");
-      btn.disabled = false;
+      return;
     }
+
+    // Confirmation disabled => user is signed in immediately.
+    NanaSession.writeMirror(data.user, true);
+    showStatus(registerStatus, "Account created! Redirecting...", "success");
+    setTimeout(() => (window.location.href = DASHBOARD_URL), 800);
   });
 
   // ====================================
-  // FORGOT PASSWORD
+  // FORGOT PASSWORD (Supabase reset email)
   // ====================================
-  document
-    .getElementById("forgotPassword")
-    .addEventListener("click", function (e) {
-      e.preventDefault();
-      const email = document.getElementById("loginEmail").value.trim();
+  document.getElementById("forgotPassword")?.addEventListener("click", async function (e) {
+    e.preventDefault();
+    const email = document.getElementById("loginEmail").value.trim();
 
-      if (!email) {
-        showStatus(
-          loginStatus,
-          "Please enter your email address to reset your password.",
-          "error",
-        );
-        return;
-      }
+    if (!email || !isValidEmail(email)) {
+      showStatus(loginStatus, "Enter your email above to reset your password.", "error");
+      return;
+    }
 
-      if (!isValidEmail(email)) {
-        showStatus(loginStatus, "Please enter a valid email address.", "error");
-        return;
-      }
-
-      // Check if email exists in registered users
-      const users = JSON.parse(localStorage.getItem("nanaForexUsers") || "[]");
-      const user = users.find((u) => u.email === email);
-
-      if (user) {
-        showStatus(
-          loginStatus,
-          `✅ Password reset link sent to ${email}. Check your inbox.`,
-          "success",
-        );
-      } else {
-        showStatus(
-          loginStatus,
-          "No account found with this email. Please register first.",
-          "error",
-        );
-      }
+    const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + "/htmls/update-password.html",
     });
 
+    if (error) {
+      showStatus(loginStatus, error.message, "error");
+      return;
+    }
+    showStatus(loginStatus, `Password reset link sent to ${email}. Check your inbox.`, "success");
+  });
+
   // ====================================
-  // SOCIAL LOGIN (Demo)
+  // SOCIAL LOGIN (Supabase OAuth)
+  // Requires the provider to be enabled in the Supabase dashboard.
   // ====================================
   document.querySelectorAll(".social-btn").forEach((btn) => {
-    btn.addEventListener("click", function () {
-      const provider = this.classList.contains("google")
-        ? "Google"
-        : "Facebook";
+    btn.addEventListener("click", async function () {
+      const provider = this.classList.contains("google") ? "google" : "facebook";
       const parentForm = this.closest(".auth-form");
       const statusEl = parentForm.querySelector(".form-status");
 
       showStatus(statusEl, `Connecting with ${provider}...`, "success");
 
-      // Simulate OAuth flow
-      setTimeout(() => {
-        // Store session
-        const sessionData = {
-          email: `${provider.toLowerCase()}@nanaforex.com`,
-          name: `${provider} User`,
-          provider: provider,
-          loggedIn: true,
-        };
-        localStorage.setItem("nanaForexUser", JSON.stringify(sessionData));
+      const { error } = await supabaseClient.auth.signInWithOAuth({
+        provider,
+        options: { redirectTo: window.location.origin + "/htmls/users/" + DASHBOARD_URL },
+      });
 
-        window.location.href = "dashboard.html";
-      }, 1500);
+      if (error) {
+        showStatus(statusEl, error.message, "error");
+      }
     });
   });
 
@@ -453,71 +318,30 @@ document.addEventListener("DOMContentLoaded", function () {
     input.addEventListener("keydown", function (e) {
       if (e.key === "Enter") {
         const form = this.closest("form");
-        if (form) {
-          form.dispatchEvent(new Event("submit"));
-        }
+        if (form) form.requestSubmit ? form.requestSubmit() : form.dispatchEvent(new Event("submit"));
       }
     });
   });
 
   // ====================================
-  // HELPER: EMAIL VALIDATION
+  // REDIRECT IF ALREADY LOGGED IN
   // ====================================
-  function isValidEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-  }
-
-  // ====================================
-  // CHECK EXISTING SESSION
-  // ====================================
-  function checkExistingSession() {
-    const user =
-      localStorage.getItem("nanaForexUser") ||
-      sessionStorage.getItem("nanaForexUser");
-    if (user) {
-      try {
-        const userData = JSON.parse(user);
-        if (userData.loggedIn) {
-          // Redirect to dashboard if already logged in
-          window.location.href = "dashboard.html";
-        }
-      } catch (e) {
-        // Invalid session data, ignore
-      }
+  (async () => {
+    const session = await NanaSession.getSession();
+    if (session) {
+      NanaSession.writeMirror(session.user, true);
+      window.location.href = DASHBOARD_URL;
     }
-  }
-
-  // Check if user is already logged in
-  checkExistingSession();
-
-  // ====================================
-  // DEMO CREDENTIALS HELPER
-  // ====================================
-  console.log("🔐 Demo Account:");
-  console.log("📧 Email: demo@nanaforex.com");
-  console.log("🔑 Password: password123");
-
-  // ====================================
-  // CLEAR VERIFICATION NOTICE ON TAB SWITCH
-  // ====================================
-  const originalSwitchTab = switchTab;
-  switchTab = function (tab) {
-    originalSwitchTab(tab);
-    // Hide verification notice when switching tabs
-    if (verificationNotice) {
-      verificationNotice.classList.remove("show");
-    }
-  };
+  })();
 
   // ====================================
   // PASSWORD STRENGTH RESET ON REGISTER FORM RESET
   // ====================================
-  document
-    .getElementById("registerFormElement")
-    .addEventListener("reset", function () {
-      strengthFill.style.width = "0%";
+  document.getElementById("registerFormElement")?.addEventListener("reset", function () {
+    if (strengthFill) strengthFill.style.width = "0%";
+    if (strengthLabel) {
       strengthLabel.textContent = "Weak";
       strengthLabel.style.color = "#ff4d4d";
-    });
+    }
+  });
 });

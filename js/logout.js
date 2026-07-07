@@ -143,7 +143,10 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function clearUserSession() {
-    // Clear all user data
+    // End the real Supabase session (and the compatibility mirror)
+    if (typeof supabaseClient !== "undefined") {
+      supabaseClient.auth.signOut();
+    }
     localStorage.removeItem("nanaForexUser");
     sessionStorage.removeItem("nanaForexUser");
 
