@@ -226,7 +226,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         showStatus(loginStatus, "Login successful! Redirecting...", "success");
         setTimeout(() => {
-          window.location.href = "dashboard.html";
+          window.location.href = "client-dashboard.html";
         }, 1000);
         return;
       }
@@ -441,7 +441,7 @@ document.addEventListener("DOMContentLoaded", function () {
         };
         localStorage.setItem("nanaForexUser", JSON.stringify(sessionData));
 
-        window.location.href = "dashboard.html";
+        window.location.href = "client-dashboard.html";
       }, 1500);
     });
   });
@@ -480,7 +480,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const userData = JSON.parse(user);
         if (userData.loggedIn) {
           // Redirect to dashboard if already logged in
-          window.location.href = "dashboard.html";
+          window.location.href = "client-dashboard.html";
         }
       } catch (e) {
         // Invalid session data, ignore

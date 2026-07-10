@@ -4,42 +4,34 @@
 
 document.addEventListener("DOMContentLoaded", function () {
   // ====================================
-  // HAMBURGER MENU TOGGLE
+  // SIDEBAR TOGGLE
   // ====================================
-  const hamburgerBtn = document.getElementById("hamburgerBtn");
   const sidebar = document.getElementById("sidebar");
   const sidebarOverlay = document.getElementById("sidebarOverlay");
+  const sidebarToggle = document.getElementById("sidebarToggle");
+  const sidebarClose = document.getElementById("sidebarClose");
 
   function openSidebar() {
     sidebar.classList.add("open");
     sidebarOverlay.classList.add("active");
-    hamburgerBtn?.classList.add("active");
     document.body.style.overflow = "hidden";
   }
 
   function closeSidebar() {
     sidebar.classList.remove("open");
     sidebarOverlay.classList.remove("active");
-    hamburgerBtn?.classList.remove("active");
     document.body.style.overflow = "";
   }
 
-  // Hamburger button toggle
-  hamburgerBtn?.addEventListener("click", function (e) {
-    e.stopPropagation();
-    if (sidebar.classList.contains("open")) {
-      closeSidebar();
-    } else {
-      openSidebar();
-    }
-  });
-
-  // Sidebar close button (X)
-  const sidebarClose = document.getElementById("sidebarClose");
-  sidebarClose?.addEventListener("click", closeSidebar);
-
-  // Overlay click to close
-  sidebarOverlay?.addEventListener("click", closeSidebar);
+  if (sidebarToggle) {
+    sidebarToggle.addEventListener("click", openSidebar);
+  }
+  if (sidebarClose) {
+    sidebarClose.addEventListener("click", closeSidebar);
+  }
+  if (sidebarOverlay) {
+    sidebarOverlay.addEventListener("click", closeSidebar);
+  }
 
   // Close sidebar on Escape key
   document.addEventListener("keydown", function (e) {
@@ -48,56 +40,54 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Close sidebar when window resizes to desktop
-  window.addEventListener("resize", function () {
-    if (window.innerWidth > 768 && sidebar.classList.contains("open")) {
-      closeSidebar();
-    }
-  });
-
   // ====================================
-  // NAVIGATION LINKS
+  // NAVIGATION LINKS - FIXED
   // ====================================
   const navLinks = document.querySelectorAll(".sidebar-nav a");
 
   navLinks.forEach(function (link) {
     link.addEventListener("click", function (e) {
-      e.preventDefault();
+      // Get the href attribute
+      const href = this.getAttribute("href");
 
-      // Remove active from all
-      navLinks.forEach(function (l) {
-        l.classList.remove("active");
-      });
+      // If it's a valid link and not empty
+      if (href && href !== "#" && href !== "") {
+        // Let the browser navigate normally
+        // Don't prevent default for actual page navigation
+        // e.preventDefault(); // ← REMOVED THIS LINE
 
-      // Add active to clicked
-      this.classList.add("active");
+        // The browser will now navigate to the href
+        // We can optionally update the header before navigation
+        const pageName = this.dataset.page;
+        const pageTitles = {
+          dashboard: "Dashboard",
+          profile: "Profile",
+          academy: "Academy",
+          signals: "Signals",
+          "copy-trading": "Copy Trading",
+          "funded-account": "Funded Account",
+          mentorship: "Mentorship",
+          "ib-partnership": "IB Partnership",
+          "trading-tools": "Trading Tools",
+          "market-analysis": "Market Analysis",
+          referrals: "Referrals",
+          payments: "Payments",
+          settings: "Settings",
+        };
 
-      // Update header title
-      const pageName = this.dataset.page;
-      const headerTitle = document.querySelector(".dashboard-header h1");
-      const pageTitles = {
-        dashboard: "Dashboard",
-        profile: "Profile",
-        academy: "Academy",
-        signals: "Signals",
-        "copy-trading": "Copy Trading",
-        "funded-account": "Funded Account",
-        mentorship: "Mentorship",
-        "ib-partnership": "IB Partnership",
-        "trading-tools": "Trading Tools",
-        "market-analysis": "Market Analysis",
-        referrals: "Referrals",
-        payments: "Payments",
-        settings: "Settings",
-      };
+        // Update header title (will be visible briefly before navigation)
+        const headerTitle = document.querySelector(".dashboard-header h1");
+        if (headerTitle && pageTitles[pageName]) {
+          headerTitle.textContent = pageTitles[pageName];
+        }
 
-      if (headerTitle && pageTitles[pageName]) {
-        headerTitle.textContent = pageTitles[pageName];
-      }
+        // Close sidebar on mobile
+        if (window.innerWidth <= 768) {
+          closeSidebar();
+        }
 
-      // Close sidebar on mobile
-      if (window.innerWidth <= 768) {
-        closeSidebar();
+        // Allow navigation to proceed
+        return true;
       }
     });
   });
@@ -152,13 +142,15 @@ document.addEventListener("DOMContentLoaded", function () {
   // ====================================
   const logoutBtn = document.getElementById("logoutBtn");
 
-  logoutBtn?.addEventListener("click", function () {
-    if (confirm("Are you sure you want to logout?")) {
-      localStorage.removeItem("nanaForexUser");
-      sessionStorage.removeItem("nanaForexUser");
-      window.location.href = "login.html";
-    }
-  });
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", function () {
+      if (confirm("Are you sure you want to logout?")) {
+        localStorage.removeItem("nanaForexUser");
+        sessionStorage.removeItem("nanaForexUser");
+        window.location.href = "login.html";
+      }
+    });
+  }
 
   // ====================================
   // CURRENT DATE
@@ -318,9 +310,11 @@ document.addEventListener("DOMContentLoaded", function () {
   // NOTIFICATION BUTTON
   // ====================================
   const notifBtn = document.getElementById("notifBtn");
-  notifBtn?.addEventListener("click", function () {
-    showToast("You have 3 new notifications", "info");
-  });
+  if (notifBtn) {
+    notifBtn.addEventListener("click", function () {
+      showToast("You have 3 new notifications", "info");
+    });
+  }
 
   // ====================================
   // TOAST NOTIFICATIONS
