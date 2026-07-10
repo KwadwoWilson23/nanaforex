@@ -51,44 +51,53 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // ====================================
-  // NAVIGATION LINKS
+  // NAVIGATION LINKS - FIXED
   // ====================================
   const navLinks = document.querySelectorAll(".sidebar-nav a");
 
   navLinks.forEach(function (link) {
     link.addEventListener("click", function (e) {
-      e.preventDefault();
+      // Get the href attribute
+      const href = this.getAttribute("href");
 
-      navLinks.forEach(function (l) {
-        l.classList.remove("active");
-      });
+      // If it's a valid link and not empty
+      if (href && href !== "#" && href !== "") {
+        // Update active state
+        navLinks.forEach(function (l) {
+          l.classList.remove("active");
+        });
+        this.classList.add("active");
 
-      this.classList.add("active");
+        // Update header title (optional, will show briefly)
+        const pageName = this.dataset.page;
+        const headerTitle = document.querySelector(".dashboard-header h1");
+        const pageTitles = {
+          dashboard: "Dashboard",
+          profile: "Profile",
+          academy: "Academy",
+          signals: "Signals",
+          "copy-trading": "Copy Trading",
+          "funded-account": "Funded Account",
+          mentorship: "Mentorship",
+          "ib-partnership": "IB Partnership",
+          "trading-tools": "Trading Tools",
+          "market-analysis": "Market Analysis",
+          referrals: "Referrals",
+          payments: "Payments",
+          settings: "Settings",
+        };
 
-      const pageName = this.dataset.page;
-      const headerTitle = document.querySelector(".dashboard-header h1");
-      const pageTitles = {
-        dashboard: "Dashboard",
-        profile: "Profile",
-        academy: "Academy",
-        signals: "Signals",
-        "copy-trading": "Copy Trading",
-        "funded-account": "Funded Account",
-        mentorship: "Mentorship",
-        "ib-partnership": "IB Partnership",
-        "trading-tools": "Trading Tools",
-        "market-analysis": "Market Analysis",
-        referrals: "Referrals",
-        payments: "Payments",
-        settings: "Settings",
-      };
+        if (headerTitle && pageTitles[pageName]) {
+          headerTitle.textContent = pageTitles[pageName];
+        }
 
-      if (headerTitle && pageTitles[pageName]) {
-        headerTitle.textContent = pageTitles[pageName];
-      }
+        // Close sidebar on mobile
+        if (window.innerWidth <= 768) {
+          closeSidebar();
+        }
 
-      if (window.innerWidth <= 768) {
-        closeSidebar();
+        // Allow navigation to proceed - DO NOT prevent default
+        return true;
       }
     });
   });
@@ -429,5 +438,5 @@ document.addEventListener("DOMContentLoaded", function () {
     document.head.appendChild(style);
   }
 
-  
+  console.log("✅ Mentorship page initialized");
 });
