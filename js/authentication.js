@@ -225,7 +225,7 @@ document.addEventListener("DOMContentLoaded", function () {
       password,
       options: {
         data: { full_name: name, phone: phone || "" },
-        emailRedirectTo: window.location.origin + "/htmls/users/login.html",
+        emailRedirectTo: window.location.origin + "/users/login",
       },
     });
 
@@ -278,7 +278,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-      redirectTo: window.location.origin + "/htmls/update-password.html",
+      redirectTo: window.location.origin + "/update-password",
     });
 
     if (error) {
@@ -302,7 +302,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const { error } = await supabaseClient.auth.signInWithOAuth({
         provider,
-        options: { redirectTo: window.location.origin + "/htmls/users/" + DASHBOARD_URL },
+        options: { redirectTo: window.location.origin + "/users/" + DASHBOARD_URL },
       });
 
       if (error) {
