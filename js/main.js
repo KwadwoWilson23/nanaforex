@@ -86,3 +86,102 @@ document.addEventListener("DOMContentLoaded", function () {
       .join("");
   }
 });
+
+// ====================================
+// MOTION LAYER — scroll reveals, sticky nav, hero float
+// Additive & safe: gated on reduced-motion + IntersectionObserver,
+// wrapped in try/catch so a failure never hides content.
+// ====================================
+(function () {
+  "use strict";
+
+  // Load the motion stylesheet once (absolute path works from any page depth).
+  if (!document.querySelector('link[data-nf-animations]')) {
+    var link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "/css/animations.css";
+    link.setAttribute("data-nf-animations", "");
+    document.head.appendChild(link);
+  }
+
+  function initMotion() {
+    try {
+      // Sticky nav condense on scroll (independent of reveal support).
+      var nav = document.querySelector(".navbar");
+      if (nav) {
+        var onScroll = function () {
+          nav.classList.toggle("scrolled", window.scrollY > 30);
+        };
+        onScroll();
+        window.addEventListener("scroll", onScroll, { passive: true });
+      }
+
+      var reduce =
+        window.matchMedia &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduce || !("IntersectionObserver" in window)) return; // leave content fully visible
+
+      document.documentElement.classList.add("motion-ready");
+
+      var selector = [
+        ".section-title",
+        ".hero-badge",
+        ".hero h1",
+        ".hero p",
+        ".hero-buttons",
+        ".service-card",
+        ".why-card",
+        ".stat-card",
+        ".metric-card",
+        ".testimonial-card",
+        ".blog-card",
+        ".value-card",
+        ".team-card",
+        ".about-image",
+        ".about-text",
+        ".faq-simple-item",
+        ".info-item",
+        ".contact-form-container",
+        ".dashboard-card",
+        ".cta h2",
+        ".cta p",
+      ].join(",");
+
+      var els = Array.prototype.slice.call(document.querySelectorAll(selector));
+      var counters = new Map();
+      els.forEach(function (el) {
+        if (el.hasAttribute("data-reveal")) return;
+        el.setAttribute("data-reveal", "");
+        var p = el.parentElement;
+        var c = counters.get(p) || 0;
+        el.style.setProperty("--reveal-i", Math.min(c, 6));
+        counters.set(p, c + 1);
+      });
+
+      var io = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("in-view");
+              io.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+      );
+      els.forEach(function (el) {
+        io.observe(el);
+      });
+    } catch (e) {
+      // On any failure, make sure nothing is left hidden.
+      document.documentElement.classList.remove("motion-ready");
+      if (window.console) console.warn("[motion] disabled:", e);
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initMotion);
+  } else {
+    initMotion();
+  }
+})();
