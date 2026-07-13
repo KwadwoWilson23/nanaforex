@@ -172,6 +172,18 @@ document.addEventListener("DOMContentLoaded", function () {
       els.forEach(function (el) {
         io.observe(el);
       });
+
+      // Failsafe: if the observer never reveals on-screen items shortly
+      // after load, reveal anything already in the viewport so above-the-fold
+      // content can't get stuck hidden. Below-fold items still wait for scroll.
+      setTimeout(function () {
+        var vh = window.innerHeight || document.documentElement.clientHeight || 0;
+        els.forEach(function (el) {
+          if (el.classList.contains("in-view")) return;
+          var r = el.getBoundingClientRect();
+          if (r.top < vh && r.bottom > 0) el.classList.add("in-view");
+        });
+      }, 2500);
     } catch (e) {
       // On any failure, make sure nothing is left hidden.
       document.documentElement.classList.remove("motion-ready");
