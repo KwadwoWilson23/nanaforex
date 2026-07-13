@@ -3,6 +3,11 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "redirects": [
-    { "source": "/", "destination": "/htmls/index", "permanent": false }
+    { "source": "/htmls", "destination": "/", "permanent": false },
+    { "source": "/htmls/:path*", "destination": "/:path*", "permanent": false }
+  ],
+  "rewrites": [
+    { "source": "/", "destination": "/htmls/index.html" },
+    { "source": "/:path*", "destination": "/htmls/:path*" }
   ]
 }
