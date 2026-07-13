@@ -184,6 +184,28 @@
 /* loading state (btn-primary uses .loading class; reuse for Google) */
 .social-btn.google.loading { opacity: 0.7; pointer-events: none; }
 
+/* ---------- Google Sign-In overlay ----------
+   Google's own rendered button sits invisibly on top of our custom button.
+   The user sees ours (styled); their click goes to Google's (which triggers
+   the GSI popup so users never leave nanaforex.com). */
+.google-btn-wrap {
+  position: relative;
+}
+.google-gsi-btn {
+  position: absolute;
+  inset: 0;
+  opacity: 0.001; /* fully transparent but still clickable */
+  z-index: 2;
+  cursor: pointer;
+  overflow: hidden;
+}
+.google-gsi-btn > div,
+.google-gsi-btn iframe {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 48px;
+}
+
 /* ---------- Password strength (softer) ---------- */
 .strength-bar {
   background: rgba(255, 255, 255, 0.06);

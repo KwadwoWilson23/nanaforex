@@ -289,31 +289,114 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // ====================================
-  // CONTINUE WITH GOOGLE (Supabase OAuth)
-  // Requires Google to be enabled in Supabase → Authentication → Providers.
+  // CONTINUE WITH GOOGLE — via Google Identity Services popup
+  //
+  // Users never leave nanaforex.com. The Google Sign-In popup returns
+  // an ID token directly to our page, which we hand to Supabase via
+  // signInWithIdToken(). Supabase still creates/updates the user row
+  // in auth.users; only the URL flash to supabase.co is avoided.
+  //
+  // Requires:
+  //   - env.js: window.NANA_FOREX_ENV.GOOGLE_CLIENT_ID set
+  //   - Google Cloud OAuth Client (Web) with our origin in
+  //     "Authorized JavaScript origins"
+  //   - Supabase: Auth → Providers → Google → ON, same Client ID
+  //     pasted under "Authorized Client IDs (for OAuth)"
   // ====================================
-  document.querySelectorAll(".social-btn.google").forEach((btn) => {
-    btn.addEventListener("click", async function () {
-      const parentForm = this.closest(".auth-form");
-      const statusEl = parentForm.querySelector(".form-status");
+  (function initGoogleSignIn() {
+    const clientId =
+      (window.NANA_FOREX_ENV && window.NANA_FOREX_ENV.GOOGLE_CLIENT_ID) || "";
+    const googleContainers = document.querySelectorAll(
+      "[data-google-container]"
+    );
+    const googleWraps = document.querySelectorAll(".google-btn-wrap");
 
-      setLoading(btn, true);
-      showStatus(statusEl, "Redirecting to Google…", "success");
+    // Not configured yet → hide the Google buttons cleanly so users
+    // don't click a dead button. When you paste the Client ID and push,
+    // they reappear automatically.
+    if (!clientId) {
+      googleWraps.forEach((w) => (w.style.display = "none"));
+      const dividers = document.querySelectorAll(".auth-divider");
+      dividers.forEach((d) => (d.style.display = "none"));
+      return;
+    }
 
-      const { error } = await supabaseClient.auth.signInWithOAuth({
+    // Wait for Google's GSI library to load before initializing.
+    function whenGsiReady(cb) {
+      if (window.google && window.google.accounts && window.google.accounts.id) {
+        cb();
+      } else {
+        setTimeout(() => whenGsiReady(cb), 100);
+      }
+    }
+
+    // Build a hashed nonce (sent to Google) + keep the raw one (sent to Supabase)
+    // for CSRF protection on the ID token exchange.
+    async function makeNoncePair() {
+      const raw =
+        (crypto.randomUUID && crypto.randomUUID()) +
+        (crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36));
+      const bytes = new TextEncoder().encode(raw);
+      const digest = await crypto.subtle.digest("SHA-256", bytes);
+      const hashed = Array.from(new Uint8Array(digest))
+        .map((b) => b.toString(16).padStart(2, "0"))
+        .join("");
+      return { raw, hashed };
+    }
+
+    async function handleCredential(response) {
+      // Find the currently-active status element for feedback.
+      const statusEl =
+        document.querySelector(".auth-form.active .form-status") || loginStatus;
+      showStatus(statusEl, "Signing you in…", "success");
+
+      const { error } = await supabaseClient.auth.signInWithIdToken({
         provider: "google",
-        options: {
-          redirectTo: window.location.origin + "/users/" + DASHBOARD_URL,
-          queryParams: { prompt: "select_account" },
-        },
+        token: response.credential,
+        nonce: currentRawNonce,
       });
 
       if (error) {
-        setLoading(btn, false);
-        showStatus(statusEl, error.message, "error");
+        showStatus(statusEl, "Google sign-in failed: " + error.message, "error");
+        return;
       }
+
+      // Refresh the mirror + redirect exactly like the password flow does.
+      const { data } = await supabaseClient.auth.getUser();
+      if (data && data.user) NanaSession.writeMirror(data.user, true);
+      showStatus(statusEl, "Success! Redirecting…", "success");
+      setTimeout(() => (window.location.href = DASHBOARD_URL), 500);
+    }
+
+    let currentRawNonce = "";
+
+    whenGsiReady(async () => {
+      const { raw, hashed } = await makeNoncePair();
+      currentRawNonce = raw;
+
+      window.google.accounts.id.initialize({
+        client_id: clientId,
+        callback: handleCredential,
+        nonce: hashed,
+        auto_select: false,
+        use_fedcm_for_prompt: true,
+      });
+
+      // Render Google's own button (invisibly) inside each wrapper so it
+      // captures clicks over our custom-styled visible button.
+      googleContainers.forEach((container) => {
+        window.google.accounts.id.renderButton(container, {
+          type: "standard",
+          theme: "filled_blue",
+          size: "large",
+          text: "continue_with",
+          shape: "rectangular",
+          logo_alignment: "left",
+          width: 360,
+        });
+      });
     });
-  });
+  })();
 
   // ====================================
   // ENTER KEY SUPPORT
