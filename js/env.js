@@ -8,5 +8,5 @@ window.NANA_FOREX_ENV = {
   //   https://nanaforex.com
   //   https://www.nanaforex.com
   //   https://nanaforex.vercel.app
-  GOOGLE_CLIENT_ID: ""
+  GOOGLE_CLIENT_ID: "1021915020366-jl8clfmjpe5vbu1k7e16dc3usupen91m.apps.googleusercontent.com"
 };
