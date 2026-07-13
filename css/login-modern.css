@@ -1,0 +1,227 @@
+/* ============================================================
+   Nana Forex — Modern Login / Register Overlay
+   Loaded AFTER css/login.css. Only refines look & motion.
+   ============================================================ */
+
+/* ---------- Card: heavier glass, softer border, hover glow ---------- */
+.auth-card {
+  background:
+    linear-gradient(180deg, rgba(20, 30, 50, 0.55), rgba(8, 14, 30, 0.65));
+  backdrop-filter: blur(28px) saturate(140%);
+  -webkit-backdrop-filter: blur(28px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  animation: authCardIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes authCardIn {
+  from { opacity: 0; transform: translateY(18px) scale(0.98); }
+  to   { opacity: 1; transform: none; }
+}
+.auth-card:hover { transform: none; } /* remove the old harsh hover */
+
+.auth-card h2 {
+  background: linear-gradient(120deg, #fff 30%, #cfe9dc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ---------- Tabs: sliding indicator ---------- */
+.auth-tabs {
+  position: relative;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  padding: 6px;
+  gap: 0;
+  overflow: hidden;
+}
+.auth-tabs::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 6px;
+  width: calc(50% - 6px);
+  background: linear-gradient(135deg, #00c896, #00ff88);
+  border-radius: 10px;
+  transition: transform 0.35s cubic-bezier(0.65, 0, 0.35, 1);
+  z-index: 0;
+  box-shadow: 0 6px 18px rgba(0, 200, 150, 0.35);
+}
+.auth-tabs:has(.auth-tab.active[data-form="register"])::before {
+  transform: translateX(100%);
+}
+.auth-tab {
+  position: relative;
+  z-index: 1;
+  background: transparent;
+  border-radius: 10px;
+  transition: color 0.25s ease;
+  color: rgba(255, 255, 255, 0.7);
+}
+.auth-tab.active {
+  background: transparent !important;
+  color: #051222 !important;
+  font-weight: 800;
+}
+.auth-tab:hover:not(.active) { background: transparent; color: #fff; }
+
+/* ---------- Inputs: subtler border, richer focus ---------- */
+.input-wrapper {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+}
+.input-wrapper:focus-within {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(0, 200, 150, 0.55);
+  box-shadow:
+    0 0 0 4px rgba(0, 200, 150, 0.12),
+    0 8px 22px rgba(0, 200, 150, 0.10);
+}
+.input-icon i { transition: color 0.25s ease, transform 0.25s ease; }
+.input-wrapper:focus-within .input-icon i {
+  color: #00ff88;
+  transform: scale(1.05);
+}
+
+/* ---------- Primary button ---------- */
+.btn-primary {
+  background: linear-gradient(135deg, #00c896, #00ff88);
+  color: #051222;
+  border: none;
+  border-radius: 12px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.3s ease,
+    filter 0.3s ease;
+}
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.25) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 0.6s ease;
+  pointer-events: none;
+}
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 36px rgba(0, 200, 150, 0.35);
+  filter: brightness(1.05);
+}
+.btn-primary:hover:not(:disabled)::after { transform: translateX(120%); }
+.btn-primary:active:not(:disabled) { transform: translateY(0); }
+
+/* ---------- Divider ---------- */
+.auth-divider {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.82rem;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+.auth-divider::before,
+.auth-divider::after {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.14), transparent);
+  height: 1px;
+}
+
+/* ---------- Social buttons (Google only) ---------- */
+.social-login {
+  display: block; /* one full-width button now */
+}
+.social-btn.google {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  padding: 0.95rem 1rem;
+  background: #ffffff;
+  color: #1f2937;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.25s ease,
+    background 0.2s ease;
+}
+.social-btn.google:hover {
+  transform: translateY(-2px);
+  background: #fafafa;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+  color: #1f2937;
+}
+.social-btn.google:active { transform: translateY(0); }
+.social-btn.google .google-icon {
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.social-btn.google .google-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+/* loading state (btn-primary uses .loading class; reuse for Google) */
+.social-btn.google.loading { opacity: 0.7; pointer-events: none; }
+
+/* ---------- Password strength (softer) ---------- */
+.strength-bar {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.strength-fill {
+  transition: width 0.35s ease, background 0.35s ease;
+  border-radius: 999px;
+}
+
+/* ---------- Toggle password icon polish ---------- */
+.toggle-password {
+  color: rgba(255, 255, 255, 0.5);
+  transition: color 0.2s ease;
+}
+.toggle-password:hover { color: #00ff88; }
+
+/* ---------- Ambient glow blobs float ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .auth-glow {
+    animation: authGlowFloat 18s ease-in-out infinite;
+  }
+  .auth-glow.glow-2 { animation-duration: 22s; animation-delay: -6s; }
+  @keyframes authGlowFloat {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(20px, -24px) scale(1.06); }
+  }
+}
+
+/* ---------- Verification notice softer ---------- */
+.verification-notice {
+  border-radius: 12px;
+  background: rgba(0, 200, 150, 0.08);
+  border: 1px solid rgba(0, 200, 150, 0.25);
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 480px) {
+  .auth-card { border-radius: 20px; }
+}

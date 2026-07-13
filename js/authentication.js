@@ -289,23 +289,27 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // ====================================
-  // SOCIAL LOGIN (Supabase OAuth)
-  // Requires the provider to be enabled in the Supabase dashboard.
+  // CONTINUE WITH GOOGLE (Supabase OAuth)
+  // Requires Google to be enabled in Supabase → Authentication → Providers.
   // ====================================
-  document.querySelectorAll(".social-btn").forEach((btn) => {
+  document.querySelectorAll(".social-btn.google").forEach((btn) => {
     btn.addEventListener("click", async function () {
-      const provider = this.classList.contains("google") ? "google" : "facebook";
       const parentForm = this.closest(".auth-form");
       const statusEl = parentForm.querySelector(".form-status");
 
-      showStatus(statusEl, `Connecting with ${provider}...`, "success");
+      setLoading(btn, true);
+      showStatus(statusEl, "Redirecting to Google…", "success");
 
       const { error } = await supabaseClient.auth.signInWithOAuth({
-        provider,
-        options: { redirectTo: window.location.origin + "/users/" + DASHBOARD_URL },
+        provider: "google",
+        options: {
+          redirectTo: window.location.origin + "/users/" + DASHBOARD_URL,
+          queryParams: { prompt: "select_account" },
+        },
       });
 
       if (error) {
+        setLoading(btn, false);
         showStatus(statusEl, error.message, "error");
       }
     });

@@ -26,6 +26,7 @@
 
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/login.css" />
+    <link rel="stylesheet" href="/css/login-modern.css" />
   </head>
 
   <body>
@@ -192,11 +193,16 @@
           <!-- Social Login -->
           <div class="auth-divider">Or continue with</div>
           <div class="social-login">
-            <button class="social-btn google" id="googleLogin">
-              <i class="fab fa-google"></i> Google
-            </button>
-            <button class="social-btn facebook" id="facebookLogin">
-              <i class="fab fa-facebook-f"></i> Facebook
+            <button class="social-btn google" id="googleLogin" type="button" aria-label="Continue with Google">
+              <span class="google-icon" aria-hidden="true">
+                <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                  <path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.5l6.8-6.8C35.6 2.4 30.2 0 24 0 14.6 0 6.6 5.4 2.6 13.3l7.9 6.1C12.4 13.7 17.7 9.5 24 9.5z"/>
+                  <path fill="#4285F4" d="M46.5 24.5c0-1.6-.2-3.2-.4-4.7H24v9h12.7c-.6 3-2.3 5.6-4.9 7.3l7.8 6c4.6-4.2 7-10.4 7-17.6z"/>
+                  <path fill="#FBBC05" d="M10.5 28.5c-.5-1.4-.8-2.9-.8-4.5s.3-3.1.8-4.5l-7.9-6.1C.9 16.4 0 20.1 0 24s.9 7.6 2.6 10.6l7.9-6.1z"/>
+                  <path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.8-6c-2.2 1.5-5 2.3-8.1 2.3-6.3 0-11.6-4.2-13.5-9.9l-7.9 6.1C6.6 42.6 14.6 48 24 48z"/>
+                </svg>
+              </span>
+              <span>Continue with Google</span>
             </button>
           </div>
 
@@ -224,7 +230,7 @@
                 <input
                   type="text"
                   id="registerName"
-                  placeholder="John Doe"
+                  placeholder="Nana Forex"
                   required
                 />
               </div>
@@ -325,11 +331,16 @@
           <!-- Social Login -->
           <div class="auth-divider">Or sign up with</div>
           <div class="social-login">
-            <button class="social-btn google" id="googleRegister">
-              <i class="fab fa-google"></i> Google
-            </button>
-            <button class="social-btn facebook" id="facebookRegister">
-              <i class="fab fa-facebook-f"></i> Facebook
+            <button class="social-btn google" id="googleRegister" type="button" aria-label="Continue with Google">
+              <span class="google-icon" aria-hidden="true">
+                <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                  <path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.5l6.8-6.8C35.6 2.4 30.2 0 24 0 14.6 0 6.6 5.4 2.6 13.3l7.9 6.1C12.4 13.7 17.7 9.5 24 9.5z"/>
+                  <path fill="#4285F4" d="M46.5 24.5c0-1.6-.2-3.2-.4-4.7H24v9h12.7c-.6 3-2.3 5.6-4.9 7.3l7.8 6c4.6-4.2 7-10.4 7-17.6z"/>
+                  <path fill="#FBBC05" d="M10.5 28.5c-.5-1.4-.8-2.9-.8-4.5s.3-3.1.8-4.5l-7.9-6.1C.9 16.4 0 20.1 0 24s.9 7.6 2.6 10.6l7.9-6.1z"/>
+                  <path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.8-6c-2.2 1.5-5 2.3-8.1 2.3-6.3 0-11.6-4.2-13.5-9.9l-7.9 6.1C6.6 42.6 14.6 48 24 48z"/>
+                </svg>
+              </span>
+              <span>Continue with Google</span>
             </button>
           </div>
 
