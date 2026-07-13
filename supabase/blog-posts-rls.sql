@@ -25,10 +25,19 @@ alter table public.blog_posts enable row level security;
 --    other differently-named policies behind, review them in
 --    Dashboard -> Authentication -> Policies and remove any that grant
 --    broader access than intended (permissive policies are OR-combined).
-drop policy if exists "blog_posts: public read"    on public.blog_posts;
-drop policy if exists "blog_posts: admin insert"   on public.blog_posts;
-drop policy if exists "blog_posts: admin update"   on public.blog_posts;
-drop policy if exists "blog_posts: admin delete"   on public.blog_posts;
+-- Drop EVERY existing policy (including old permissive ones with other
+-- names left over from the original blog setup), so none linger as
+-- "always true" write rules.
+do $$
+declare pol record;
+begin
+  for pol in
+    select policyname from pg_policies
+    where schemaname = 'public' and tablename = 'blog_posts'
+  loop
+    execute format('drop policy if exists %I on public.blog_posts', pol.policyname);
+  end loop;
+end $$;
 
 -- Anyone may read
 create policy "blog_posts: public read"
