@@ -27,6 +27,7 @@
 
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/client-dashboard.css" />
+    <link rel="stylesheet" href="/css/dashboard-polish.css" />
   </head>
 
   <body>
@@ -54,7 +55,7 @@
             <i class="fas fa-user"></i>
             <span>Profile</span>
           </a>
-          <a href="academy.html" class="active" data-page="academy">
+          <a href="academy.html" data-page="academy">
             <i class="fas fa-graduation-cap"></i>
             <span>Academy</span>
           </a>
@@ -120,7 +121,7 @@
           <div class="header-actions">
             <button class="notif-btn" id="notifBtn">
               <i class="fas fa-bell"></i>
-              <span class="notif-badge">3</span>
+              <span class="notif-badge" id="notifBadge" hidden>0</span>
             </button>
             <div class="user-avatar">
               <span id="userInitials">JD</span>
@@ -152,9 +153,9 @@
               </div>
               <div class="stat-info">
                 <span class="stat-label">Account Balance</span>
-                <h3 class="stat-value">$12,450.00</h3>
+                <h3 class="stat-value" data-stat="balance">$0.00</h3>
               </div>
-              <div class="stat-change positive">+8.2%</div>
+              <div class="stat-change" data-stat="balance-change">—</div>
             </div>
             <div class="stat-widget">
               <div class="stat-icon red">
@@ -162,9 +163,9 @@
               </div>
               <div class="stat-info">
                 <span class="stat-label">Profit / Loss</span>
-                <h3 class="stat-value">+$1,245.00</h3>
+                <h3 class="stat-value" data-stat="pnl">$0.00</h3>
               </div>
-              <div class="stat-change positive">+12.5%</div>
+              <div class="stat-change" data-stat="pnl-change">—</div>
             </div>
             <div class="stat-widget">
               <div class="stat-icon gold">
@@ -172,9 +173,9 @@
               </div>
               <div class="stat-info">
                 <span class="stat-label">Active Trades</span>
-                <h3 class="stat-value">4</h3>
+                <h3 class="stat-value" data-stat="active-trades">0</h3>
               </div>
-              <div class="stat-change">2 pending</div>
+              <div class="stat-change" data-stat="active-trades-note">no open positions</div>
             </div>
             <div class="stat-widget">
               <div class="stat-icon blue">
@@ -182,9 +183,9 @@
               </div>
               <div class="stat-info">
                 <span class="stat-label">Notifications</span>
-                <h3 class="stat-value">3</h3>
+                <h3 class="stat-value" data-stat="notif-count">0</h3>
               </div>
-              <div class="stat-change">1 new</div>
+              <div class="stat-change" data-stat="notif-note">all caught up</div>
             </div>
           </div>
 
@@ -196,7 +197,12 @@
                 <span>Last 30 days</span>
               </div>
               <div class="chart-container">
-                <canvas id="equityCurveChart"></canvas>
+                <canvas id="equityCurveChart" hidden></canvas>
+                <div class="empty-state chart-empty" data-chart-empty="equity">
+                  <i class="fas fa-chart-area"></i>
+                  <p>No equity data yet</p>
+                  <span>Connect your trading account to see your equity curve.</span>
+                </div>
               </div>
             </div>
             <div class="chart-card">
@@ -205,7 +211,12 @@
                 <span>Weekly returns</span>
               </div>
               <div class="chart-container">
-                <canvas id="performanceChart"></canvas>
+                <canvas id="performanceChart" hidden></canvas>
+                <div class="empty-state chart-empty" data-chart-empty="performance">
+                  <i class="fas fa-chart-column"></i>
+                  <p>No performance data yet</p>
+                  <span>Once you have trades, weekly returns will show here.</span>
+                </div>
               </div>
             </div>
           </div>
@@ -218,56 +229,11 @@
                 <h3>Recent Activity</h3>
                 <a href="#">View All</a>
               </div>
-              <div class="activity-list">
-                <div class="activity-item">
-                  <div class="activity-icon green">
-                    <i class="fas fa-check"></i>
-                  </div>
-                  <div class="activity-info">
-                    <p class="activity-title">Trade closed: EUR/USD</p>
-                    <span class="activity-time">2 hours ago</span>
-                  </div>
-                  <span class="activity-amount positive">+$245.00</span>
-                </div>
-                <div class="activity-item">
-                  <div class="activity-icon gold">
-                    <i class="fas fa-plus"></i>
-                  </div>
-                  <div class="activity-info">
-                    <p class="activity-title">New position: GBP/USD</p>
-                    <span class="activity-time">4 hours ago</span>
-                  </div>
-                  <span class="activity-amount">-$0.00</span>
-                </div>
-                <div class="activity-item">
-                  <div class="activity-icon red">
-                    <i class="fas fa-minus"></i>
-                  </div>
-                  <div class="activity-info">
-                    <p class="activity-title">Trade closed: XAU/USD</p>
-                    <span class="activity-time">6 hours ago</span>
-                  </div>
-                  <span class="activity-amount negative">-$85.00</span>
-                </div>
-                <div class="activity-item">
-                  <div class="activity-icon blue">
-                    <i class="fas fa-arrow-up"></i>
-                  </div>
-                  <div class="activity-info">
-                    <p class="activity-title">Deposit processed</p>
-                    <span class="activity-time">1 day ago</span>
-                  </div>
-                  <span class="activity-amount positive">+$500.00</span>
-                </div>
-                <div class="activity-item">
-                  <div class="activity-icon green">
-                    <i class="fas fa-trophy"></i>
-                  </div>
-                  <div class="activity-info">
-                    <p class="activity-title">Challenge entry approved</p>
-                    <span class="activity-time">2 days ago</span>
-                  </div>
-                  <span class="activity-amount positive">+$0.00</span>
+              <div class="activity-list" id="activityList">
+                <div class="empty-state">
+                  <i class="fas fa-inbox"></i>
+                  <p>No activity yet</p>
+                  <span>Your recent trades and account events will appear here.</span>
                 </div>
               </div>
             </div>
@@ -332,35 +298,35 @@
             <div class="stats-grid">
               <div class="stat-item">
                 <span class="stat-label">Total Trades</span>
-                <span class="stat-value">127</span>
+                <span class="stat-value" data-stat="total-trades">0</span>
               </div>
               <div class="stat-item">
                 <span class="stat-label">Winning Trades</span>
-                <span class="stat-value green">89</span>
+                <span class="stat-value" data-stat="win-trades">0</span>
               </div>
               <div class="stat-item">
                 <span class="stat-label">Losing Trades</span>
-                <span class="stat-value red">38</span>
+                <span class="stat-value" data-stat="loss-trades">0</span>
               </div>
               <div class="stat-item">
                 <span class="stat-label">Win Rate</span>
-                <span class="stat-value">70.1%</span>
+                <span class="stat-value" data-stat="win-rate">—</span>
               </div>
               <div class="stat-item">
                 <span class="stat-label">Average Win</span>
-                <span class="stat-value green">+$124.50</span>
+                <span class="stat-value" data-stat="avg-win">—</span>
               </div>
               <div class="stat-item">
                 <span class="stat-label">Average Loss</span>
-                <span class="stat-value red">-$62.30</span>
+                <span class="stat-value" data-stat="avg-loss">—</span>
               </div>
               <div class="stat-item">
                 <span class="stat-label">Profit Factor</span>
-                <span class="stat-value">2.14</span>
+                <span class="stat-value" data-stat="profit-factor">—</span>
               </div>
               <div class="stat-item">
                 <span class="stat-label">Best Trade</span>
-                <span class="stat-value green">+$420.00</span>
+                <span class="stat-value" data-stat="best-trade">—</span>
               </div>
             </div>
           </div>

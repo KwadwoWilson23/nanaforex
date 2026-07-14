@@ -41,6 +41,23 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // ====================================
+  // AUTO-SET ACTIVE NAV BASED ON CURRENT PAGE
+  // (fixes wrong "Academy" highlight on Dashboard, etc.)
+  // ====================================
+  (function markActiveNav() {
+    var pathLeaf = (location.pathname.split("/").pop() || "")
+      .replace(/\.html$/, "")
+      .toLowerCase();
+    if (!pathLeaf) return;
+    document.querySelectorAll(".sidebar-nav a").forEach(function (a) {
+      var page = (a.dataset.page || "").toLowerCase();
+      var href = (a.getAttribute("href") || "").replace(/\.html$/, "").toLowerCase();
+      var isActive = page === pathLeaf || href.endsWith("/" + pathLeaf) || href === pathLeaf;
+      a.classList.toggle("active", isActive);
+    });
+  })();
+
+  // ====================================
   // NAVIGATION LINKS - FIXED
   // ====================================
   const navLinks = document.querySelectorAll(".sidebar-nav a");
@@ -120,6 +137,40 @@ document.addEventListener("DOMContentLoaded", function () {
   checkUserSession();
 
   // ====================================
+  // REAL NOTIFICATION COUNT (Supabase)
+  // Replaces the hardcoded "3" badge with the real unread count.
+  // ====================================
+  (async function loadNotifCount() {
+    try {
+      const session = typeof NanaSession !== "undefined"
+        ? await NanaSession.getSession()
+        : null;
+      if (!session || typeof supabaseClient === "undefined") return;
+
+      const { count, error } = await supabaseClient
+        .from("notifications")
+        .select("id", { count: "exact", head: true })
+        .eq("user_id", session.user.id)
+        .eq("read", false);
+
+      if (error) return;
+
+      const total = count || 0;
+      const badge = document.getElementById("notifBadge");
+      if (badge) {
+        badge.textContent = String(total);
+        badge.hidden = total === 0;
+      }
+      const counter = document.querySelector('[data-stat="notif-count"]');
+      const note = document.querySelector('[data-stat="notif-note"]');
+      if (counter) counter.textContent = String(total);
+      if (note) note.textContent = total === 0 ? "all caught up" : total + " unread";
+    } catch (e) {
+      /* silent — empty state stays as-is */
+    }
+  })();
+
+  // ====================================
   // LOGOUT
   // ====================================
   const logoutBtn = document.getElementById("logoutBtn");
@@ -153,11 +204,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ====================================
   // CHARTS
+  // Skip rendering when the canvas is hidden (empty state showing).
+  // Real chart rendering kicks in once real trading data flows.
   // ====================================
-  // Equity Curve Chart
-  const equityCtx = document
-    .getElementById("equityCurveChart")
-    ?.getContext("2d");
+  const equityCanvas = document.getElementById("equityCurveChart");
+  const equityCtx = equityCanvas && !equityCanvas.hidden
+    ? equityCanvas.getContext("2d")
+    : null;
   if (equityCtx) {
     new Chart(equityCtx, {
       type: "line",
@@ -227,7 +280,10 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Performance Chart
-  const perfCtx = document.getElementById("performanceChart")?.getContext("2d");
+  const perfCanvas = document.getElementById("performanceChart");
+  const perfCtx = perfCanvas && !perfCanvas.hidden
+    ? perfCanvas.getContext("2d")
+    : null;
   if (perfCtx) {
     new Chart(perfCtx, {
       type: "bar",
