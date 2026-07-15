@@ -747,3 +747,34 @@ LIVE MARKET TICKER
 .metric-card h2 {
   color: var(--profit-green);
 }
+
+/* ====================================
+BRAND LOGO IMAGE
+==================================== */
+
+.logo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.logo-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  box-shadow: 0 0 14px rgba(245, 183, 0, 0.35);
+  border: 1px solid rgba(245, 183, 0, 0.4);
+}
+
+.sidebar-brand h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.sidebar-brand .logo-img {
+  width: 34px;
+  height: 34px;
+}
