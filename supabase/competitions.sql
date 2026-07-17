@@ -67,6 +67,53 @@ as $$
   );
 $$;
 
+-- 0d. Migration: rename metaapi_account_id -> tracking_ref if a previous
+-- version of this file already created the table with the old name.
+-- Idempotent — safe to re-run.
+do $$
+begin
+  -- rename old column to new name (only if old exists and new doesn't)
+  if exists (
+    select 1 from information_schema.columns
+    where table_schema='public' and table_name='participants'
+      and column_name='metaapi_account_id'
+  ) and not exists (
+    select 1 from information_schema.columns
+    where table_schema='public' and table_name='participants'
+      and column_name='tracking_ref'
+  ) then
+    alter table public.participants rename column metaapi_account_id to tracking_ref;
+  end if;
+
+  -- add tracking_provider if missing
+  if exists (
+    select 1 from information_schema.tables
+    where table_schema='public' and table_name='participants'
+  ) and not exists (
+    select 1 from information_schema.columns
+    where table_schema='public' and table_name='participants'
+      and column_name='tracking_provider'
+  ) then
+    alter table public.participants add column tracking_provider text
+      check (tracking_provider in ('myfxbook','fxblue','metaapi','manual'));
+  end if;
+
+  -- add tracking_meta if missing
+  if exists (
+    select 1 from information_schema.tables
+    where table_schema='public' and table_name='participants'
+  ) and not exists (
+    select 1 from information_schema.columns
+    where table_schema='public' and table_name='participants'
+      and column_name='tracking_meta'
+  ) then
+    alter table public.participants add column tracking_meta jsonb not null default '{}'::jsonb;
+  end if;
+end $$;
+
+-- Drop the old MetaAPI-specific index if it exists (new one is created below).
+drop index if exists public.participants_metaapi_idx;
+
 -- ------------------------------------------------------------
 -- 1. COMPETITIONS
 -- ------------------------------------------------------------
