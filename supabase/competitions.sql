@@ -1,10 +1,11 @@
 -- ============================================================
 -- Nana Forex — Trading Competitions (Phase 1: schema)
--- Run in Supabase → SQL Editor after schema.sql + leaderboard.sql.
+-- Run in Supabase → SQL Editor.
 --
--- Depends on:
---   * public.profiles         (from schema.sql)
---   * public.is_admin()       (from schema.sql)
+-- SELF-CONTAINED: the "dependencies" block below recreates any missing
+-- helpers so this file works even if schema.sql hasn't been rerun.
+-- If public.profiles doesn't exist yet, run schema.sql FIRST — that's
+-- the only hard dependency (the profile row is the user's identity).
 --
 -- What this creates:
 --   * competitions         — the challenges themselves
@@ -27,6 +28,44 @@
 --   * audit_log           — admin READ only; server-side writes
 -- ============================================================
 
+
+-- ============================================================
+-- DEPENDENCIES (idempotent — safe to run repeatedly)
+-- ============================================================
+
+-- 0a. Guard: profiles must exist. If it doesn't, stop with a clear message.
+do $$
+begin
+  if not exists (select 1 from pg_tables where schemaname='public' and tablename='profiles') then
+    raise exception 'public.profiles is missing — please run supabase/schema.sql first.';
+  end if;
+end $$;
+
+-- 0b. Ensure updated_at trigger function exists
+create or replace function public.set_updated_at()
+returns trigger
+language plpgsql
+set search_path = ''
+as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$;
+
+-- 0c. Ensure is_admin() helper exists
+create or replace function public.is_admin()
+returns boolean
+language sql
+security definer
+set search_path = public
+stable
+as $$
+  select exists (
+    select 1 from public.profiles
+    where id = (select auth.uid()) and role = 'admin'
+  );
+$$;
 
 -- ------------------------------------------------------------
 -- 1. COMPETITIONS
