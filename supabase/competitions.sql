@@ -80,8 +80,12 @@ create table if not exists public.participants (
   competition_id     uuid not null references public.competitions(id) on delete cascade,
   user_id            uuid not null references auth.users(id) on delete cascade,
 
-  -- MetaAPI + broker linkage (populated by server after successful connect)
-  metaapi_account_id text,        -- opaque id returned by MetaAPI
+  -- Provider-agnostic performance tracking linkage (MyFxBook / FX Blue /
+  -- MetaAPI / manual — one of; see COMPETITIONS.md).
+  tracking_provider  text check (tracking_provider in ('myfxbook','fxblue','metaapi','manual')),
+  tracking_ref       text,        -- MyFxBook URL, MetaAPI accountId, etc.
+  tracking_meta      jsonb not null default '{}'::jsonb,
+                       -- provider-specific extras (system_id, feed key, etc.)
   mt_platform        text check (mt_platform in ('mt4','mt5')),
   mt_login           text,        -- account number (public info)
   mt_server          text,        -- server name (public info)
@@ -121,9 +125,9 @@ create index if not exists participants_competition_status_idx
   on public.participants (competition_id, status);
 create index if not exists participants_user_idx
   on public.participants (user_id);
-create index if not exists participants_metaapi_idx
-  on public.participants (metaapi_account_id)
-  where metaapi_account_id is not null;
+create index if not exists participants_tracking_idx
+  on public.participants (tracking_provider, tracking_ref)
+  where tracking_ref is not null;
 
 
 -- ------------------------------------------------------------
