@@ -302,36 +302,42 @@ PERFORMANCE PREVIEW
 
     <section class="performance-preview">
       <div class="section-title">
-        <h2>Performance Dashboard</h2>
-
-        <p>Complete transparency with real performance metrics.</p>
+        <span class="section-eyebrow">Transparent Performance</span>
+        <h2>Live Performance <span class="gold-text">Dashboard</span></h2>
+        <p>Real, updatable trader metrics — no cherry-picked screenshots.</p>
       </div>
 
       <div class="dashboard-card">
         <div class="dashboard-top">
           <div class="metric-card">
             <span>Monthly Return</span>
-            <h2>+18.4%</h2>
+            <h2 data-metric="monthly-return">—</h2>
           </div>
 
           <div class="metric-card">
             <span>Win Rate</span>
-            <h2>85%</h2>
+            <h2 data-metric="win-rate">—</h2>
           </div>
 
           <div class="metric-card">
             <span>Total Pips</span>
-            <h2>10,420</h2>
+            <h2 data-metric="total-pips">—</h2>
           </div>
 
           <div class="metric-card">
             <span>Profit Factor</span>
-            <h2>2.7</h2>
+            <h2 data-metric="profit-factor">—</h2>
           </div>
         </div>
 
         <div class="chart-container">
-          <canvas id="equityChart"></canvas>
+          <canvas id="equityChart" hidden></canvas>
+          <div class="perf-empty">
+            <i class="fas fa-chart-line"></i>
+            <p>Live metrics coming soon</p>
+            <span>Verified performance will be published as soon as it has been independently audited.</span>
+            <a href="/dashboard" class="btn-secondary" style="margin-top: 1rem;">View Trader Leaderboard</a>
+          </div>
         </div>
       </div>
     </section>

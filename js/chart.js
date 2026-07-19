@@ -1,6 +1,7 @@
 // Equity chart for performance preview
 document.addEventListener("DOMContentLoaded", function () {
-  const ctx = document.getElementById("equityChart")?.getContext("2d");
+  const canvas = document.getElementById("equityChart");
+  const ctx = canvas && !canvas.hidden ? canvas.getContext("2d") : null;
   if (ctx) {
     new Chart(ctx, {
       type: "line",
