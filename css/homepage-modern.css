@@ -128,14 +128,15 @@
   position: absolute;
   bottom: 14px;
   left: 14px;
-  background: rgba(5, 10, 22, 0.85);
+  background: linear-gradient(135deg, rgba(245, 183, 0, 0.22), rgba(5, 10, 22, 0.85));
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(0, 200, 150, 0.35);
-  color: #00ff88;
-  padding: 0.5rem 0.85rem;
+  border: 1px solid rgba(245, 183, 0, 0.5);
+  color: var(--gold, #f5b700);
+  padding: 0.55rem 0.9rem;
   border-radius: 999px;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   font-weight: 700;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
 }
 .founder-badge i { margin-right: 0.35rem; }
 
@@ -200,6 +201,81 @@
 .founder-social a:hover {
   background: rgba(0, 200, 150, 0.12);
   border-color: rgba(0, 200, 150, 0.35);
+}
+
+/* ============================================================
+   FEATURED AT — real event photos strip below the founder
+   ============================================================ */
+.featured-at {
+  max-width: 1200px;
+  margin: 3.5rem auto 0;
+  padding: 2rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: center;
+}
+.featured-at-label {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+  margin-bottom: 1.5rem;
+}
+.featured-at-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+@media (max-width: 820px) { .featured-at-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .featured-at-grid { grid-template-columns: 1fr; } }
+
+.featured-photo {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(15, 23, 42, 0.55);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s ease,
+              box-shadow 0.3s ease;
+}
+.featured-photo:hover {
+  transform: translateY(-4px);
+  border-color: rgba(245, 183, 0, 0.4);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+.featured-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease, filter 0.3s ease;
+  filter: saturate(0.9) brightness(0.92);
+}
+.featured-photo:hover img {
+  transform: scale(1.05);
+  filter: saturate(1) brightness(1);
+}
+.featured-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0.75rem 0.9rem;
+  background: linear-gradient(180deg, transparent, rgba(5, 10, 22, 0.85));
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-align: left;
+  letter-spacing: 0.2px;
+}
+.founder-badge.awardish {
+  background: linear-gradient(135deg, rgba(245, 183, 0, 0.2), rgba(5, 10, 22, 0.85));
+  border-color: rgba(245, 183, 0, 0.5);
+  color: var(--gold, #f5b700);
 }
 
 /* ============================================================
