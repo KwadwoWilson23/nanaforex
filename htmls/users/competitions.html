@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trading Competitions | Nana Forex</title>
+    <link rel="icon" type="image/png" href="/images/favicon.png" />
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/client-dashboard.css" />
+    <link rel="stylesheet" href="/css/competitions.css" />
+  </head>
+
+  <body>
+    <div class="dashboard-wrapper">
+      <!-- SIDEBAR (shared) -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+          <h2>
+            <img src="/images/logo.jpg" alt="" class="logo-img" /><span
+              >NanaForex</span
+            >
+          </h2>
+          <button class="sidebar-close" id="sidebarClose">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="/users/client-dashboard" data-page="dashboard">
+            <i class="fas fa-th-large"></i><span>Dashboard</span>
+          </a>
+          <a href="/users/profile" data-page="profile">
+            <i class="fas fa-user"></i><span>Profile</span>
+          </a>
+          <a href="/users/competitions" class="active" data-page="competitions">
+            <i class="fas fa-trophy"></i><span>Competitions</span>
+          </a>
+          <a href="/users/academy" data-page="academy">
+            <i class="fas fa-graduation-cap"></i><span>Academy</span>
+          </a>
+          <a href="/users/signals" data-page="signals">
+            <i class="fas fa-signal"></i><span>Signals</span>
+          </a>
+          <a href="/users/copy-trading" data-page="copy-trading">
+            <i class="fas fa-copy"></i><span>Copy Trading</span>
+          </a>
+          <a href="/users/mentorship" data-page="mentorship">
+            <i class="fas fa-chalkboard-teacher"></i><span>Mentorship</span>
+          </a>
+          <a href="/users/ib-partnership" data-page="ib-partnership">
+            <i class="fas fa-handshake"></i><span>IB Partnership</span>
+          </a>
+          <a href="/users/trading-tools" data-page="trading-tools">
+            <i class="fas fa-tools"></i><span>Trading Tools</span>
+          </a>
+          <a href="/users/market-analysis" data-page="market-analysis">
+            <i class="fas fa-chart-line"></i><span>Market Analysis</span>
+          </a>
+          <a href="/users/settings" data-page="settings">
+            <i class="fas fa-cog"></i><span>Settings</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <button class="logout-btn" id="logoutBtn">
+            <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+          </button>
+        </div>
+      </aside>
+
+      <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+      <main class="main-content">
+        <header class="dashboard-header">
+          <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+          </button>
+          <h1>Trading Competitions</h1>
+          <div class="header-actions">
+            <div class="user-avatar"><span id="userInitials">NF</span></div>
+          </div>
+        </header>
+
+        <div class="dashboard-content">
+          <section class="comp-intro">
+            <span class="section-eyebrow">
+              <i class="fas fa-trophy"></i> Live Trading Contests
+            </span>
+            <h2>
+              Prove your edge. Win the
+              <span class="gold-text">prize pool.</span>
+            </h2>
+            <p>
+              Join a competition, connect your MT5 investor password, and
+              you're on the live leaderboard. We never touch your funds — the
+              investor password is read-only.
+            </p>
+          </section>
+
+          <section id="competitionsList" class="comp-grid">
+            <div class="comp-loading">
+              <i class="fas fa-spinner fa-spin"></i> Loading competitions…
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <!-- Supabase auth stack -->
+    <script src="/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/js/env.js"></script>
+    <script src="/js/supabase-client.js"></script>
+    <script src="/js/user-session.js"></script>
+    <script src="/js/client-dashboard.js"></script>
+    <script src="/js/competitions-list.js"></script>
+  </body>
+</html>

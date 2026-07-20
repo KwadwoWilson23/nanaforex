@@ -1,0 +1,433 @@
+/* ============================================================
+   Competitions — list + detail
+   Layered on top of client-dashboard.css (which provides the shell).
+   ============================================================ */
+
+.comp-loading,
+.comp-empty,
+.comp-error {
+  padding: 3rem 1.5rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.55);
+}
+.comp-empty i,
+.comp-error i {
+  font-size: 2rem;
+  color: rgba(0, 200, 150, 0.5);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+.comp-empty h3 {
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 0.35rem;
+}
+
+/* ---------- Intro block ---------- */
+.comp-intro {
+  padding: 0.5rem 0 1.75rem;
+  max-width: 720px;
+}
+.comp-intro h2 {
+  font-size: clamp(1.5rem, 2.4vw, 1.85rem);
+  margin: 0.5rem 0;
+}
+.comp-intro p {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* ---------- Cards grid ---------- */
+.comp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(360px, 100%), 1fr));
+  gap: 1.25rem;
+}
+
+.comp-card {
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 18px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.comp-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(0, 200, 150, 0.3);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+}
+.comp-card--ended { opacity: 0.72; }
+
+.comp-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.comp-card-prize {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--gold, #f5b700);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.comp-card h3 {
+  font-size: 1.2rem;
+  color: #fff;
+  margin: 0;
+}
+.comp-card p {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  margin: 0;
+}
+.comp-card-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem 1rem;
+  margin: 0;
+  padding: 1rem 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+.comp-card-meta > div { display: flex; flex-direction: column; gap: 0.15rem; }
+.comp-card-meta dt {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.45);
+}
+.comp-card-meta dd {
+  margin: 0;
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+.comp-card-cta { margin-top: auto; }
+.comp-card-cta .btn-primary,
+.comp-card-cta .btn-secondary {
+  width: 100%;
+  text-align: center;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* ---------- Status badge (shared) ---------- */
+.comp-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.comp-status-badge i { font-size: 0.65rem; }
+.comp-status-badge.active,
+.comp-status-badge.connected {
+  color: #00ff88;
+  background: rgba(0, 255, 136, 0.12);
+  border-color: rgba(0, 255, 136, 0.35);
+}
+.comp-status-badge.upcoming {
+  color: var(--gold, #f5b700);
+  background: rgba(245, 183, 0, 0.12);
+  border-color: rgba(245, 183, 0, 0.35);
+}
+.comp-status-badge.ended {
+  color: rgba(255, 255, 255, 0.65);
+}
+.comp-status-badge.cancelled,
+.comp-status-badge.disqualified {
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.12);
+  border-color: rgba(255, 107, 107, 0.35);
+}
+.comp-status-badge.pending,
+.comp-status-badge.withdrawn {
+  color: #ffd166;
+  background: rgba(255, 209, 102, 0.1);
+  border-color: rgba(255, 209, 102, 0.3);
+}
+
+/* ---------- Detail page ---------- */
+.comp-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.65);
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: color 0.2s, background 0.2s;
+}
+.comp-back-link:hover {
+  color: #00ff88;
+  background: rgba(0, 200, 150, 0.08);
+}
+
+.comp-hero {
+  background:
+    linear-gradient(135deg, rgba(0, 200, 150, 0.14), rgba(245, 183, 0, 0.08)),
+    rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 22px;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+.comp-hero h2 {
+  font-size: clamp(1.7rem, 3vw, 2.3rem);
+  margin: 0.6rem 0 0.5rem;
+}
+.comp-hero p {
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 640px;
+  margin-bottom: 1.5rem;
+}
+.comp-hero-meta {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+@media (max-width: 700px) {
+  .comp-hero-meta { grid-template-columns: repeat(2, 1fr); }
+}
+.comp-hero-meta div { display: flex; flex-direction: column; gap: 0.15rem; }
+.comp-meta-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.45);
+}
+.comp-hero-meta strong {
+  font-size: 1.05rem;
+  color: #fff;
+}
+
+/* ---------- Rules ---------- */
+.comp-rules {
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 18px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.comp-rules h3 {
+  font-size: 1rem;
+  margin-bottom: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.comp-rules h3 i { color: var(--gold, #f5b700); }
+.comp-rules ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.5rem; }
+.comp-rules li {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.92rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.comp-rules li i { color: #00ff88; font-size: 0.8rem; }
+
+/* ---------- Join CTA card ---------- */
+.comp-cta,
+.comp-connect,
+.comp-live,
+.comp-status-final {
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 18px;
+  padding: 2rem;
+}
+.comp-cta h3,
+.comp-connect h3,
+.comp-live h3,
+.comp-status-final h3 {
+  font-size: 1.2rem;
+  margin: 0 0 0.4rem;
+}
+.comp-cta p, .comp-status-final p {
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 580px;
+  margin: 0 0 1.25rem;
+}
+.comp-cta .btn-primary {
+  min-width: 200px;
+  padding: 0.85rem 1.5rem;
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.comp-cta-status {
+  margin-top: 1rem;
+  min-height: 1.2rem;
+  font-size: 0.9rem;
+}
+.comp-cta-status.error   { color: #ff6b6b; }
+.comp-cta-status.success { color: #00ff88; }
+.comp-cta-status.info    { color: rgba(255, 255, 255, 0.7); }
+
+/* ---------- Connect (safety + form) ---------- */
+.comp-connect-header {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+.comp-safety {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 0.85rem;
+  align-items: start;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 200, 150, 0.35);
+  background: rgba(0, 200, 150, 0.08);
+  margin-bottom: 1.5rem;
+}
+.comp-safety i { color: #00ff88; font-size: 1.5rem; margin-top: 0.15rem; }
+.comp-safety strong { color: #fff; display: block; margin-bottom: 0.15rem; }
+.comp-safety p {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.88rem;
+  margin: 0;
+  line-height: 1.55;
+}
+
+.comp-connect-form { display: grid; gap: 1rem; }
+.comp-connect-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: 600;
+}
+.comp-connect-form input,
+.comp-connect-form select {
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.comp-connect-form input:focus,
+.comp-connect-form select:focus {
+  outline: none;
+  border-color: rgba(0, 200, 150, 0.55);
+  box-shadow: 0 0 0 3px rgba(0, 200, 150, 0.15);
+}
+.cf-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+@media (max-width: 640px) { .cf-row { grid-template-columns: 1fr; } }
+
+.cf-pw { position: relative; }
+.cf-pw input { padding-right: 2.75rem; width: 100%; box-sizing: border-box; }
+.cf-pw-toggle {
+  position: absolute;
+  top: 50%;
+  right: 0.5rem;
+  transform: translateY(-50%);
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+}
+.cf-pw-toggle:hover { color: #00ff88; }
+
+.comp-connect .btn-primary {
+  margin-top: 0.4rem;
+  padding: 0.9rem;
+  font-size: 1rem;
+  justify-self: start;
+  min-width: 220px;
+}
+
+.comp-withdraw-link {
+  margin-top: 1.25rem;
+  background: none;
+  border: none;
+  color: rgba(255, 107, 107, 0.85);
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 0.35rem 0;
+}
+.comp-withdraw-link:hover { color: #ff6b6b; text-decoration: underline; }
+
+/* ---------- Live view ---------- */
+.comp-live-header {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+.comp-live-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+@media (max-width: 700px) { .comp-live-stats { grid-template-columns: repeat(2, 1fr); } }
+.comp-live-stats > div {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.comp-live-stats span {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.45);
+}
+.comp-live-stats strong {
+  font-size: 1.05rem;
+  color: #fff;
+}
+.comp-live-hint {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+}
+
+/* ---------- Not found ---------- */
+.comp-notfound {
+  padding: 4rem 1.5rem;
+  text-align: center;
+}
+.comp-notfound i { font-size: 3rem; color: #ff6b6b; margin-bottom: 1rem; }
+.comp-notfound h2 { margin-bottom: 0.5rem; }
+.comp-notfound p { color: rgba(255, 255, 255, 0.6); margin-bottom: 1.5rem; }

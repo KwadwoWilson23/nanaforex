@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Competition | Nana Forex</title>
+    <link rel="icon" type="image/png" href="/images/favicon.png" />
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/client-dashboard.css" />
+    <link rel="stylesheet" href="/css/competitions.css" />
+  </head>
+
+  <body>
+    <div class="dashboard-wrapper">
+      <!-- SIDEBAR (shared) -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+          <h2>
+            <img src="/images/logo.jpg" alt="" class="logo-img" /><span
+              >NanaForex</span
+            >
+          </h2>
+          <button class="sidebar-close" id="sidebarClose">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="/users/client-dashboard" data-page="dashboard">
+            <i class="fas fa-th-large"></i><span>Dashboard</span>
+          </a>
+          <a href="/users/profile" data-page="profile">
+            <i class="fas fa-user"></i><span>Profile</span>
+          </a>
+          <a href="/users/competitions" class="active" data-page="competitions">
+            <i class="fas fa-trophy"></i><span>Competitions</span>
+          </a>
+          <a href="/users/academy" data-page="academy">
+            <i class="fas fa-graduation-cap"></i><span>Academy</span>
+          </a>
+          <a href="/users/signals" data-page="signals">
+            <i class="fas fa-signal"></i><span>Signals</span>
+          </a>
+          <a href="/users/copy-trading" data-page="copy-trading">
+            <i class="fas fa-copy"></i><span>Copy Trading</span>
+          </a>
+          <a href="/users/mentorship" data-page="mentorship">
+            <i class="fas fa-chalkboard-teacher"></i><span>Mentorship</span>
+          </a>
+          <a href="/users/ib-partnership" data-page="ib-partnership">
+            <i class="fas fa-handshake"></i><span>IB Partnership</span>
+          </a>
+          <a href="/users/trading-tools" data-page="trading-tools">
+            <i class="fas fa-tools"></i><span>Trading Tools</span>
+          </a>
+          <a href="/users/market-analysis" data-page="market-analysis">
+            <i class="fas fa-chart-line"></i><span>Market Analysis</span>
+          </a>
+          <a href="/users/settings" data-page="settings">
+            <i class="fas fa-cog"></i><span>Settings</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <button class="logout-btn" id="logoutBtn">
+            <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+          </button>
+        </div>
+      </aside>
+
+      <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+      <main class="main-content">
+        <header class="dashboard-header">
+          <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+          </button>
+          <h1 id="compHeaderTitle">Competition</h1>
+          <div class="header-actions">
+            <a href="/users/competitions" class="comp-back-link">
+              <i class="fas fa-arrow-left"></i> All competitions
+            </a>
+          </div>
+        </header>
+
+        <div class="dashboard-content" id="compDetailRoot">
+          <div class="comp-loading">
+            <i class="fas fa-spinner fa-spin"></i> Loading…
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Templates rendered by JS -->
+    <template id="tpl-comp-hero">
+      <section class="comp-hero">
+        <div class="comp-hero-content">
+          <div class="comp-hero-status" data-status></div>
+          <h2 data-name></h2>
+          <p data-description></p>
+          <div class="comp-hero-meta">
+            <div>
+              <span class="comp-meta-label">Prize Pool</span>
+              <strong data-prize>—</strong>
+            </div>
+            <div>
+              <span class="comp-meta-label">Starts</span>
+              <strong data-start>—</strong>
+            </div>
+            <div>
+              <span class="comp-meta-label">Ends</span>
+              <strong data-end>—</strong>
+            </div>
+            <div>
+              <span class="comp-meta-label">Platform</span>
+              <strong data-platform>—</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="comp-rules">
+        <h3><i class="fas fa-scale-balanced"></i> Rules</h3>
+        <ul data-rules></ul>
+      </section>
+    </template>
+
+    <template id="tpl-comp-join">
+      <section class="comp-cta">
+        <h3>Ready to enter?</h3>
+        <p>
+          Click Join, then paste your MT5 investor password to link your
+          account. We only need read-only access — we can never trade,
+          transfer, or change your account.
+        </p>
+        <button class="btn-primary" data-join>
+          <i class="fas fa-trophy"></i> Join Competition
+        </button>
+        <p class="comp-cta-status" data-status></p>
+      </section>
+    </template>
+
+    <template id="tpl-comp-connect">
+      <section class="comp-connect">
+        <div class="comp-connect-header">
+          <span class="comp-status-badge pending">
+            <i class="fas fa-hourglass-half"></i> Awaiting connection
+          </span>
+          <h3>Link your MT5 account</h3>
+        </div>
+
+        <div class="comp-safety">
+          <i class="fas fa-shield-halved"></i>
+          <div>
+            <strong>Investor (read-only) password only.</strong>
+            <p>
+              We use it once to link your account with MetaAPI, then drop it.
+              Nana Forex can never place trades, withdraw funds, or change
+              your account. Never share your MASTER password.
+            </p>
+          </div>
+        </div>
+
+        <form class="comp-connect-form" data-connect-form novalidate>
+          <div class="cf-row">
+            <label>
+              MT5 Account Number
+              <input name="login" required inputmode="numeric" placeholder="e.g. 12345678" />
+            </label>
+            <label>
+              Server
+              <input name="server" required placeholder="e.g. HFMarkets-Live" />
+            </label>
+          </div>
+          <div class="cf-row">
+            <label>
+              Broker (optional)
+              <input name="broker" placeholder="e.g. HFM" />
+            </label>
+            <label>
+              Platform
+              <select name="platform" required>
+                <option value="mt5" selected>MT5</option>
+                <option value="mt4">MT4</option>
+              </select>
+            </label>
+          </div>
+          <label>
+            Investor Password
+            <div class="cf-pw">
+              <input name="password" type="password" required autocomplete="off" />
+              <button type="button" class="cf-pw-toggle" aria-label="Show password">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </label>
+
+          <button type="submit" class="btn-primary" data-connect-submit>
+            <i class="fas fa-link"></i> Connect Account
+          </button>
+          <p class="comp-cta-status" data-status></p>
+        </form>
+
+        <button class="comp-withdraw-link" data-withdraw>
+          Change my mind — withdraw from this competition
+        </button>
+      </section>
+    </template>
+
+    <template id="tpl-comp-live">
+      <section class="comp-live">
+        <div class="comp-live-header">
+          <span class="comp-status-badge connected">
+            <i class="fas fa-circle"></i> Live
+          </span>
+          <h3>You're in the competition</h3>
+        </div>
+
+        <div class="comp-live-stats">
+          <div>
+            <span>Starting Balance</span>
+            <strong data-starting>—</strong>
+          </div>
+          <div>
+            <span>Current Equity</span>
+            <strong data-equity>—</strong>
+          </div>
+          <div>
+            <span>Broker / Server</span>
+            <strong data-broker>—</strong>
+          </div>
+          <div>
+            <span>Last Sync</span>
+            <strong data-lastsync>—</strong>
+          </div>
+        </div>
+
+        <p class="comp-live-hint">
+          <i class="fas fa-info-circle"></i>
+          Your live equity updates automatically every 60 seconds.
+        </p>
+
+        <button class="comp-withdraw-link" data-withdraw>
+          Withdraw from this competition
+        </button>
+      </section>
+    </template>
+
+    <template id="tpl-comp-status">
+      <section class="comp-status-final">
+        <span class="comp-status-badge" data-badge></span>
+        <h3 data-title></h3>
+        <p data-reason></p>
+      </section>
+    </template>
+
+    <template id="tpl-comp-not-found">
+      <div class="comp-notfound">
+        <i class="fas fa-triangle-exclamation"></i>
+        <h2>Competition not found</h2>
+        <p>The competition you're looking for doesn't exist or was removed.</p>
+        <a class="btn-primary" href="/users/competitions">Back to all competitions</a>
+      </div>
+    </template>
+
+    <!-- Supabase auth stack -->
+    <script src="/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/js/env.js"></script>
+    <script src="/js/supabase-client.js"></script>
+    <script src="/js/user-session.js"></script>
+    <script src="/js/client-dashboard.js"></script>
+    <script src="/js/competition-detail.js"></script>
+  </body>
+</html>
