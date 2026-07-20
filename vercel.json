@@ -4,9 +4,11 @@
   "trailingSlash": false,
   "redirects": [
     { "source": "/htmls", "destination": "/", "permanent": false },
-    { "source": "/htmls/:path*", "destination": "/:path*", "permanent": false }
+    { "source": "/htmls/:path*", "destination": "/:path*", "permanent": false },
+    { "source": "/api/_lib/:path*", "destination": "/", "permanent": false }
   ],
   "rewrites": [
+    { "source": "/api/:path*", "destination": "/api/:path*" },
     { "source": "/", "destination": "/htmls/index" },
     { "source": "/:path*", "destination": "/htmls/:path*" }
   ]
