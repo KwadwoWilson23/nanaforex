@@ -11,5 +11,9 @@
     { "source": "/api/:path*", "destination": "/api/:path*" },
     { "source": "/", "destination": "/htmls/index" },
     { "source": "/:path*", "destination": "/htmls/:path*" }
-  ]
+  ],
+  "functions": {
+    "api/sync.js":   { "maxDuration": 60 },
+    "api/health.js": { "maxDuration": 15 }
+  }
 }
