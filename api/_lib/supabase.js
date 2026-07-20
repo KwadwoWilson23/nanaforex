@@ -7,6 +7,7 @@
 // ============================================================
 
 const { createClient } = require("@supabase/supabase-js");
+const ws = require("ws");
 
 let _client = null;
 
@@ -26,6 +27,7 @@ function admin() {
 
   _client = createClient(url, key, {
     auth: { persistSession: false, autoRefreshToken: false },
+    realtime: { transport: ws },
     global: { headers: { "x-application": "nanaforex-server" } },
   });
   return _client;
