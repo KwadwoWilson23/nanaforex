@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin — Competition | Nana Forex</title>
+    <link rel="icon" type="image/png" href="/images/favicon.png" />
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/client-dashboard.css" />
+    <link rel="stylesheet" href="/css/competitions.css" />
+    <link rel="stylesheet" href="/css/admin.css" />
+  </head>
+
+  <body>
+    <div class="dashboard-wrapper">
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+          <h2>
+            <img src="/images/logo.jpg" alt="" class="logo-img" /><span
+              >NanaForex</span
+            >
+          </h2>
+          <button class="sidebar-close" id="sidebarClose">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <nav class="sidebar-nav">
+          <a href="/users/client-dashboard" data-page="dashboard">
+            <i class="fas fa-th-large"></i><span>Dashboard</span>
+          </a>
+          <a href="/users/profile" data-page="profile">
+            <i class="fas fa-user"></i><span>Profile</span>
+          </a>
+          <a href="/users/competitions" data-page="competitions">
+            <i class="fas fa-trophy"></i><span>Competitions</span>
+          </a>
+          <a href="/users/admin-competitions" class="active admin-only" data-page="admin-competitions" style="display:none">
+            <i class="fas fa-shield-halved"></i><span>Admin</span>
+          </a>
+          <a href="/users/academy" data-page="academy"><i class="fas fa-graduation-cap"></i><span>Academy</span></a>
+          <a href="/users/signals" data-page="signals"><i class="fas fa-signal"></i><span>Signals</span></a>
+          <a href="/users/copy-trading" data-page="copy-trading"><i class="fas fa-copy"></i><span>Copy Trading</span></a>
+          <a href="/users/mentorship" data-page="mentorship"><i class="fas fa-chalkboard-teacher"></i><span>Mentorship</span></a>
+          <a href="/users/ib-partnership" data-page="ib-partnership"><i class="fas fa-handshake"></i><span>IB Partnership</span></a>
+          <a href="/users/trading-tools" data-page="trading-tools"><i class="fas fa-tools"></i><span>Trading Tools</span></a>
+          <a href="/users/market-analysis" data-page="market-analysis"><i class="fas fa-chart-line"></i><span>Market Analysis</span></a>
+          <a href="/users/settings" data-page="settings"><i class="fas fa-cog"></i><span>Settings</span></a>
+        </nav>
+        <div class="sidebar-footer">
+          <button class="logout-btn" id="logoutBtn">
+            <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+          </button>
+        </div>
+      </aside>
+
+      <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+      <main class="main-content">
+        <header class="dashboard-header">
+          <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+          </button>
+          <h1 id="adminHeaderTitle">Admin — Competition</h1>
+          <div class="header-actions">
+            <a href="/users/admin-competitions" class="admin-back-link">
+              <i class="fas fa-arrow-left"></i> All competitions
+            </a>
+          </div>
+        </header>
+
+        <div class="dashboard-content" id="adminRoot">
+          <div class="admin-loading">
+            <i class="fas fa-spinner fa-spin"></i> Loading…
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <template id="tpl-denied">
+      <section class="admin-denied">
+        <i class="fas fa-lock"></i>
+        <h2>Admin access required</h2>
+        <p>Your account is signed in, but doesn't have admin permissions.</p>
+        <a class="btn-primary" href="/users/client-dashboard">Back to dashboard</a>
+      </section>
+    </template>
+
+    <template id="tpl-admin-detail">
+      <section class="admin-comp-hero">
+        <div class="admin-comp-hero-top">
+          <span class="admin-status-badge" data-status></span>
+          <div class="admin-comp-actions">
+            <a data-lb href="#" class="btn-secondary">
+              <i class="fas fa-chart-line"></i> Public Leaderboard
+            </a>
+            <button data-csv class="btn-secondary">
+              <i class="fas fa-file-csv"></i> Export CSV
+            </button>
+          </div>
+        </div>
+        <h2 data-name></h2>
+        <p data-description></p>
+        <div class="admin-comp-meta">
+          <div><span>Prize Pool</span><strong data-prize>—</strong></div>
+          <div><span>Total Participants</span><strong data-total>0</strong></div>
+          <div><span>Connected</span><strong data-connected>0</strong></div>
+          <div><span>Disqualified</span><strong data-dq>0</strong></div>
+          <div><span>Starts</span><strong data-start>—</strong></div>
+          <div><span>Ends</span><strong data-end>—</strong></div>
+        </div>
+      </section>
+
+      <section class="admin-part-section">
+        <div class="admin-part-header">
+          <h3>Participants</h3>
+          <div class="admin-part-controls">
+            <input type="search" data-filter placeholder="Filter by name or login…" />
+            <select data-status-filter>
+              <option value="">All statuses</option>
+              <option value="connected">Connected</option>
+              <option value="pending">Pending</option>
+              <option value="connecting">Connecting</option>
+              <option value="disqualified">Disqualified</option>
+              <option value="withdrawn">Withdrawn</option>
+              <option value="completed">Completed</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="admin-part-table-wrap">
+          <table class="admin-part-table">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Trader</th>
+                <th>Login</th>
+                <th>Status</th>
+                <th>Start</th>
+                <th>Equity</th>
+                <th>% Gain</th>
+                <th>Max DD</th>
+                <th>Trades</th>
+                <th>Last Sync</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody data-rows></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="admin-audit">
+        <h3><i class="fas fa-clock-rotate-left"></i> Recent audit log</h3>
+        <div data-audit>
+          <p class="admin-empty-small">No admin actions yet.</p>
+        </div>
+      </section>
+    </template>
+
+    <script src="/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/js/env.js"></script>
+    <script src="/js/supabase-client.js"></script>
+    <script src="/js/user-session.js"></script>
+    <script src="/js/client-dashboard.js"></script>
+    <script src="/js/admin-competition.js"></script>
+  </body>
+</html>

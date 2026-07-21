@@ -137,6 +137,53 @@ document.addEventListener("DOMContentLoaded", function () {
   checkUserSession();
 
   // ====================================
+  // ADMIN SIDEBAR LINK (dynamic)
+  // Injects an "Admin" nav item into any page's sidebar when the
+  // logged-in user has profiles.role = 'admin'. Also reveals any
+  // pre-existing .admin-only elements (e.g. on the admin pages).
+  // ====================================
+  (async function injectAdminNav() {
+    try {
+      if (typeof supabaseClient === "undefined") return;
+      const {
+        data: { session: s },
+      } = await supabaseClient.auth.getSession();
+      if (!s) return;
+
+      const { data: profile } = await supabaseClient
+        .from("profiles")
+        .select("role")
+        .eq("id", s.user.id)
+        .maybeSingle();
+
+      if (!profile || profile.role !== "admin") return;
+
+      // Reveal any pre-baked admin-only elements
+      document.querySelectorAll(".admin-only").forEach(function (el) {
+        el.style.display = "";
+      });
+
+      // Inject nav link if it isn't already present
+      const nav = document.querySelector(".sidebar-nav");
+      if (!nav) return;
+      if (nav.querySelector('[data-page="admin-competitions"]')) return;
+
+      // Insert after the Competitions link (or at end if not found)
+      const anchor = nav.querySelector('[data-page="competitions"]');
+      const a = document.createElement("a");
+      a.href = "/users/admin-competitions";
+      a.className = "admin-only";
+      a.dataset.page = "admin-competitions";
+      a.innerHTML =
+        '<i class="fas fa-shield-halved"></i><span>Admin</span>';
+      if (anchor && anchor.nextSibling) nav.insertBefore(a, anchor.nextSibling);
+      else nav.appendChild(a);
+    } catch {
+      /* silent — admin link is progressive enhancement */
+    }
+  })();
+
+  // ====================================
   // REAL NOTIFICATION COUNT (Supabase)
   // Replaces the hardcoded "3" badge with the real unread count.
   // ====================================
