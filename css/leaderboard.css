@@ -1,0 +1,400 @@
+/* ============================================================
+   Public Leaderboard page — /competitions/leaderboard?slug=xxx
+   ============================================================ */
+
+.lb-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(1.25rem, 4vw, 3rem);
+  padding-top: clamp(6rem, 10vw, 8rem); /* clear the fixed navbar */
+}
+
+.lb-loading {
+  padding: 4rem 1.5rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* ---------- Header ---------- */
+.lb-header {
+  background:
+    radial-gradient(600px 200px at 100% 0%, rgba(245, 183, 0, 0.14), transparent 60%),
+    linear-gradient(135deg, rgba(0, 200, 150, 0.14), rgba(15, 23, 42, 0.6));
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 24px;
+  padding: 2rem;
+  margin-bottom: 1.75rem;
+}
+.lb-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.lb-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.65);
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: color 0.2s, background 0.2s, border-color 0.2s;
+}
+.lb-back:hover {
+  color: #00ff88;
+  background: rgba(0, 200, 150, 0.08);
+  border-color: rgba(0, 200, 150, 0.35);
+}
+.lb-header h1 {
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  margin: 0 0 0.5rem;
+}
+.lb-tagline {
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 640px;
+  margin: 0 0 1.75rem;
+}
+
+.lb-header-meta {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+@media (max-width: 640px) {
+  .lb-header-meta { grid-template-columns: repeat(2, 1fr); }
+}
+.lb-header-meta div { display: flex; flex-direction: column; gap: 0.15rem; }
+.lb-header-meta span {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.45);
+}
+.lb-header-meta strong {
+  font-size: 1.05rem;
+  color: #fff;
+}
+
+/* ---------- Status badge (header) ---------- */
+.lb-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.75);
+}
+.lb-status-badge i { font-size: 0.65rem; }
+.lb-status-badge.active {
+  color: #00ff88;
+  background: rgba(0, 255, 136, 0.12);
+  border-color: rgba(0, 255, 136, 0.35);
+}
+.lb-status-badge.upcoming {
+  color: var(--gold, #f5b700);
+  background: rgba(245, 183, 0, 0.12);
+  border-color: rgba(245, 183, 0, 0.35);
+}
+.lb-status-badge.ended { color: rgba(255, 255, 255, 0.65); }
+.lb-status-badge.cancelled {
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.12);
+  border-color: rgba(255, 107, 107, 0.35);
+}
+
+/* ---------- Live indicator ---------- */
+.lb-live-indicator {
+  margin-top: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.6);
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  background: rgba(0, 200, 150, 0.06);
+  border: 1px solid rgba(0, 200, 150, 0.2);
+}
+.lb-live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #00ff88;
+  box-shadow: 0 0 12px rgba(0, 255, 136, 0.6);
+}
+.lb-live-dot.pulse {
+  animation: lbPulse 0.9s ease-out;
+}
+@keyframes lbPulse {
+  0%   { transform: scale(1);   box-shadow: 0 0 0   rgba(0, 255, 136, 0.6); }
+  50%  { transform: scale(1.6); box-shadow: 0 0 18px rgba(0, 255, 136, 0.8); }
+  100% { transform: scale(1);   box-shadow: 0 0 12px rgba(0, 255, 136, 0.6); }
+}
+.lb-refresh {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.55);
+  cursor: pointer;
+  padding: 0;
+  margin-left: 0.25rem;
+  font-size: 0.85rem;
+}
+.lb-refresh:hover { color: #00ff88; }
+
+/* ---------- Table ---------- */
+.lb-table-wrap {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+}
+.lb-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 780px;
+}
+.lb-table thead th {
+  text-align: left;
+  padding: 1rem 1.25rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  color: rgba(255, 255, 255, 0.5);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+}
+.lb-table tbody td {
+  padding: 1.1rem 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.85);
+  vertical-align: middle;
+}
+.lb-table tbody tr:last-child td { border-bottom: none; }
+.lb-table tbody tr {
+  transition: background 0.2s;
+}
+.lb-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Rank column */
+.lb-col-rank {
+  width: 90px;
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.75);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.lb-medal {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+/* Trader column */
+.lb-trader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.lb-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.lb-avatar--initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #00c896, #00ff88);
+  color: #051222;
+  font-size: 0.75rem;
+  font-weight: 800;
+  border: none;
+}
+.lb-trader-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+.lb-trader-meta strong {
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+.lb-trader-meta span {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Gain column */
+.lb-col-gain {
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.7);
+  width: 110px;
+}
+.lb-col-gain.gain-up   { color: #00ff88; }
+.lb-col-gain.gain-down { color: #ff6b6b; }
+
+/* Equity column */
+.lb-col-equity {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  color: #fff;
+  width: 130px;
+}
+
+/* Drawdown column */
+.lb-col-dd { width: 140px; }
+.lb-dd {
+  position: relative;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 999px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lb-dd-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, rgba(255, 209, 102, 0.35), rgba(255, 107, 107, 0.55));
+  border-radius: 999px;
+  transition: width 0.5s ease;
+}
+.lb-dd em {
+  position: relative;
+  font-style: normal;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fff;
+  z-index: 1;
+}
+
+/* Trades column */
+.lb-col-trades {
+  width: 80px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* Sync column */
+.lb-col-sync {
+  width: 110px;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Status pill (per row) */
+.lb-col-badge { width: 100px; }
+.lb-row-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+.lb-row-badge i { font-size: 0.55rem; }
+.lb-row-badge.live {
+  background: rgba(0, 255, 136, 0.12);
+  color: #00ff88;
+  border: 1px solid rgba(0, 255, 136, 0.3);
+}
+.lb-row-badge.completed {
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.lb-row-badge.disqualified {
+  background: rgba(255, 107, 107, 0.12);
+  color: #ff6b6b;
+  border: 1px solid rgba(255, 107, 107, 0.3);
+}
+.lb-row-badge.pending {
+  background: rgba(255, 209, 102, 0.1);
+  color: #ffd166;
+  border: 1px solid rgba(255, 209, 102, 0.28);
+}
+
+/* Rank row emphasis */
+.lb-row--rank-1 { background: rgba(245, 183, 0, 0.04); }
+.lb-row--rank-1:hover { background: rgba(245, 183, 0, 0.07); }
+.lb-row--rank-2 { background: rgba(200, 200, 200, 0.02); }
+.lb-row--rank-3 { background: rgba(205, 127, 50, 0.03); }
+
+/* ---------- Empty / not-found ---------- */
+.lb-empty {
+  padding: 4rem 1.5rem;
+  text-align: center;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  margin-bottom: 1.5rem;
+}
+.lb-empty i {
+  font-size: 2.5rem;
+  color: rgba(245, 183, 0, 0.6);
+  margin-bottom: 0.75rem;
+}
+.lb-empty h2 { margin-bottom: 0.4rem; }
+.lb-empty p {
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 1.5rem;
+}
+.lb-empty .btn-primary {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* ---------- CTA at bottom ---------- */
+.lb-cta {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1.5rem;
+  align-items: center;
+  padding: 1.75rem 2rem;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(0, 200, 150, 0.14), rgba(245, 183, 0, 0.08));
+  border: 1px solid rgba(0, 200, 150, 0.28);
+}
+@media (max-width: 640px) {
+  .lb-cta { grid-template-columns: 1fr; text-align: center; }
+}
+.lb-cta h3 { margin: 0 0 0.35rem; font-size: 1.15rem; }
+.lb-cta p { color: rgba(255, 255, 255, 0.7); margin: 0; max-width: 620px; }
+.lb-cta .btn-primary {
+  padding: 0.85rem 1.4rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}

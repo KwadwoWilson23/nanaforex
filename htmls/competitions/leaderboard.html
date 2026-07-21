@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Live Leaderboard | Nana Forex</title>
+    <link rel="icon" type="image/png" href="/images/favicon.png" />
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/leaderboard.css" />
+
+    <!-- Meta for share previews -->
+    <meta property="og:title" content="Live Trading Leaderboard | Nana Forex" />
+    <meta
+      property="og:description"
+      content="Live rankings for Nana Forex trading competitions. Watch traders compete in real time."
+    />
+    <meta property="og:image" content="/images/logo.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+
+  <body>
+    <!-- PUBLIC NAVBAR (same shell as marketing site) -->
+    <header class="navbar">
+      <div class="logo" style="font-weight: 900">
+        <a href="/" class="logo-link">
+          <img src="/images/logo.jpg" alt="Nana Forex" class="logo-img" />
+          <span>NanaForex</span>
+        </a>
+      </div>
+      <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/services">Services</a>
+        <a href="/dashboard">Performance</a>
+        <a href="/blog">Blogs</a>
+        <a href="/contact">Contact</a>
+      </nav>
+      <div class="nav-links">
+        <a href="/users/login"><i class="fa fa-user"></i></a>
+      </div>
+      <div class="nav-social">
+        <a
+          href="https://www.instagram.com/tuffourofficial?igsh=MWVieXhibXM1dDc2ZA%3D%3D&utm_source=qr"
+          ><i class="fab fa-instagram"></i
+        ></a>
+        <a href="https://t.me/learnforexforfreegh"
+          ><i class="fab fa-telegram"></i
+        ></a>
+        <a href="https://wa.me/233247107781"><i class="fab fa-whatsapp"></i></a>
+      </div>
+      <div class="hamburger"><span></span><span></span><span></span></div>
+    </header>
+
+    <div class="menu-overlay"></div>
+    <div class="mobile-menu">
+      <button class="mobile-menu-close" aria-label="Close menu">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="mobile-menu-links">
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/services">Services</a>
+        <a href="/dashboard">Performance</a>
+        <a href="/blog">Blogs</a>
+        <a href="/contact">Contact</a>
+        <a href="/users/login">Sign Up</a>
+      </div>
+    </div>
+
+    <main class="lb-wrap" id="lbRoot">
+      <div class="lb-loading">
+        <i class="fas fa-spinner fa-spin"></i> Loading leaderboard…
+      </div>
+    </main>
+
+    <!-- Templates -->
+    <template id="tpl-lb-header">
+      <section class="lb-header">
+        <div class="lb-header-top">
+          <a href="/competitions" class="lb-back">
+            <i class="fas fa-arrow-left"></i> All competitions
+          </a>
+          <span class="lb-status-badge" data-status></span>
+        </div>
+        <h1 data-name></h1>
+        <p class="lb-tagline" data-tagline></p>
+        <div class="lb-header-meta">
+          <div>
+            <span>Prize Pool</span>
+            <strong data-prize>—</strong>
+          </div>
+          <div>
+            <span>Participants</span>
+            <strong data-count>0</strong>
+          </div>
+          <div>
+            <span>Starts</span>
+            <strong data-start>—</strong>
+          </div>
+          <div>
+            <span>Ends</span>
+            <strong data-end>—</strong>
+          </div>
+        </div>
+        <div class="lb-live-indicator">
+          <span class="lb-live-dot"></span>
+          <span data-live-text>Auto-updating every 30 seconds</span>
+          <button class="lb-refresh" data-refresh title="Refresh now">
+            <i class="fas fa-rotate"></i>
+          </button>
+        </div>
+      </section>
+    </template>
+
+    <template id="tpl-lb-table">
+      <section class="lb-table-wrap">
+        <table class="lb-table">
+          <thead>
+            <tr>
+              <th class="lb-col-rank">Rank</th>
+              <th class="lb-col-trader">Trader</th>
+              <th class="lb-col-gain">% Gain</th>
+              <th class="lb-col-equity">Equity</th>
+              <th class="lb-col-dd">Max DD</th>
+              <th class="lb-col-trades">Trades</th>
+              <th class="lb-col-sync">Last Sync</th>
+              <th class="lb-col-badge">Status</th>
+            </tr>
+          </thead>
+          <tbody data-rows></tbody>
+        </table>
+      </section>
+    </template>
+
+    <template id="tpl-lb-empty">
+      <section class="lb-empty">
+        <i class="fas fa-trophy"></i>
+        <h2>No entries yet</h2>
+        <p>Be the first to join and appear on the leaderboard.</p>
+        <a class="btn-primary" href="/users/competition" data-cta-comp>
+          <i class="fas fa-trophy"></i> Join Competition
+        </a>
+      </section>
+    </template>
+
+    <template id="tpl-lb-notfound">
+      <section class="lb-empty">
+        <i class="fas fa-triangle-exclamation"></i>
+        <h2>Competition not found</h2>
+        <p>The competition you're looking for doesn't exist or was removed.</p>
+        <a class="btn-primary" href="/">Back to homepage</a>
+      </section>
+    </template>
+
+    <template id="tpl-lb-cta">
+      <section class="lb-cta">
+        <div>
+          <h3>Think you can top this?</h3>
+          <p>
+            Join the challenge, connect your MT5 investor password, and enter
+            the ranking. Read-only access — we never trade your account.
+          </p>
+        </div>
+        <a class="btn-primary" data-join>
+          <i class="fas fa-trophy"></i> Join Competition
+        </a>
+      </section>
+    </template>
+
+    <script src="/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/js/env.js"></script>
+    <script src="/js/supabase-client.js"></script>
+    <script src="/js/leaderboard.js"></script>
+  </body>
+</html>

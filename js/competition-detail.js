@@ -34,6 +34,13 @@
     return;
   }
 
+  // Reveal the "View Public Leaderboard" link
+  const lbLink = document.getElementById("compLbLink");
+  if (lbLink) {
+    lbLink.href = "/competitions/leaderboard?slug=" + encodeURIComponent(comp.slug);
+    lbLink.style.display = "inline-flex";
+  }
+
   // Fetch my participation, if any
   let mine = null;
   if (user) {
