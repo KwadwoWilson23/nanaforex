@@ -1,0 +1,107 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --nf-primary: #0a2540;
+  --nf-secondary: #00c896;
+  --nf-gold: #f5b700;
+  --nf-gold-premium: #ffc857;
+  --nf-dark: #081120;
+  --nf-bg-dark: #050a16;
+  --nf-profit-green: #00ff88;
+  --nf-danger: #ff4d4d;
+  --nf-card-bg: #0e1726;
+  --nf-glass-bg: rgba(255, 255, 255, 0.05);
+  --nf-border: rgba(255, 255, 255, 0.08);
+  --nf-text-muted: rgba(255, 255, 255, 0.55);
+}
+
+@layer base {
+  html, body {
+    background: var(--nf-bg-dark);
+    color: white;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  body {
+    background:
+      radial-gradient(circle at top right, rgba(0, 200, 150, 0.08), transparent 25%),
+      radial-gradient(circle at bottom left, rgba(245, 183, 0, 0.05), transparent 25%),
+      var(--nf-bg-dark);
+    line-height: 1.7;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+}
+
+@layer components {
+  .gold-text {
+    background: linear-gradient(100deg, #f5b700, #ffe08a, #f5b700);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .gold-text { animation: shine 6s linear infinite; }
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.5rem;
+    background: linear-gradient(135deg, #00c896, #00ff88);
+    color: #051222;
+    border: none;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.3s ease,
+      filter 0.3s ease;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 36px rgba(0, 200, 150, 0.35);
+    filter: brightness(1.05);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.5rem;
+    background: transparent;
+    color: white;
+    border: 1px solid rgba(245, 183, 0, 0.4);
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition:
+      transform 0.2s ease,
+      background 0.3s ease,
+      border-color 0.3s ease;
+  }
+  .btn-secondary:hover {
+    transform: translateY(-2px);
+    background: rgba(245, 183, 0, 0.08);
+    border-color: rgba(245, 183, 0, 0.7);
+  }
+
+  .section-eyebrow {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--nf-secondary);
+    margin-bottom: 0.75rem;
+  }
+  .section-eyebrow i { margin-right: 0.35rem; }
+}
