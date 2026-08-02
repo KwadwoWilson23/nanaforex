@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import UserMenu from "./UserMenu";
 
 const NAV = [
   { href: "/", label: "Home" },
@@ -84,13 +85,7 @@ export default function Navbar() {
         </nav>
 
         <div className="hidden lg:flex items-center gap-2">
-          <Link
-            href="/users/login"
-            className="w-10 h-10 grid place-items-center rounded-full bg-white/5 border border-white/10 hover:bg-secondary/10 hover:border-secondary/40 transition-colors"
-            aria-label="Sign in"
-          >
-            <i className="fa fa-user text-sm" />
-          </Link>
+          <UserMenu />
           {SOCIAL.map((s) => (
             <a
               key={s.href}
