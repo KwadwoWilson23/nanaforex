@@ -15,7 +15,7 @@ export type NavItem = {
 export const NAV: NavItem[] = [
   { href: "/users/client-dashboard", label: "Dashboard", icon: "fa-th-large", ready: true },
   { href: "/users/profile", label: "Profile", icon: "fa-user", ready: true },
-  { href: "/users/competitions", label: "Competitions", icon: "fa-trophy", ready: false },
+  { href: "/users/competitions", label: "Competitions", icon: "fa-trophy", ready: true },
   { href: "/users/admin-competitions", label: "Admin", icon: "fa-shield-halved", ready: false, admin: true },
   { href: "/users/academy", label: "Academy", icon: "fa-graduation-cap", ready: false },
   { href: "/users/signals", label: "Signals", icon: "fa-signal", ready: false },
