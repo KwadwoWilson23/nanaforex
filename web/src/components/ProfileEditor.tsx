@@ -127,9 +127,10 @@ export default function ProfileEditor({
       setAvatarUrl(url);
       setProfileStatus({ kind: "success", message: "✅ Avatar updated." });
     } catch (err) {
+      console.error("[ProfileEditor] avatar upload failed", err);
       setProfileStatus({
         kind: "error",
-        message: "Upload failed: " + (err instanceof Error ? err.message : String(err)),
+        message: "Upload failed. Please try a different image or try again in a moment.",
       });
     } finally {
       setUploading(false);

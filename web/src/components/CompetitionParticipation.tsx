@@ -31,7 +31,8 @@ async function apiPost<T>(path: string, body: unknown): Promise<{ ok: boolean; d
     if (!r.ok) return { ok: false, error: err || r.statusText, status: r.status };
     return { ok: true, data: data as T };
   } catch (e) {
-    return { ok: false, error: e instanceof Error ? e.message : String(e) };
+    console.error("[CompetitionParticipation] request failed", { path, err: e });
+    return { ok: false, error: "Network error. Please check your connection and try again." };
   }
 }
 

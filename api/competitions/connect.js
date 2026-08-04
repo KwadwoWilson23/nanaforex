@@ -100,9 +100,15 @@ module.exports = async function handler(req, res) {
     });
     accountId = provisioned.accountId;
   } catch (e) {
+    console.error("[connect] provisionAccount failed", { participant: p.id, err: e });
     // Roll status back so user can retry
-    await sb.from("participants").update({ status: "pending", status_reason: e.message }).eq("id", p.id);
-    return res.status(502).json({ error: "Could not connect to broker via MetaAPI: " + e.message });
+    await sb.from("participants").update({
+      status: "pending",
+      status_reason: "We couldn't connect to your broker. Check your server name, MT login, and investor password, then try again.",
+    }).eq("id", p.id);
+    return res.status(502).json({
+      error: "We couldn't connect to your broker. Please double-check the server name, MT login, and investor (read-only) password, then try again.",
+    });
   }
 
   // Fetch balance/equity for starting_balance (best-effort; may fail if MetaAPI is still deploying)
@@ -138,7 +144,10 @@ module.exports = async function handler(req, res) {
     .select("id, status, mt_platform, mt_login, mt_server, broker_name, starting_balance, current_equity")
     .single();
 
-  if (uerr) return res.status(500).json({ error: uerr.message });
+  if (uerr) {
+    console.error("[connect] participant update failed", { participant: p.id, err: uerr });
+    return res.status(500).json({ error: "Something went wrong. Please try again." });
+  }
 
   await sb.from("audit_log").insert({
     actor_id: user.id,

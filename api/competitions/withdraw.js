@@ -44,7 +44,7 @@ module.exports = async function handler(req, res) {
     try {
       await metaapi.unlinkAccount(p.tracking_ref);
     } catch (e) {
-      console.warn("[withdraw] unlink failed:", e.message);
+      console.warn("[withdraw] unlink failed", { participant: p.id, err: e });
     }
   }
 
@@ -60,7 +60,10 @@ module.exports = async function handler(req, res) {
     .select("id, status")
     .single();
 
-  if (uerr) return res.status(500).json({ error: uerr.message });
+  if (uerr) {
+    console.error("[withdraw] participant update failed", { participant: p.id, err: uerr });
+    return res.status(500).json({ error: "Something went wrong. Please try again." });
+  }
 
   await sb.from("audit_log").insert({
     actor_id: user.id,

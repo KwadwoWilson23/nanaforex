@@ -36,7 +36,10 @@ export async function POST(req: Request) {
   const { data: comps, error: qerr } = slug
     ? await query.eq("slug", slug)
     : await query.eq("id", competition_id);
-  if (qerr) return NextResponse.json({ error: qerr.message }, { status: 500 });
+  if (qerr) {
+    console.error("[join] lookup failed", { err: qerr });
+    return NextResponse.json({ error: "Something went wrong. Please try again." }, { status: 500 });
+  }
   const comp = comps?.[0];
   if (!comp)
     return NextResponse.json({ error: "Competition not found" }, { status: 404 });
@@ -74,7 +77,10 @@ export async function POST(req: Request) {
     })
     .select("id, status")
     .single();
-  if (ierr) return NextResponse.json({ error: ierr.message }, { status: 500 });
+  if (ierr) {
+    console.error("[join] insert failed", { user: user.id, competition: comp.id, err: ierr });
+    return NextResponse.json({ error: "Something went wrong. Please try again." }, { status: 500 });
+  }
 
   await sb.from("audit_log").insert({
     actor_id: user.id,

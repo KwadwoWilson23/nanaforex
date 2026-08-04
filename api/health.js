@@ -31,7 +31,8 @@ module.exports = async function handler(req, res) {
       competitionCount: count ?? 0,
     };
   } catch (e) {
-    result.checks.supabase = { ok: false, error: e.message };
+    console.error("[health] supabase check failed", e);
+    result.checks.supabase = { ok: false, error: "check failed" };
   }
 
   // ---- MetaAPI check ----
@@ -42,7 +43,8 @@ module.exports = async function handler(req, res) {
       accountCount: Array.isArray(accounts) ? accounts.length : 0,
     };
   } catch (e) {
-    result.checks.metaapi = { ok: false, error: e.message };
+    console.error("[health] metaapi check failed", e);
+    result.checks.metaapi = { ok: false, error: "check failed" };
   }
 
   result.ok = result.checks.supabase.ok && result.checks.metaapi.ok;

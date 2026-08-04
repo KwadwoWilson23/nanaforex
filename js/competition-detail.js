@@ -260,7 +260,8 @@
       if (!r.ok) return { ok: false, error: data.error || r.statusText, status: r.status };
       return { ok: true, data };
     } catch (e) {
-      return { ok: false, error: e.message };
+      console.error("[competition-detail] request failed", { path: path, err: e });
+      return { ok: false, error: "Network error. Please check your connection and try again." };
     }
   }
 

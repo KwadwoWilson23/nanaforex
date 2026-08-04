@@ -46,8 +46,8 @@ export async function POST(req: Request) {
   if (p.tracking_provider === "metaapi" && p.tracking_ref) {
     try {
       await metaapi.unlinkAccount(p.tracking_ref);
-    } catch {
-      // non-fatal
+    } catch (e) {
+      console.warn("[withdraw] unlink failed", { participant: p.id, err: e });
     }
   }
 
@@ -62,7 +62,10 @@ export async function POST(req: Request) {
     .eq("id", p.id)
     .select("id, status")
     .single();
-  if (uerr) return NextResponse.json({ error: uerr.message }, { status: 500 });
+  if (uerr) {
+    console.error("[withdraw] participant update failed", { participant: p.id, err: uerr });
+    return NextResponse.json({ error: "Something went wrong. Please try again." }, { status: 500 });
+  }
 
   await sb.from("audit_log").insert({
     actor_id: user.id,

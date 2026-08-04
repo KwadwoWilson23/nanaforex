@@ -147,10 +147,16 @@ module.exports = async function handler(req, res) {
     }
 
     stats.durationMs = Date.now() - startedAt;
-    return res.status(200).json({ ok: true, ...stats });
+    // Errors are logged; response omits raw error text so it never leaks internals.
+    const errorCount = stats.errors.length;
+    delete stats.errors;
+    return res.status(200).json({ ok: true, errorCount, ...stats });
   } catch (e) {
+    console.error("[sync] top-level failure", e);
     stats.durationMs = Date.now() - startedAt;
-    return res.status(500).json({ ok: false, error: e.message, ...stats });
+    const errorCount = stats.errors.length;
+    delete stats.errors;
+    return res.status(500).json({ ok: false, errorCount, ...stats });
   }
 };
 

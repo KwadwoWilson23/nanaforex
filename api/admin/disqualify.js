@@ -60,7 +60,7 @@ module.exports = async function handler(req, res) {
       await metaapi.unlinkAccount(p.tracking_ref);
     } catch (e) {
       // Non-fatal; log it in the audit trail below.
-      console.warn("[admin/disqualify] unlink failed:", e.message);
+      console.warn("[admin/disqualify] unlink failed", { participant: p.id, err: e });
     }
   }
 
@@ -78,7 +78,10 @@ module.exports = async function handler(req, res) {
     .select("id, status, status_reason, disqualified_at")
     .single();
 
-  if (uerr) return res.status(500).json({ error: uerr.message });
+  if (uerr) {
+    console.error("[admin/disqualify] participant update failed", { participant: p.id, err: uerr });
+    return res.status(500).json({ error: "Something went wrong. Please try again." });
+  }
 
   await sb.from("audit_log").insert({
     actor_id: user.id,

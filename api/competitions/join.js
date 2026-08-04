@@ -34,7 +34,10 @@ module.exports = async function handler(req, res) {
   const { data: comps, error: qerr } = slug
     ? await query.eq("slug", slug)
     : await query.eq("id", competition_id);
-  if (qerr) return res.status(500).json({ error: qerr.message });
+  if (qerr) {
+    console.error("[join] lookup failed", { err: qerr });
+    return res.status(500).json({ error: "Something went wrong. Please try again." });
+  }
   const comp = comps && comps[0];
   if (!comp) return res.status(404).json({ error: "Competition not found" });
 
@@ -68,7 +71,10 @@ module.exports = async function handler(req, res) {
     .select("id, status")
     .single();
 
-  if (ierr) return res.status(500).json({ error: ierr.message });
+  if (ierr) {
+    console.error("[join] insert failed", { user: user.id, competition: comp.id, err: ierr });
+    return res.status(500).json({ error: "Something went wrong. Please try again." });
+  }
 
   // Audit
   await sb.from("audit_log").insert({
