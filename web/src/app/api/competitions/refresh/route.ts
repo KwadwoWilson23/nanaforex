@@ -76,11 +76,55 @@ export async function POST(req: Request) {
     const peak = Math.max(Number(p.peak_equity) || starting, equity);
     const dd = peak > 0 ? Math.max(0, ((peak - equity) / peak) * 100) : 0;
 
+    // Pull open positions + upsert trades so trade_count reflects reality.
+    let positionsCount = 0;
+    try {
+      const positions = (await metaapi.getPositions(p.tracking_ref)) as Array<
+        Record<string, unknown>
+      >;
+      positionsCount = positions.length;
+      if (positions.length) {
+        const upserts = positions.map((pos) => ({
+          participant_id: p.id,
+          mt_ticket_id: String(pos.id),
+          symbol: String(pos.symbol || ""),
+          side: /BUY/i.test(String(pos.type)) ? "buy" : "sell",
+          lot_size: Number(pos.volume) || 0,
+          open_price: Number(pos.openPrice) || 0,
+          open_time: pos.time
+            ? new Date(pos.time as string).toISOString()
+            : new Date().toISOString(),
+          stop_loss: pos.stopLoss != null ? Number(pos.stopLoss) : null,
+          take_profit: pos.takeProfit != null ? Number(pos.takeProfit) : null,
+          commission: Number(pos.commission || 0),
+          swap: Number(pos.swap || 0),
+          profit: Number(pos.profit || 0),
+          status: "open",
+          synced_at: new Date().toISOString(),
+        }));
+        await sb
+          .from("trades")
+          .upsert(upserts, { onConflict: "participant_id,mt_ticket_id" });
+      }
+    } catch (posErr) {
+      console.warn("[refresh] getPositions failed (equity still updated)", {
+        participant: p.id,
+        err: posErr,
+      });
+    }
+
+    // Recount trades (open + closed already in table)
+    const { count: tradeCount } = await sb
+      .from("trades")
+      .select("id", { count: "exact", head: true })
+      .eq("participant_id", p.id);
+
     const patch: Record<string, unknown> = {
       current_balance: balance,
       current_equity: equity,
       peak_equity: peak,
       max_drawdown_pct: Number(dd.toFixed(2)),
+      trade_count: tradeCount ?? positionsCount,
       last_sync_at: new Date().toISOString(),
     };
     if (!p.starting_balance) patch.starting_balance = starting;
@@ -91,7 +135,7 @@ export async function POST(req: Request) {
       .update(patch)
       .eq("id", p.id)
       .select(
-        "id, status, starting_balance, current_balance, current_equity, max_drawdown_pct, last_sync_at",
+        "id, status, starting_balance, current_balance, current_equity, max_drawdown_pct, trade_count, last_sync_at",
       )
       .single();
 
