@@ -402,7 +402,13 @@ function ConnectSection({
       },
     );
     setBusy(false);
-    if (!res.ok) return setStatus({ kind: "error", message: res.error || "Connect failed" });
+    if (!res.ok) {
+      const debugSuffix = res.debug ? `\n\n[admin debug]  ${res.debug}` : "";
+      return setStatus({
+        kind: "error",
+        message: (res.error || "Connect failed") + debugSuffix,
+      });
+    }
     setStatus({ kind: "success", message: "Connected! Loading your live view…" });
     setTimeout(() => onConnected(res.data!.participant), 700);
   }
@@ -507,7 +513,7 @@ function ConnectSection({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className={`text-sm ${
+              className={`text-sm whitespace-pre-line break-words ${
                 status.kind === "error"
                   ? "text-danger"
                   : status.kind === "success"
