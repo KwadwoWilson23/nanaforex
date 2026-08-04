@@ -193,8 +193,8 @@ export default async function ClientDashboardPage() {
         </section>
       )}
 
-      {/* Stats widgets */}
-      <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      {/* Stats widgets — 2 cols on phone, 4 on desktop */}
+      <section className="grid gap-3 sm:gap-4 grid-cols-2 xl:grid-cols-4">
         {stats.map((s) => {
           const toneCls =
             s.tone === "green"
@@ -207,18 +207,23 @@ export default async function ClientDashboardPage() {
           return (
             <div
               key={s.label}
-              className="rounded-2xl border border-white/6 bg-white/[0.03] p-5 flex items-center gap-4 hover:-translate-y-0.5 hover:border-secondary/25 transition-all"
+              className="rounded-2xl border border-white/6 bg-white/[0.03] p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 hover:-translate-y-0.5 hover:border-secondary/25 transition-all"
             >
-              <div className={`w-11 h-11 rounded-xl grid place-items-center ${toneCls}`}>
+              <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-xl grid place-items-center shrink-0 ${toneCls}`}>
                 <i className={`fas ${s.icon}`} />
               </div>
               <div className="min-w-0 flex-1">
                 <div className="text-[10px] uppercase tracking-[0.6px] text-white/55 truncate">
                   {s.label}
                 </div>
-                <div className="font-display font-extrabold text-2xl mt-0.5">{s.value}</div>
+                <div className="font-display font-extrabold text-xl sm:text-2xl mt-0.5 leading-tight break-words">
+                  {s.value}
+                </div>
+                <div className="text-[10px] font-semibold text-white/50 truncate mt-0.5 sm:hidden">
+                  {s.change}
+                </div>
               </div>
-              <div className="text-[11px] font-semibold text-white/50 whitespace-nowrap rounded-full bg-white/5 px-2.5 py-1 max-w-[9rem] truncate">
+              <div className="hidden sm:block text-[11px] font-semibold text-white/50 whitespace-nowrap rounded-full bg-white/5 px-2.5 py-1 max-w-[9rem] truncate">
                 {s.change}
               </div>
             </div>

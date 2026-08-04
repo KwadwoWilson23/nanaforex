@@ -185,30 +185,96 @@ export default function CompetitionParticipation({
 
   // ---- Connected → Live view ----
   if (p.status === "connected") {
+    const startBal = Number(p.starting_balance || 0);
+    const curEq = Number(p.current_equity || 0);
+    const pl = startBal ? curEq - startBal : 0;
+    const plPct = startBal ? (pl / startBal) * 100 : 0;
+    const plCls = pl > 0 ? "text-profit-green" : pl < 0 ? "text-danger" : "text-white/60";
     return (
-      <section className="rounded-2xl border border-white/6 bg-white/[0.03] p-8 space-y-6">
-        <div className="flex items-center gap-3 mb-2">
+      <section className="rounded-2xl border border-white/6 bg-white/[0.03] p-5 sm:p-6 md:p-8 space-y-5">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border bg-profit-green/12 text-profit-green border-profit-green/35">
             <i className="fas fa-circle text-[8px]" /> Live
           </span>
-          <h3 className="font-bold text-lg">You&apos;re in the competition</h3>
+          <h3 className="font-bold text-base sm:text-lg">You&apos;re in the competition</h3>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
-          {[
-            { k: "Starting Balance", v: fmtMoney(p.starting_balance) },
-            { k: "Current Equity",   v: fmtMoney(p.current_equity) },
-            { k: "Broker / Server",  v: `${p.broker_name || "—"} · ${p.mt_server || "—"}` },
-            { k: "Last Sync",        v: fmtSince(p.last_sync_at) },
-          ].map((m) => (
-            <div key={m.k} className="rounded-xl bg-white/[0.03] border border-white/6 px-4 py-3">
-              <div className="text-[10px] uppercase tracking-wider text-white/45">{m.k}</div>
-              <div className="font-bold mt-0.5 truncate">{m.v}</div>
-            </div>
-          ))}
+
+        {/* Big P/L headline — mobile-first hero number */}
+        <div className="rounded-2xl bg-gradient-to-br from-secondary/8 to-white/[0.02] border border-white/6 p-5">
+          <div className="text-[10px] uppercase tracking-wider text-white/50">Profit / Loss</div>
+          <div className={`font-display font-extrabold text-3xl sm:text-4xl mt-1 ${plCls}`}>
+            {pl >= 0 ? "+" : ""}{fmtMoney(pl)}
+          </div>
+          <div className={`text-sm font-semibold mt-0.5 ${plCls}`}>
+            {plPct >= 0 ? "+" : ""}{plPct.toFixed(2)}%
+          </div>
         </div>
-        <p className="text-white/60 text-sm inline-flex items-center gap-1.5">
-          <i className="fas fa-info-circle" /> Your live equity updates automatically every 60 seconds.
+
+        {/* Metric grid — 2 cols on all sizes so it never squishes */}
+        <div className="grid gap-3 grid-cols-2">
+          <MetricCard k="Starting" v={fmtMoney(p.starting_balance)} />
+          <MetricCard k="Equity" v={fmtMoney(p.current_equity)} strong />
+          <MetricCard k="MT Login" v={p.mt_login || "—"} />
+          <MetricCard k="Server" v={p.mt_server || "—"} small />
+        </div>
+
+        {/* Sync + refresh row */}
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/6 pt-4">
+          <p className="text-white/55 text-xs inline-flex items-center gap-1.5">
+            <i className="fas fa-clock text-[10px]" />
+            {p.last_sync_at ? `Synced ${fmtSince(p.last_sync_at)}` : "Waiting for first sync…"}
+          </p>
+          <button
+            onClick={async () => {
+              if (busy) return;
+              setBusy(true);
+              setStatus({ kind: "info", message: "Refreshing from broker…" });
+              const res = await apiPost<{ participant: Participant }>(
+                "/api/competitions/refresh",
+                { participant_id: p.id },
+              );
+              setBusy(false);
+              if (!res.ok) return setStatus({ kind: "error", message: res.error || "Couldn't refresh." });
+              const merged = { ...p, ...(res.data?.participant || {}) } as Participant;
+              setP(merged);
+              setStatus({ kind: "success", message: "Live data refreshed." });
+              setTimeout(() => setStatus({ kind: "idle" }), 2500);
+              router.refresh();
+            }}
+            disabled={busy}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-secondary/35 text-secondary hover:bg-secondary/8 text-xs font-bold uppercase tracking-wider disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            {busy ? (
+              <><i className="fas fa-spinner fa-spin" /> Refreshing…</>
+            ) : (
+              <><i className="fas fa-rotate" /> Refresh now</>
+            )}
+          </button>
+        </div>
+
+        <AnimatePresence>
+          {status.kind !== "idle" && (
+            <motion.p
+              initial={{ opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              className={`text-sm ${
+                status.kind === "error"
+                  ? "text-danger"
+                  : status.kind === "success"
+                    ? "text-profit-green"
+                    : "text-white/70"
+              }`}
+            >
+              {status.message}
+            </motion.p>
+          )}
+        </AnimatePresence>
+
+        <p className="text-white/45 text-xs">
+          <i className="fas fa-info-circle mr-1" /> Auto-syncs every minute in the background — this button forces it right now.
         </p>
+
         <button
           onClick={async () => {
             if (!confirm("Withdraw from this competition? Your MetaAPI link will be removed.")) return;
@@ -433,6 +499,31 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
       </span>
       {children}
     </label>
+  );
+}
+
+function MetricCard({
+  k,
+  v,
+  strong,
+  small,
+}: {
+  k: string;
+  v: string;
+  strong?: boolean;
+  small?: boolean;
+}) {
+  return (
+    <div className="rounded-xl bg-white/[0.03] border border-white/6 px-3.5 py-3 min-w-0">
+      <div className="text-[10px] uppercase tracking-wider text-white/45">{k}</div>
+      <div
+        className={`mt-0.5 truncate ${
+          small ? "text-sm font-semibold text-white/85" : strong ? "text-lg font-black" : "font-bold"
+        }`}
+      >
+        {v}
+      </div>
+    </div>
   );
 }
 
