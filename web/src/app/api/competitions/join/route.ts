@@ -65,6 +65,47 @@ export async function POST(req: Request) {
     .maybeSingle();
 
   if (existing) {
+    // Allow rejoin after a self-withdrawal: reset the row so the connect
+    // form re-appears. Disqualified stays disqualified — admin has to
+    // reinstate manually.
+    if (existing.status === "withdrawn") {
+      const { data: reset, error: rerr } = await sb
+        .from("participants")
+        .update({
+          status: "pending",
+          status_reason: null,
+          tracking_ref: null,
+          tracking_provider: null,
+          tracking_meta: {},
+          starting_balance: null,
+          current_balance: null,
+          current_equity: null,
+          peak_equity: null,
+          max_drawdown_pct: null,
+          trade_count: 0,
+          last_sync_at: null,
+          connected_at: null,
+          mt_platform: null,
+          mt_login: null,
+          mt_server: null,
+          broker_name: null,
+        })
+        .eq("id", existing.id)
+        .select("id, status")
+        .single();
+      if (rerr) {
+        console.error("[join] rejoin reset failed", { participant: existing.id, err: rerr });
+        return NextResponse.json({ error: "Something went wrong. Please try again." }, { status: 500 });
+      }
+      await sb.from("audit_log").insert({
+        actor_id: user.id,
+        action: "competition:rejoin",
+        entity_type: "participant",
+        entity_id: existing.id,
+        metadata: { competition_id: comp.id, competition_name: comp.name },
+      });
+      return NextResponse.json({ participant: reset, rejoined: true });
+    }
     return NextResponse.json({ participant: existing, alreadyJoined: true });
   }
 

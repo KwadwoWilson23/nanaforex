@@ -309,14 +309,52 @@ export default function CompetitionParticipation({
   const key = (p.status as keyof typeof finalMap);
   const meta = finalMap[key] || finalMap.completed;
   return (
-    <section className="rounded-2xl border border-white/6 bg-white/[0.03] p-8 text-center">
+    <section className="rounded-2xl border border-white/6 bg-white/[0.03] p-6 sm:p-8 text-center">
       <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border mb-3 ${meta.tone}`}>
         <i className={`fas ${meta.icon}`} /> {p.status}
       </span>
-      <h3 className="font-bold text-xl">{meta.title}</h3>
+      <h3 className="font-bold text-lg sm:text-xl">{meta.title}</h3>
       {p.status_reason && (
-        <p className="text-white/60 mt-2">{p.status_reason}</p>
+        <p className="text-white/60 mt-2 text-sm">{p.status_reason}</p>
       )}
+      {p.status === "withdrawn" && !finished && (
+        <button
+          onClick={async () => {
+            if (busy) return;
+            setBusy(true);
+            setStatus({ kind: "info", message: "Rejoining…" });
+            const res = await apiPost<{ participant: Participant }>(
+              "/api/competitions/join",
+              { slug: competitionSlug },
+            );
+            setBusy(false);
+            if (!res.ok) return setStatus({ kind: "error", message: res.error || "Rejoin failed" });
+            const created = res.data?.participant;
+            setP({
+              id: created?.id || p.id,
+              status: created?.status || "pending",
+              status_reason: null,
+              mt_platform: null,
+              mt_login: null,
+              mt_server: null,
+              broker_name: null,
+              starting_balance: null,
+              current_equity: null,
+              last_sync_at: null,
+            });
+            router.refresh();
+          }}
+          disabled={busy}
+          className="btn-primary mt-4 disabled:opacity-60 disabled:cursor-not-allowed"
+        >
+          {busy ? (
+            <><i className="fas fa-spinner fa-spin" /> Rejoining…</>
+          ) : (
+            <><i className="fas fa-arrow-rotate-right" /> Rejoin Competition</>
+          )}
+        </button>
+      )}
+      <StatusLine status={status} />
     </section>
   );
 }
