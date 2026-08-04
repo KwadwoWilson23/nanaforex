@@ -98,17 +98,6 @@ export async function POST(req: Request) {
     })
     .eq("id", p.id);
 
-  // Admin detection (admins see raw MetaAPI error text so they can debug)
-  let isAdmin = false;
-  {
-    const { data: profile } = await sb
-      .from("profiles")
-      .select("role")
-      .eq("id", user.id)
-      .maybeSingle();
-    isAdmin = profile?.role === "admin";
-  }
-
   let accountId: string;
   try {
     const provisioned = await metaapi.provisionAccount({
@@ -121,7 +110,6 @@ export async function POST(req: Request) {
     accountId = provisioned.accountId;
   } catch (e) {
     console.error("[connect] provisionAccount failed", { participant: p.id, err: e });
-    const raw = e instanceof Error ? e.message : String(e);
     await sb
       .from("participants")
       .update({
@@ -130,16 +118,10 @@ export async function POST(req: Request) {
       })
       .eq("id", p.id);
     return NextResponse.json(
-      isAdmin
-        ? {
-            error:
-              "We couldn't connect to your broker. Please double-check the server name, MT login, and investor (read-only) password, then try again.",
-            debug: raw,
-          }
-        : {
-            error:
-              "We couldn't connect to your broker. Please double-check the server name, MT login, and investor (read-only) password, then try again.",
-          },
+      {
+        error:
+          "We couldn't connect to your broker. Please double-check the server name, MT login, and investor (read-only) password, then try again.",
+      },
       { status: 502 },
     );
   }

@@ -143,26 +143,14 @@ export async function POST(req: Request) {
   } catch (e) {
     console.error("[refresh] getAccountInfo failed", { participant: p.id, err: e });
     const msg = e instanceof Error ? e.message : String(e);
-    const friendly =
-      /METAAPI_TOKEN|env var missing/i.test(msg)
-        ? "Server not fully configured (broker token missing). Contact the site owner."
-        : /404|not found/i.test(msg)
-          ? "This account isn't registered with the broker link anymore. Withdraw and reconnect."
-          : /401|403|forbidden|unauthorized|invalid password/i.test(msg)
-            ? "Broker refused the investor password. Double-check it and reconnect."
-            : /deploying|not deployed|not connected|specified account/i.test(msg)
-              ? "Your account is still setting up with the broker link. Give it about a minute and try again."
-              : /timeout|ETIMEDOUT|ECONNRESET|ENOTFOUND|fetch failed/i.test(msg)
-                ? "Broker link timed out. Try again in a moment."
-                : "Couldn't reach the broker right now. Try again in a moment.";
-
-    // Always include the debug field on refresh failures — it's just
-    // MetaAPI's own error message (URL path pattern + HTTP status +
-    // broker-side reason), which is safe to surface to the account
-    // owner. Helps users self-diagnose "wrong password" vs "account
-    // not deployed" without having to ping support.
+    // Suppress `msg` — used for internal logs only. Client only sees a
+    // short user-facing message with no MetaAPI URLs, account IDs, or
+    // stack info leaked. `isAdmin` is intentionally unused here so
+    // regular users and admins see the exact same friendly copy.
+    void isAdmin;
+    void msg;
     return NextResponse.json(
-      { error: friendly, debug: msg, adminSeen: isAdmin },
+      { error: "Couldn't sync right now. Please try again in a moment." },
       { status: 502 },
     );
   }

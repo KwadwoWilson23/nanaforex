@@ -235,7 +235,7 @@ export default function CompetitionParticipation({
               );
               setBusy(false);
               if (!res.ok) {
-                const debugSuffix = res.debug ? `\n\n[debug]  ${res.debug}` : "";
+                const debugSuffix = "";
                 return setStatus({
                   kind: "error",
                   message: (res.error || "Couldn't refresh.") + debugSuffix,
@@ -403,7 +403,7 @@ function ConnectSection({
     );
     setBusy(false);
     if (!res.ok) {
-      const debugSuffix = res.debug ? `\n\n[debug]  ${res.debug}` : "";
+      const debugSuffix = "";
       return setStatus({
         kind: "error",
         message: (res.error || "Connect failed") + debugSuffix,
