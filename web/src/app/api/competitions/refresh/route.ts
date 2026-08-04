@@ -156,10 +156,13 @@ export async function POST(req: Request) {
                 ? "Broker link timed out. Try again in a moment."
                 : "Couldn't reach the broker right now. Try again in a moment.";
 
-    // Admins get the raw error text so they can actually diagnose.
-    // Regular users only see the friendly copy.
+    // Always include the debug field on refresh failures — it's just
+    // MetaAPI's own error message (URL path pattern + HTTP status +
+    // broker-side reason), which is safe to surface to the account
+    // owner. Helps users self-diagnose "wrong password" vs "account
+    // not deployed" without having to ping support.
     return NextResponse.json(
-      isAdmin ? { error: friendly, debug: msg } : { error: friendly },
+      { error: friendly, debug: msg, adminSeen: isAdmin },
       { status: 502 },
     );
   }
