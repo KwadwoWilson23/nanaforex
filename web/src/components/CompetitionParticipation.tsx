@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import PasswordInput from "./PasswordInput";
+import { createSupabaseBrowser } from "@/lib/supabase-browser";
 import type { Participant } from "@/app/users/(dashboard)/competitions/[slug]/page";
 
 type Props = {
@@ -60,6 +61,38 @@ export default function CompetitionParticipation({
   const [p, setP] = useState<Participant | null>(initialParticipant);
   const [status, setStatus] = useState<Status>({ kind: "idle" });
   const [busy, setBusy] = useState(false);
+
+  // Live refresh: while the participant is connecting or connected, refetch
+  // the participant row every 20s so equity, drawdown and last_sync_at
+  // reflect what the cron worker has written since page load.
+  const pIdRef = useRef<string | null>(p?.id ?? null);
+  pIdRef.current = p?.id ?? null;
+  useEffect(() => {
+    if (!p) return;
+    if (p.status !== "connected" && p.status !== "connecting") return;
+    const sb = createSupabaseBrowser();
+    let cancelled = false;
+    async function refetch() {
+      const id = pIdRef.current;
+      if (!id || cancelled) return;
+      const { data } = await sb
+        .from("participants")
+        .select(
+          "id, status, status_reason, mt_platform, mt_login, mt_server, broker_name, starting_balance, current_equity, last_sync_at",
+        )
+        .eq("id", id)
+        .maybeSingle();
+      if (!cancelled && data) setP(data as Participant);
+    }
+    const interval = window.setInterval(refetch, 20_000);
+    const onVis = () => { if (document.visibilityState === "visible") refetch(); };
+    document.addEventListener("visibilitychange", onVis);
+    return () => {
+      cancelled = true;
+      window.clearInterval(interval);
+      document.removeEventListener("visibilitychange", onVis);
+    };
+  }, [p]);
 
   const finished = competitionState === "ended" || competitionState === "cancelled";
   if (finished) {
