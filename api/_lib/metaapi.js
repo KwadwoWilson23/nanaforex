@@ -52,14 +52,13 @@ async function listAccounts() {
 async function provisionAccount({ platform, login, password, server, name }) {
   const body = {
     name: name || `Nana Forex ${login}`,
-    type: "cloud",
+    type: "cloud-g1",
     login: String(login),
     password,                 // investor password — MetaAPI stores it, we never do
     server,
     platform,                 // 'mt4' | 'mt5'
     magic: 0,
     application: "MetaApi",
-    connectionStatus: "CONNECTED",
   };
   const acc = await req("POST", PROVISIONING, "/users/current/accounts", body);
   await req("POST", PROVISIONING, `/users/current/accounts/${acc.id}/deploy`, {});

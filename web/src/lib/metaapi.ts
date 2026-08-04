@@ -108,14 +108,13 @@ export async function provisionAccount(input: {
     "/users/current/accounts",
     {
       name: input.name || `Nana Forex ${input.login}`,
-      type: "cloud",
+      type: "cloud-g1",
       login: String(input.login),
       password: input.password,
       server: input.server,
       platform: input.platform,
       magic: 0,
       application: "MetaApi",
-      connectionStatus: "CONNECTED",
     },
   );
   await req<void>(
