@@ -8,7 +8,35 @@ import "server-only";
 
 const PROVISIONING =
   "https://mt-provisioning-api-v1.agiliumtrade.agiliumtrade.ai";
-const CLIENT = "https://mt-client-api-v1.agiliumtrade.agiliumtrade.ai";
+// The old client-API hub URL (mt-client-api-v1.agiliumtrade.agiliumtrade.ai)
+// now serves an invalid TLS cert (DEPTH_ZERO_SELF_SIGNED_CERT). MetaAPI now
+// requires the region-specific endpoint: mt-client-api-v1.<region>.agiliumtrade.ai
+// So we resolve the account's region via provisioning first, then hit that.
+function clientHostForRegion(region: string): string {
+  return `https://mt-client-api-v1.${region}.agiliumtrade.ai`;
+}
+
+// Short-lived in-memory cache of accountId → region so we don't refetch
+// the account on every call within the same warm serverless invocation.
+const regionCache = new Map<string, string>();
+
+async function accountRegion(accountId: string): Promise<string> {
+  const cached = regionCache.get(accountId);
+  if (cached) return cached;
+  const acc = await req<{ region?: string }>(
+    "GET",
+    PROVISIONING,
+    `/users/current/accounts/${accountId}`,
+  );
+  const r = acc.region;
+  if (!r) throw new Error(`MetaAPI account ${accountId} has no region assigned`);
+  regionCache.set(accountId, r);
+  return r;
+}
+
+async function clientHost(accountId: string): Promise<string> {
+  return clientHostForRegion(await accountRegion(accountId));
+}
 
 function token(): string {
   const t = process.env.METAAPI_TOKEN;
@@ -170,31 +198,34 @@ export async function unlinkAccount(accountId: string): Promise<void> {
   }
 }
 
-// -------- reads --------
-export function getAccountInfo(accountId: string) {
+// -------- reads (route to the account's region-specific client API) --------
+export async function getAccountInfo(accountId: string): Promise<AccountInfo> {
+  const host = await clientHost(accountId);
   return req<AccountInfo>(
     "GET",
-    CLIENT,
+    host,
     `/users/current/accounts/${accountId}/account-information`,
   );
 }
 
-export function getPositions(accountId: string) {
+export async function getPositions(accountId: string): Promise<Position[]> {
+  const host = await clientHost(accountId);
   return req<Position[]>(
     "GET",
-    CLIENT,
+    host,
     `/users/current/accounts/${accountId}/positions`,
   );
 }
 
-export function getDealsByTimeRange(
+export async function getDealsByTimeRange(
   accountId: string,
   sinceIso: string,
   untilIso: string,
-) {
+): Promise<Deal[]> {
+  const host = await clientHost(accountId);
   return req<Deal[]>(
     "GET",
-    CLIENT,
+    host,
     `/users/current/accounts/${accountId}/history-deals/time/${encodeURIComponent(
       sinceIso,
     )}/${encodeURIComponent(untilIso)}`,
