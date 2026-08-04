@@ -27,17 +27,41 @@ async function req<T>(
   path: string,
   body?: unknown,
 ): Promise<T> {
-  const res = await fetch(host + path, {
-    method,
-    headers: {
-      "auth-token": token(),
-      accept: "application/json",
-      ...(body ? { "content-type": "application/json" } : {}),
-    },
-    body: body ? JSON.stringify(body) : undefined,
-    // never cache MetaAPI calls in Next's data cache
-    cache: "no-store",
-  });
+  // Enforce an explicit fetch timeout — Node's default is effectively
+  // infinite and MetaAPI occasionally holds connections open forever.
+  const ac = new AbortController();
+  const timeoutMs = 20_000;
+  const timer = setTimeout(() => ac.abort(), timeoutMs);
+
+  let res: Response;
+  try {
+    res = await fetch(host + path, {
+      method,
+      headers: {
+        "auth-token": token(),
+        accept: "application/json",
+        ...(body ? { "content-type": "application/json" } : {}),
+      },
+      body: body ? JSON.stringify(body) : undefined,
+      cache: "no-store",
+      signal: ac.signal,
+    });
+  } catch (rawErr) {
+    // Unwrap undici's opaque "fetch failed" — real reason lives on
+    // err.cause (DNS, TLS, ECONNRESET, abort, etc.). Surface it so
+    // "fetch failed" never appears alone.
+    const cause = (rawErr as { cause?: { code?: string; message?: string; name?: string } })?.cause;
+    const parts: string[] = [];
+    if (rawErr instanceof Error) parts.push(rawErr.name === "AbortError" ? `timeout after ${timeoutMs}ms` : rawErr.message);
+    if (cause?.code) parts.push(`code=${cause.code}`);
+    if (cause?.message && cause.message !== (rawErr as Error).message) parts.push(cause.message);
+    if (cause?.name && cause.name !== "Error") parts.push(`kind=${cause.name}`);
+    const detail = parts.join(" · ") || "unknown network error";
+    throw new Error(`MetaAPI ${method} ${host}${path} → ${detail}`);
+  } finally {
+    clearTimeout(timer);
+  }
+
   const text = await res.text();
   const data = text ? safeJson(text) : null;
   if (!res.ok) {
