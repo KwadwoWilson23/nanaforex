@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { adminSupabase } from "@/lib/supabase-admin";
 
-export const metadata: Metadata = { title: "Admin · Competitions" };
+export const metadata: Metadata = { title: "Console · Competitions" };
 export const dynamic = "force-dynamic";
 
 type Comp = {
@@ -52,7 +52,7 @@ function fmtDate(iso: string) {
   });
 }
 
-export default async function AdminCompetitionsPage() {
+export default async function ConsoleCompetitionsPage() {
   const sb = adminSupabase();
   const [{ data: compsData }, { data: partsData }] = await Promise.all([
     sb.from("competitions")
@@ -81,7 +81,7 @@ export default async function AdminCompetitionsPage() {
       <header className="flex flex-wrap items-baseline justify-between gap-3">
         <div>
           <span className="section-eyebrow">
-            <i className="fas fa-shield-halved" /> Admin
+            <i className="fas fa-shield-halved" /> Console
           </span>
           <h1 className="font-display font-extrabold text-3xl mt-1">Competitions</h1>
           <p className="text-white/60 mt-1 text-sm">
@@ -139,7 +139,7 @@ export default async function AdminCompetitionsPage() {
                 </div>
                 <div className="mt-auto flex gap-2 pt-2">
                   <Link
-                    href={`/users/admin/competitions/${c.slug}`}
+                    href={`/nanaforexlogs/competitions/${c.slug}`}
                     className="btn-primary flex-1 justify-center text-sm py-2.5"
                   >
                     <i className="fas fa-gear" /> Manage

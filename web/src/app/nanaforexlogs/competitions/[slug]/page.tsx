@@ -20,7 +20,7 @@ export async function generateMetadata({
     .select("name")
     .eq("slug", slug)
     .maybeSingle();
-  return { title: `Admin · ${data?.name || "Competition"}` };
+  return { title: `Console · ${data?.name || "Competition"}` };
 }
 
 function computeState(status: string, endDate: string, startDate: string) {
@@ -55,7 +55,7 @@ type AuditRow = {
   actor_id: string | null;
 };
 
-export default async function AdminCompetitionDetail({
+export default async function ConsoleCompetitionDetail({
   params,
 }: {
   params: Promise<{ slug: string }>;
@@ -70,7 +70,6 @@ export default async function AdminCompetitionDetail({
     .maybeSingle();
   if (!comp) notFound();
 
-  // View rows (with rank + profit_pct) + full participant rows (for mt_login etc)
   const [{ data: view }, { data: extra }] = await Promise.all([
     sb.from("leaderboard_current")
       .select(
@@ -185,7 +184,7 @@ export default async function AdminCompetitionDetail({
     <div className="p-4 md:p-8 space-y-6">
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <Link
-          href="/users/admin/competitions"
+          href="/nanaforexlogs/competitions"
           className="inline-flex items-center gap-1.5 text-sm text-white/60 hover:text-secondary px-3 py-1.5 rounded-full border border-white/10 hover:border-secondary/40 hover:bg-secondary/8 transition-all"
         >
           <i className="fas fa-arrow-left" /> All competitions
@@ -200,7 +199,6 @@ export default async function AdminCompetitionDetail({
         </Link>
       </div>
 
-      {/* Hero */}
       <section className="rounded-3xl border border-white/6 p-6 md:p-8 bg-gradient-to-br from-secondary/8 to-black/40">
         <div className="flex items-center gap-2 flex-wrap">
           <span
@@ -227,10 +225,8 @@ export default async function AdminCompetitionDetail({
         </div>
       </section>
 
-      {/* Participants table (client component) */}
       <AdminParticipantsTable competition={meta} initialRows={rows} />
 
-      {/* Audit log */}
       <section className="rounded-2xl border border-white/6 bg-white/[0.03] p-5">
         <h3 className="font-bold flex items-center gap-2 mb-3">
           <i className="fas fa-clipboard-list text-secondary" /> Audit log
@@ -240,7 +236,7 @@ export default async function AdminCompetitionDetail({
         ) : (
           <div className="space-y-2">
             {auditForThisComp.map((a) => {
-              const md = (a.metadata || {}) as { reason?: string; drawdown_pct?: number };
+              const md = (a.metadata || {}) as { reason?: string };
               return (
                 <div
                   key={a.id}
