@@ -49,16 +49,16 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Participant not found" }, { status: 404 });
   }
 
-  // Owner check (admin fallback)
-  if (p.user_id !== user.id) {
-    const { data: profile } = await sb
-      .from("profiles")
-      .select("role")
-      .eq("id", user.id)
-      .maybeSingle();
-    if (!profile || profile.role !== "admin") {
-      return NextResponse.json({ error: "Not your participation" }, { status: 403 });
-    }
+  // Owner check + admin detection (admins see raw error text so they can debug).
+  let isAdmin = false;
+  const { data: profile } = await sb
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .maybeSingle();
+  isAdmin = profile?.role === "admin";
+  if (p.user_id !== user.id && !isAdmin) {
+    return NextResponse.json({ error: "Not your participation" }, { status: 403 });
   }
 
   if (p.tracking_provider !== "metaapi" || !p.tracking_ref) {
@@ -143,15 +143,24 @@ export async function POST(req: Request) {
   } catch (e) {
     console.error("[refresh] getAccountInfo failed", { participant: p.id, err: e });
     const msg = e instanceof Error ? e.message : String(e);
-    // Translate common MetaAPI failures into human copy without leaking internals.
     const friendly =
-      /404|not found/i.test(msg)
-        ? "This account isn't registered with the broker link anymore. Withdraw and reconnect."
-        : /401|403|forbidden|unauthorized|invalid password/i.test(msg)
-          ? "Broker refused the investor password. Double-check it and reconnect."
-          : /deploying|not deployed|not connected/i.test(msg)
-            ? "Your account is still setting up with the broker link. Give it about a minute and try again."
-            : "Couldn't reach the broker right now. Try again in a moment.";
-    return NextResponse.json({ error: friendly }, { status: 502 });
+      /METAAPI_TOKEN|env var missing/i.test(msg)
+        ? "Server not fully configured (broker token missing). Contact the site owner."
+        : /404|not found/i.test(msg)
+          ? "This account isn't registered with the broker link anymore. Withdraw and reconnect."
+          : /401|403|forbidden|unauthorized|invalid password/i.test(msg)
+            ? "Broker refused the investor password. Double-check it and reconnect."
+            : /deploying|not deployed|not connected|specified account/i.test(msg)
+              ? "Your account is still setting up with the broker link. Give it about a minute and try again."
+              : /timeout|ETIMEDOUT|ECONNRESET|ENOTFOUND|fetch failed/i.test(msg)
+                ? "Broker link timed out. Try again in a moment."
+                : "Couldn't reach the broker right now. Try again in a moment.";
+
+    // Admins get the raw error text so they can actually diagnose.
+    // Regular users only see the friendly copy.
+    return NextResponse.json(
+      isAdmin ? { error: friendly, debug: msg } : { error: friendly },
+      { status: 502 },
+    );
   }
 }

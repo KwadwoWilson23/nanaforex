@@ -19,7 +19,7 @@ type Status =
   | { kind: "idle" }
   | { kind: "info" | "success" | "error"; message: string };
 
-async function apiPost<T>(path: string, body: unknown): Promise<{ ok: boolean; data?: T; error?: string; status?: number }> {
+async function apiPost<T>(path: string, body: unknown): Promise<{ ok: boolean; data?: T; error?: string; debug?: string; status?: number }> {
   try {
     const r = await fetch(path, {
       method: "POST",
@@ -28,8 +28,8 @@ async function apiPost<T>(path: string, body: unknown): Promise<{ ok: boolean; d
     });
     let data: unknown = null;
     try { data = await r.json(); } catch { /* ignore */ }
-    const err = (data as { error?: string } | null)?.error;
-    if (!r.ok) return { ok: false, error: err || r.statusText, status: r.status };
+    const d = data as { error?: string; debug?: string } | null;
+    if (!r.ok) return { ok: false, error: d?.error || r.statusText, debug: d?.debug, status: r.status };
     return { ok: true, data: data as T };
   } catch (e) {
     console.error("[CompetitionParticipation] request failed", { path, err: e });
@@ -234,7 +234,13 @@ export default function CompetitionParticipation({
                 { participant_id: p.id },
               );
               setBusy(false);
-              if (!res.ok) return setStatus({ kind: "error", message: res.error || "Couldn't refresh." });
+              if (!res.ok) {
+                const debugSuffix = res.debug ? `\n\n[admin debug]  ${res.debug}` : "";
+                return setStatus({
+                  kind: "error",
+                  message: (res.error || "Couldn't refresh.") + debugSuffix,
+                });
+              }
               const merged = { ...p, ...(res.data?.participant || {}) } as Participant;
               setP(merged);
               setStatus({ kind: "success", message: "Live data refreshed." });
@@ -258,7 +264,7 @@ export default function CompetitionParticipation({
               initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className={`text-sm ${
+              className={`text-sm whitespace-pre-line break-words ${
                 status.kind === "error"
                   ? "text-danger"
                   : status.kind === "success"
