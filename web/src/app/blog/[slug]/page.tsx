@@ -96,7 +96,7 @@ export default async function BlogPost({
             </span>
           )}
 
-          <h1 className="font-display font-extrabold text-3xl md:text-5xl leading-tight mb-4">
+          <h1 className="font-display font-extrabold text-2xl md:text-4xl leading-tight mb-4">
             {post.title}
           </h1>
 

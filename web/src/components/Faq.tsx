@@ -75,7 +75,7 @@ export default function Faq() {
         <Reveal>
           <div className="text-center mb-10">
             <span className="section-eyebrow">Frequently Asked</span>
-            <h2 className="font-display font-extrabold text-4xl md:text-5xl">
+            <h2 className="font-display font-extrabold text-3xl md:text-4xl">
               Answers to{" "}
               <span className="gold-text">common questions</span>
             </h2>

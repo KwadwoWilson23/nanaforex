@@ -17,7 +17,7 @@ export default function PageHero({
   children?: ReactNode;
 }) {
   return (
-    <section className="relative pt-32 md:pt-40 pb-16 md:pb-24 px-4 md:px-16 overflow-hidden">
+    <section className="relative pt-24 md:pt-28 pb-12 md:pb-16 px-4 md:px-16 overflow-hidden">
       <div
         aria-hidden
         className="absolute inset-0 pointer-events-none"
@@ -41,7 +41,7 @@ export default function PageHero({
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display font-extrabold text-[clamp(2.25rem,6vw,4.5rem)] leading-[1.05] tracking-tight"
+          className="font-display font-extrabold text-[clamp(1.875rem,4.5vw,3.25rem)] leading-[1.1] tracking-tight"
         >
           {title}
         </motion.h1>
@@ -50,7 +50,7 @@ export default function PageHero({
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-5 mx-auto max-w-2xl text-white/70 text-[clamp(1rem,1.4vw,1.15rem)]"
+            className="mt-4 mx-auto max-w-2xl text-white/70 text-[clamp(0.95rem,1.15vw,1.05rem)]"
           >
             {children}
           </motion.p>

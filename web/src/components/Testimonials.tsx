@@ -31,7 +31,7 @@ export default function Testimonials() {
         <Reveal>
           <div className="text-center mb-12">
             <span className="section-eyebrow">Success Stories</span>
-            <h2 className="font-display font-extrabold text-4xl md:text-5xl mb-3">
+            <h2 className="font-display font-extrabold text-3xl md:text-4xl mb-3">
               Real traders. <span className="gold-text">Real results.</span>
             </h2>
             <p className="text-white/55 max-w-xl mx-auto">

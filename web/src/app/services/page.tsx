@@ -159,7 +159,7 @@ export default function ServicesPage() {
           <Reveal>
             <div className="text-center mb-12">
               <span className="section-eyebrow">Pricing</span>
-              <h2 className="font-display font-extrabold text-3xl md:text-5xl">
+              <h2 className="font-display font-extrabold text-2xl md:text-4xl">
                 Simple, <span className="gold-text">transparent</span> pricing
               </h2>
               <p className="text-white/60 mt-3">No hidden fees. No surprises.</p>
@@ -208,7 +208,7 @@ export default function ServicesPage() {
       {/* CTA */}
       <section className="px-4 md:px-16 py-20 text-center">
         <Reveal>
-          <h2 className="font-display font-extrabold text-3xl md:text-5xl mb-4">
+          <h2 className="font-display font-extrabold text-2xl md:text-4xl mb-4">
             Ready to <span className="gold-text">transform</span> your trading?
           </h2>
           <p className="text-white/65 max-w-xl mx-auto mb-8">

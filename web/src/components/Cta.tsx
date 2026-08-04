@@ -6,7 +6,7 @@ export default function Cta() {
     <section className="px-4 md:px-16 py-24 text-center">
       <div className="max-w-3xl mx-auto">
         <Reveal>
-          <h2 className="font-display font-extrabold text-4xl md:text-5xl mb-4">
+          <h2 className="font-display font-extrabold text-3xl md:text-4xl mb-4">
             Ready to <span className="gold-text">get serious</span> about your
             trading?
           </h2>

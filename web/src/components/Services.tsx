@@ -29,7 +29,7 @@ export default function Services() {
       <div className="max-w-7xl mx-auto">
         <Reveal>
           <div className="text-center mb-12">
-            <h2 className="font-display font-extrabold text-4xl md:text-5xl mb-3">
+            <h2 className="font-display font-extrabold text-3xl md:text-4xl mb-3">
               Our Services
             </h2>
             <p className="text-white/60 max-w-xl mx-auto">

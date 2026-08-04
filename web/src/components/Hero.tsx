@@ -54,7 +54,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display font-extrabold mt-6 leading-[1.05] tracking-tight text-[clamp(3rem,8vw,6rem)]"
+          className="font-display font-extrabold mt-5 leading-[1.08] tracking-tight text-[clamp(2.25rem,5.5vw,4rem)]"
         >
           The structured path to{" "}
           <span className="gold-text">consistent forex profits</span>.
@@ -64,7 +64,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-6 mx-auto max-w-2xl text-white/75 text-[clamp(1rem,1.4vw,1.15rem)]"
+          className="mt-5 mx-auto max-w-2xl text-white/75 text-[clamp(0.95rem,1.15vw,1.05rem)]"
         >
           12 weeks of live mentorship. Copy trading with a proven trader.
           Funded accounts up to $200K. Built for beginners who want to

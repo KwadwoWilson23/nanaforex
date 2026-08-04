@@ -71,7 +71,7 @@ export default function AboutPage() {
           <Reveal direction="right">
             <div>
               <span className="section-eyebrow">The Story</span>
-              <h2 className="font-display font-extrabold text-3xl md:text-4xl mb-4">
+              <h2 className="font-display font-extrabold text-2xl md:text-4xl mb-4">
                 From self-taught trader to Ghana&apos;s most structured mentorship.
               </h2>
               <p className="text-white/70 mb-4">
@@ -102,7 +102,7 @@ export default function AboutPage() {
           <Reveal>
             <div className="text-center mb-12">
               <span className="section-eyebrow">What we stand for</span>
-              <h2 className="font-display font-extrabold text-3xl md:text-5xl">
+              <h2 className="font-display font-extrabold text-2xl md:text-4xl">
                 Four principles, <span className="gold-text">no exceptions</span>.
               </h2>
             </div>
@@ -127,7 +127,7 @@ export default function AboutPage() {
           <Reveal>
             <div className="text-center mb-12">
               <span className="section-eyebrow">The Journey</span>
-              <h2 className="font-display font-extrabold text-3xl md:text-5xl">
+              <h2 className="font-display font-extrabold text-2xl md:text-4xl">
                 Milestones since <span className="gold-text">2020</span>
               </h2>
             </div>
@@ -165,7 +165,7 @@ export default function AboutPage() {
       {/* CTA */}
       <section className="px-4 md:px-16 py-20 text-center">
         <Reveal>
-          <h2 className="font-display font-extrabold text-3xl md:text-5xl mb-4">
+          <h2 className="font-display font-extrabold text-2xl md:text-4xl mb-4">
             Curious? <span className="gold-text">Start free.</span>
           </h2>
           <p className="text-white/65 max-w-xl mx-auto mb-8">

@@ -32,7 +32,7 @@ export default function Founder() {
         <Reveal direction="right">
           <div>
             <span className="section-eyebrow">Meet the Founder</span>
-            <h2 className="font-display font-extrabold text-4xl md:text-5xl mb-2">
+            <h2 className="font-display font-extrabold text-3xl md:text-4xl mb-2">
               Emmanuel Tuffour
             </h2>
             <p className="text-gold font-semibold mb-5">

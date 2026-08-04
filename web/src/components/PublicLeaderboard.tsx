@@ -140,7 +140,7 @@ export default function PublicLeaderboard({ competition }: { competition: Comp }
           </span>
         </div>
 
-        <h1 className="font-display font-extrabold text-3xl md:text-5xl">
+        <h1 className="font-display font-extrabold text-2xl md:text-4xl">
           {competition.name}
         </h1>
         {competition.description && (
