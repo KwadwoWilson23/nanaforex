@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /users/
+
+# Note: the admin console URL is intentionally NOT listed here.
+# Listing it as Disallow would advertise its existence. It's blocked
+# from indexing via meta tags + X-Robots-Tag response header instead.
+
+Sitemap: https://nanaforex.com/sitemap.xml
