@@ -1,10 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { createSupabaseBrowser } from "@/lib/supabase-browser";
 
 export default function ResetPasswordForm() {
-  const supabase = createSupabaseBrowser();
   const [email, setEmail] = useState("");
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState<
@@ -19,20 +17,19 @@ export default function ResetPasswordForm() {
       return;
     }
     setBusy(true);
-    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
-      redirectTo:
-        typeof window !== "undefined"
-          ? `${window.location.origin}/auth/callback?type=recovery`
-          : undefined,
-    });
-    setBusy(false);
-    if (error) {
-      setStatus({ kind: "error", message: error.message });
-      return;
+    try {
+      await fetch("/api/auth/reset-password", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ email: email.trim() }),
+      });
+    } catch {
+      /* endpoint always returns 200 — swallow any network error */
     }
+    setBusy(false);
     setStatus({
       kind: "success",
-      message: "If that email exists, a reset link is on its way.",
+      message: "If that email has an account, a reset link is on its way.",
     });
   }
 

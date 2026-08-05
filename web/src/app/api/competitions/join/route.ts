@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { requireUser } from "@/lib/auth-request";
 import { adminSupabase } from "@/lib/supabase-admin";
 import { enforce } from "@/lib/ratelimit";
+import { sendEmail } from "@/lib/resend";
+import { competitionJoinedEmail } from "@/lib/emails/templates";
 
 export const runtime = "nodejs";
 
@@ -31,7 +33,7 @@ export async function POST(req: Request) {
 
   const query = sb
     .from("competitions")
-    .select("id, name, status, end_date")
+    .select("id, name, slug, status, end_date, prize_pool")
     .limit(1);
   const { data: comps, error: qerr } = slug
     ? await query.eq("slug", slug)
@@ -130,6 +132,32 @@ export async function POST(req: Request) {
     entity_id: inserted.id,
     metadata: { competition_id: comp.id, competition_name: comp.name },
   });
+
+  // Fire-and-forget competition-joined email. Failures logged but never
+  // block the join response — an email hiccup shouldn't fail the join.
+  if (user.email) {
+    const { data: profile } = await sb
+      .from("profiles")
+      .select("full_name")
+      .eq("id", user.id)
+      .maybeSingle();
+    const name =
+      profile?.full_name ||
+      (user.user_metadata as { full_name?: string } | undefined)?.full_name ||
+      user.email.split("@")[0] ||
+      "Trader";
+    const origin = req.headers.get("origin") || "https://nanaforex.com";
+    const { subject, html, text } = competitionJoinedEmail({
+      name,
+      competitionName: comp.name,
+      competitionUrl: `${origin}/users/competitions/${comp.slug}`,
+      prizePool: comp.prize_pool,
+    });
+    // Not awaited so the response returns fast even if Resend is slow.
+    sendEmail({ to: user.email, subject, html, text }).catch((e) =>
+      console.error("[join] competition email failed", { user: user.id, err: e }),
+    );
+  }
 
   return NextResponse.json(
     { participant: inserted, alreadyJoined: false },

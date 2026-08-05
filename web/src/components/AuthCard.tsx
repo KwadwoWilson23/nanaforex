@@ -126,6 +126,9 @@ export default function AuthCard({
       return;
     }
 
+    // Fire the welcome email (idempotent server-side). Not awaited.
+    fetch("/api/emails/welcome", { method: "POST" }).catch(() => {});
+
     setSuccess("Account created — redirecting…");
     router.push(nextUrl || "/users/client-dashboard");
     router.refresh();
@@ -136,18 +139,18 @@ export default function AuthCard({
     if (!loginEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(loginEmail))
       return setError("Enter your email above first, then click Forgot.");
     setBusy(true);
-    const { error } = await supabase.auth.resetPasswordForEmail(
-      loginEmail.trim(),
-      {
-        redirectTo:
-          typeof window !== "undefined"
-            ? `${window.location.origin}/auth/callback?type=recovery`
-            : undefined,
-      },
-    );
+    try {
+      await fetch("/api/auth/reset-password", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ email: loginEmail.trim() }),
+      });
+    } catch {
+      /* silent — endpoint always returns 200 anyway */
+    }
     setBusy(false);
-    if (error) return setError(error.message);
-    setSuccess(`Password reset link sent to ${loginEmail}. Check your inbox.`);
+    // Always show generic success to avoid revealing whether the email exists.
+    setSuccess(`If ${loginEmail} has an account, a reset link is on its way.`);
   }
 
   // ---- GOOGLE SIGN-IN ----
@@ -176,6 +179,9 @@ export default function AuthCard({
     });
     setBusy(false);
     if (error) return setError("Google sign-in failed: " + error.message);
+    // First-time Google users get a welcome. The endpoint no-ops if
+    // they've already received one, so it's safe to fire on every sign-in.
+    fetch("/api/emails/welcome", { method: "POST" }).catch(() => {});
     setSuccess("Success — redirecting…");
     router.push(nextUrl || "/users/client-dashboard");
     router.refresh();
