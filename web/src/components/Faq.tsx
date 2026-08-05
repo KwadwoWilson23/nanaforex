@@ -15,7 +15,7 @@ const FAQS = [
   },
   {
     q: "Is my capital safe with copy trading?",
-    a: "You keep full control of your account through HFM. You can pause, unlink, or withdraw at any time. Nana Forex never touches your funds — we only trigger the trade copies.",
+    a: "You keep full control of your account with your own broker. You can pause, unlink, or withdraw at any time. Nana Forex never touches your funds — we only trigger the trade copies.",
   },
   {
     q: "How do the funded accounts work?",

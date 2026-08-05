@@ -458,7 +458,7 @@ function ConnectSection({
               required
               value={server}
               onChange={(e) => setServer(e.target.value)}
-              placeholder="e.g. HFMarkets-Live"
+              placeholder="e.g. MyBroker-Live"
               className={inputCls}
             />
           </Field>
@@ -468,7 +468,7 @@ function ConnectSection({
             <input
               value={broker}
               onChange={(e) => setBroker(e.target.value)}
-              placeholder="e.g. HFM"
+              placeholder="your broker name"
               className={inputCls}
             />
           </Field>

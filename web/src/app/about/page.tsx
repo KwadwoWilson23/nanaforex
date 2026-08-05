@@ -30,13 +30,13 @@ const VALUES = [
   {
     icon: "fas fa-chart-line",
     title: "Verified performance",
-    body: "Copy trading through HFM. Live-tracked competitions. No cherry-picked screenshots.",
+    body: "Broker-verified copy trading. Live-tracked competitions. No cherry-picked screenshots.",
   },
 ];
 
 const MILESTONES = [
   { year: "2020", body: "Nana Forex launched in Accra with a handful of one-on-one students." },
-  { year: "2022", body: "Copy trading rolled out via HFM partnership, first funded students placed." },
+  { year: "2022", body: "Copy trading rolled out to students; first funded students placed." },
   { year: "2024", body: "12-week structured mentorship formalized. Weekly live sessions begin." },
   { year: "2026", body: "Public leaderboard, live trading competitions, funded accounts up to $200K." },
 ];
@@ -89,7 +89,7 @@ export default function AboutPage() {
               <p className="text-white/70">
                 Nana Forex today: mentorship, copy trading, funded accounts, and
                 a public leaderboard where the best students compete for real
-                prizes. All backed by verified partnerships with HFM and Exness.
+                prizes. All results verified through direct broker feeds.
               </p>
             </div>
           </Reveal>

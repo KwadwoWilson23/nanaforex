@@ -9,7 +9,7 @@ const SERVICES = [
   {
     icon: "fas fa-copy",
     title: "Copy Trading",
-    body: "HFM Copy Trading, verified performance and monthly reports. Connect your account and automatically mirror professionally managed trades.",
+    body: "Verified copy trading with transparent monthly reports. Connect your broker account and automatically mirror professionally managed trades.",
   },
   {
     icon: "fas fa-wallet",

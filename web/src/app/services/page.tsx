@@ -28,10 +28,10 @@ const SERVICES = [
     id: "copy-trading",
     icon: "fas fa-copy",
     title: "Copy Trading",
-    body: "Mirror professional trades automatically through HFM Copy Trading. No experience required — just connect your account and watch your portfolio grow.",
+    body: "Mirror professional trades automatically through your own broker account. No experience required — just connect your account and watch your portfolio grow.",
     bullets: [
       "Minimum investment: $500",
-      "Verified copy performance via HFM",
+      "Verified copy performance via your broker",
       "Full risk-management controls",
       "Withdraw anytime — you own the account",
     ],
@@ -98,7 +98,7 @@ const PRICING = [
     price: "$500",
     period: "minimum deposit",
     features: [
-      "HFM verified copy trader",
+      "Verified copy trader",
       "Full account control",
       "Real-time performance dashboard",
       "Cancel anytime",

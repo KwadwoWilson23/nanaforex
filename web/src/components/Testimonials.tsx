@@ -20,7 +20,7 @@ const TESTIMONIALS = [
     name: "Daniel K.",
     role: "Copy Trading Client · Takoradi",
     quote:
-      "I don't have time to sit in front of charts, so copy trading through HFM was the right fit. Steady monthly growth without me watching the market.",
+      "I don't have time to sit in front of charts, so copy trading was the right fit. Steady monthly growth without me watching the market.",
   },
 ];
 

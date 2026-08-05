@@ -24,7 +24,7 @@ const STATS = [
   { label: "Serving Traders Since", value: 2020, static: true },
   { label: "Programs Offered", value: 4, suffix: "+" },
   { label: "Countries Reached", value: 20, suffix: "+" },
-  { label: "Official Partner", icon: "shield", static: "HFM" },
+  { label: "Live Sessions", value: 200, suffix: "+" },
 ];
 
 export default function Stats() {
@@ -37,11 +37,6 @@ export default function Stats() {
               <h2 className="text-gold font-extrabold text-3xl md:text-4xl font-display mb-1">
                 {s.static === true ? (
                   s.value
-                ) : s.icon ? (
-                  <>
-                    <i className="fas fa-shield-alt mr-2" />
-                    {s.static}
-                  </>
                 ) : (
                   <Counter to={s.value as number} suffix={s.suffix} />
                 )}
