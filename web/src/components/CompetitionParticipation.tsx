@@ -374,7 +374,6 @@ function ConnectSection({
 }) {
   const [login, setLogin] = useState("");
   const [server, setServer] = useState("");
-  const [broker, setBroker] = useState("");
   const [platform, setPlatform] = useState<"mt4" | "mt5">(
     (allowedPlatforms[0] as "mt4" | "mt5") || "mt5",
   );
@@ -388,7 +387,7 @@ function ConnectSection({
     setBusy(true);
     setStatus({
       kind: "info",
-      message: "Provisioning MetaAPI account — this can take 10–30 seconds…",
+      message: "Linking your account — this can take 10–30 seconds…",
     });
     const res = await apiPost<{ participant: Participant }>(
       "/api/competitions/connect",
@@ -398,7 +397,6 @@ function ConnectSection({
         server,
         platform,
         password,
-        broker: broker || null,
       },
     );
     setBusy(false);
@@ -464,14 +462,6 @@ function ConnectSection({
           </Field>
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
-          <Field label="Broker (optional)">
-            <input
-              value={broker}
-              onChange={(e) => setBroker(e.target.value)}
-              placeholder="your broker name"
-              className={inputCls}
-            />
-          </Field>
           <Field label="Platform">
             <select
               value={platform}
