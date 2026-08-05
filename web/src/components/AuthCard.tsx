@@ -28,6 +28,23 @@ function scorePassword(pw: string) {
   return s;
 }
 
+// Fire the welcome-email endpoint using the fresh access token in a
+// Bearer header, so the send doesn't race the SSR cookie propagation.
+// Endpoint is idempotent — no-ops if the user already got a welcome.
+async function fireWelcome(supabase: ReturnType<typeof createSupabaseBrowser>) {
+  try {
+    const { data } = await supabase.auth.getSession();
+    const token = data.session?.access_token;
+    if (!token) return;
+    await fetch("/api/emails/welcome", {
+      method: "POST",
+      headers: { authorization: `Bearer ${token}` },
+    });
+  } catch (e) {
+    console.warn("[welcome] fire failed", e);
+  }
+}
+
 export default function AuthCard({
   initialError,
   nextUrl,
@@ -126,8 +143,10 @@ export default function AuthCard({
       return;
     }
 
-    // Fire the welcome email (idempotent server-side). Not awaited.
-    fetch("/api/emails/welcome", { method: "POST" }).catch(() => {});
+    // Fire the welcome email. Pass the fresh access token via Bearer
+    // header so the endpoint can auth immediately — the SSR cookie
+    // hasn't necessarily propagated by the time this fetch fires.
+    fireWelcome(supabase);
 
     setSuccess("Account created — redirecting…");
     router.push(nextUrl || "/users/client-dashboard");
@@ -179,9 +198,8 @@ export default function AuthCard({
     });
     setBusy(false);
     if (error) return setError("Google sign-in failed: " + error.message);
-    // First-time Google users get a welcome. The endpoint no-ops if
-    // they've already received one, so it's safe to fire on every sign-in.
-    fetch("/api/emails/welcome", { method: "POST" }).catch(() => {});
+    // First-time Google users get a welcome. Endpoint no-ops on repeat.
+    fireWelcome(supabase);
     setSuccess("Success — redirecting…");
     router.push(nextUrl || "/users/client-dashboard");
     router.refresh();

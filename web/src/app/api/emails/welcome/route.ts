@@ -10,9 +10,12 @@ export const runtime = "nodejs";
 // ---------------------------------------------------------------
 // POST /api/emails/welcome
 // Sends the welcome email to the currently signed-in user, once.
-// Idempotent — checks profiles.preferences.welcome_sent and no-ops
-// on repeat calls. Called client-side after email/password signup
-// and after first Google Sign-In.
+// Called client-side after email/password signup and after
+// Google Sign-In.
+//
+// Idempotency: tracks welcome_sent_at inside auth.users.user_metadata
+// (not profiles.preferences) so the trigger race between auth.users
+// insert and the handle_new_user trigger can't cause duplicate sends.
 // ---------------------------------------------------------------
 
 export async function POST(req: Request) {
@@ -25,23 +28,14 @@ export async function POST(req: Request) {
 
   if (!user.email) return NextResponse.json({ ok: true, skipped: "no_email" });
 
-  const sb = adminSupabase();
-  const { data: profile } = await sb
-    .from("profiles")
-    .select("full_name, preferences")
-    .eq("id", user.id)
-    .maybeSingle();
-
-  const prefs = (profile?.preferences ?? {}) as Record<string, unknown>;
-  if (prefs.welcome_sent_at) {
+  const meta = (user.user_metadata ?? {}) as Record<string, unknown>;
+  if (meta.welcome_sent_at) {
     return NextResponse.json({ ok: true, alreadySent: true });
   }
 
   const name =
-    profile?.full_name ||
-    (user.user_metadata as { full_name?: string; name?: string } | undefined)
-      ?.full_name ||
-    (user.user_metadata as { name?: string } | undefined)?.name ||
+    (meta.full_name as string | undefined) ||
+    (meta.name as string | undefined) ||
     user.email.split("@")[0] ||
     "Trader";
 
@@ -54,14 +48,17 @@ export async function POST(req: Request) {
   const result = await sendEmail({ to: user.email, subject, html, text });
 
   if (result.ok) {
-    await sb
-      .from("profiles")
-      .update({
-        preferences: { ...prefs, welcome_sent_at: new Date().toISOString() },
-      })
-      .eq("id", user.id);
+    // Store the flag on the auth user (bypasses profiles trigger race).
+    try {
+      await adminSupabase().auth.admin.updateUserById(user.id, {
+        user_metadata: {
+          ...meta,
+          welcome_sent_at: new Date().toISOString(),
+        },
+      });
+    } catch (e) {
+      console.warn("[email/welcome] flag update failed", { user: user.id, err: e });
+    }
   }
-  // Always report success to the client — email delivery failure is not
-  // an auth failure. The server-side log captures the real outcome.
   return NextResponse.json({ ok: true, sent: result.ok });
 }
